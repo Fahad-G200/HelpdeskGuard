@@ -8,15 +8,20 @@
 import SwiftUI
 
 struct HomeView: View {
+    @State private var melding: String = "Dette er Hjem-siden"
+
     var body: some View {
-        VStack(spacing: 12) {
-            Text("Dette er Hjem-siden")
-            Text("Velkommen til HelpdeskGuard")
-                .foregroundStyle(.secondary)
-            
-            Button("Opprett ny sak") { }
-            
-            // kommer senere
+        NavigationStack {
+            VStack(spacing: 12) {
+                Text(melding)
+
+                Text("Velkommen til HelpdeskGuard")
+                    .foregroundStyle(.secondary)
+
+                NavigationLink("Opprett ny sak", destination: NewTicketView())
+            }
+            .padding()
+            .navigationTitle("Hjem")
         }
     }
 }
