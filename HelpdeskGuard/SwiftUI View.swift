@@ -23,8 +23,18 @@ struct TicketsView: View {
                 
                 ForEach(Array(ticketStore.tickets.enumerated()), id: \.offset) { index, ticket in
                     
-                    Text("Sak \(index + 1): \(String(describing: ticket))")
-                }
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Sak \(index + 1)")
+                            .font(.headline)
+
+                        Text(ticket.description)
+                            .font(.body)
+
+                        Text(ticket.date.formatted(date: .abbreviated, time: .shortened))
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                    .padding(.vertical, 6)                }
             }
             .navigationTitle("Saker")
         }
