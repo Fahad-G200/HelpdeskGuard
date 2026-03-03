@@ -8,17 +8,39 @@
 import SwiftUI
 
 struct HomeView: View {
-    @State private var melding: String = "Dette er Hjem-siden"
-
     var body: some View {
         NavigationStack {
-            VStack(spacing: 12) {
-                Text(melding)
+            VStack(alignment: .leading, spacing: 16) {
 
-                Text("Velkommen til HelpdeskGuard")
+                // Tittel + forklaring (header)
+                Text("HelpdeskGuard")
+                    .font(.largeTitle)
+                    .bold()
+
+                Text("Rapporter et problem, så blir det registrert som en sak du kan følge opp.")
                     .foregroundStyle(.secondary)
 
-                NavigationLink("Opprett ny sak", destination: NewTicketView())
+                // Et “kort” som ser mer profesjonelt ut
+                VStack(alignment: .leading, spacing: 10) {
+                    Text("Hva vil du gjøre nå?")
+                        .font(.headline)
+
+                    Text("Trykk på knappen under for å opprette en ny sak.")
+                        .foregroundStyle(.secondary)
+
+                    NavigationLink {
+                        NewTicketView()
+                    } label: {
+                        Text("Opprett ny sak")
+                            .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.borderedProminent)
+                }
+                .padding()
+                .background(.thinMaterial)
+                .clipShape(RoundedRectangle(cornerRadius: 16))
+
+                Spacer()
             }
             .padding()
             .navigationTitle("Hjem")
@@ -29,3 +51,4 @@ struct HomeView: View {
 #Preview {
     HomeView()
 }
+
