@@ -9,26 +9,40 @@ import SwiftUI
 
 struct NewTicketView: View {
     @EnvironmentObject var ticketStore: TicketStore
-    @State private var description: String = ""
 
     var body: some View {
-        VStack(spacing: 12) {
-            Text("Opprett ny sak")
-                .font(.title)
+        NavigationStack {
+            if ticketStore.tickets.isEmpty {
+                VStack(spacing: 12) {
+                    Image(systemName: "tray")
+                        .font(.largeTitle)
+                        .foregroundStyle(.secondary)
 
-            TextField("Beskriv problemet ditt", text: $description)
-                .textFieldStyle(.roundedBorder)
+                    Text("Ingen saker ennå")
+                        .font(.headline)
 
-            Button("Opprett sak") {
-                ticketStore.addTicket(description: description)
-                description = ""
+                    Text("Opprett en ny sak fra Hjem-siden.")
+                        .foregroundStyle(.secondary)
+                }
+                .padding()
+            } else {
+                List(Array(ticketStore.tickets.enumerated()), id: \.offset) { _, ticket in
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(ticket.description)
+                            .font(.headline)
+
+                        
+                        Text("")
+                    }
+                    .padding(.vertical, 4)
+                }
             }
         }
-        .padding()
+        .navigationTitle("Saker")
     }
 }
 
 #Preview {
     NewTicketView()
+        .environmentObject(TicketStore())
 }
-
