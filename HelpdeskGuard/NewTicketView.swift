@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct NewTicketView: View {
+    @EnvironmentObject var ticketStore: TicketStore
     @State private var description: String = ""
 
     var body: some View {
@@ -17,6 +18,11 @@ struct NewTicketView: View {
 
             TextField("Beskriv problemet ditt", text: $description)
                 .textFieldStyle(.roundedBorder)
+
+            Button("Opprett sak") {
+                ticketStore.addTicket(description: description)
+                description = ""
+            }
         }
         .padding()
     }

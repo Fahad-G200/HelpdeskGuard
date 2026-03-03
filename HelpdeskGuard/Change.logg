@@ -1,0 +1,15 @@
+Endringslogg
+
+Alle endringer loggføres fortløpende for å dokumentere utviklingen av prosjektet. Datoer er i formatet ÅÅÅÅ-MM-DD.
+
+2026-03-03
+    •    Opprettet dokumentene README.md, CHANGELOG.md, TODO.md og AI.md for å dokumentere prosjektet, endringer og AI-bruk.
+
+2026-03-02
+    •    Opprettet Git-repository og satt opp grunnstrukturen til iOS-prosjektet.
+    •    Implementerte ContentView med TabView og to faner: Hjem og Saker.
+    •    Opprettet HomeView med velkomsttekst og enkel struktur.
+    •    La til NavigationLink fra Hjem til NewTicketView (Ny sak).
+    •    Opprettet NewTicketView og la til TextField med binding til @State description slik at teksten brukeren skriver lagres i appen.
+    
+    
