@@ -20,5 +20,5 @@ class TicketStore: ObservableObject {
         tickets.append(newTicket)
     }
 }
-                                
+                                    
 

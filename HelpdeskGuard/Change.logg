@@ -2,8 +2,6 @@ Endringslogg
 
 Alle endringer loggføres fortløpende for å dokumentere utviklingen av prosjektet. Datoer er i formatet ÅÅÅÅ-MM-DD.
 
-2026-03-03
-    •    Opprettet dokumentene README.md, CHANGELOG.md, TODO.md og AI.md for å dokumentere prosjektet, endringer og AI-bruk.
 
 2026-03-02
     •    Opprettet Git-repository og satt opp grunnstrukturen til iOS-prosjektet.
@@ -11,5 +9,84 @@ Alle endringer loggføres fortløpende for å dokumentere utviklingen av prosjek
     •    Opprettet HomeView med velkomsttekst og enkel struktur.
     •    La til NavigationLink fra Hjem til NewTicketView (Ny sak).
     •    Opprettet NewTicketView og la til TextField med binding til @State description slik at teksten brukeren skriver lagres i appen.
-    
-    
+
+
+2026-03-03
+
+Prosjektopprettelse
+    •    Opprettet nytt SwiftUI-prosjekt i Xcode med navnet HelpdeskGuard.
+    •    Satt opp grunnstruktur for applikasjonen i SwiftUI.
+
+Dokumentasjon
+    •    Opprettet følgende prosjektfiler:
+    •    README.md
+    •    CHANGELOG.md
+    •    TODO.md
+    •    AI.md
+    •    Filene brukes til dokumentasjon av prosjektet, endringer og bruk av AI i utviklingen.
+
+Datamodell
+    •    Opprettet Ticket-struktur for å representere en sak i systemet.
+    •    La til følgende egenskaper:
+    •    id – unik identifikator
+    •    description – beskrivelse av problemet
+    •    date – dato saken ble opprettet
+    •    isResolved – status for om saken er løst
+
+State Management
+    •    Opprettet TicketStore for håndtering av lagring og administrasjon av saker.
+    •    Implementert funksjon for å legge til nye saker i systemet.
+
+Brukergrensesnitt
+    •    Opprettet HomeView som startside for applikasjonen.
+    •    La til:
+    •    Tittel på applikasjonen
+    •    Kort forklaring til brukeren
+    •    Knapp for å opprette ny sak
+
+Navigasjon
+    •    Implementert NavigationStack for navigasjon mellom skjermer.
+    •    Lagt til NavigationLink fra hjemsiden til siden for opprettelse av saker.
+
+Opprettelse av saker
+    •    Opprettet NewTicketView.
+    •    Implementert:
+    •    Tekstfelt for å skrive beskrivelse av problemet
+    •    Button (“Lagre sak”) for å opprette en ny ticket
+
+Saksoversikt
+    •    Opprettet TicketsView for å vise registrerte saker.
+    •    Implementert List for å vise saker i en oversikt.
+
+Forbedring av visning
+    •    Endret visning av tickets slik at kun relevant informasjon vises.
+    •    Fjernet rå Ticket-debugtekst fra listen.
+
+UI-struktur
+    •    Implementert TabView for navigasjon mellom:
+    •    Hjem
+    •    Saker
+
+Designforbedringer
+    •    Forbedret layout på hjemsiden med:
+    •    bedre spacing
+    •    tydeligere knapper
+    •    bedre tekststruktur
+
+Debugging og feilretting
+    •    Rettet flere SwiftUI-feil relatert til:
+    •    List
+    •    ForEach
+    •    Binding vs vanlig data
+    •    feil i initialisering av Text
+
+Testing
+    •    Testet applikasjonen i iOS Simulator.
+    •    Testet applikasjonen på fysisk iPhone via Xcode.
+
+Signering og utviklingsoppsett
+    •    Logget inn med Apple-ID i Xcode.
+    •    Aktivert Automatically manage signing.
+    •    Konfigurert Apple Development certificate.
+    •    Aktivert Developer Mode på iPhone.
+    •    Installert og kjørt appen direkte på fysisk enhet.

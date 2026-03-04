@@ -80,3 +80,4 @@ Prosjektet inneholder følgende dokumentasjon:
 Videre utvikling
 
 Neste steg i prosjektet er å implementere en Ticket-modell og TicketStore for å kunne lagre og vise registrerte saker i appen.
+
