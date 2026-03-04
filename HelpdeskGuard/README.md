@@ -81,3 +81,8 @@ Videre utvikling
 
 Neste steg i prosjektet er å implementere en Ticket-modell og TicketStore for å kunne lagre og vise registrerte saker i appen.
 
+
+##Demonstrasjon av prosjektet
+
+For å se hvordan applikasjonen fungerer, se demonstrasjonsvideoen:
+https://youtu.be/t9wQ-nkPV-c

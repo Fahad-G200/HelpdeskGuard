@@ -16,6 +16,7 @@
 			membershipExceptions = (
 				AI.md,
 				Change.logg,
+				PROJECT_STRUCTURE.md,
 				README.md,
 				TODO.md,
 			);
