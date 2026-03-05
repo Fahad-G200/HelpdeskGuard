@@ -6,17 +6,16 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct HelpdeskGuardApp: App {
 
-    @StateObject private var ticketStore = TicketStore()
-
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environmentObject(ticketStore)
         }
+        .modelContainer(for: TicketEntity.self)
     }
 }
 

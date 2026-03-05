@@ -6,60 +6,69 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct NewTicketView: View {
-    @EnvironmentObject var ticketStore: TicketStore
+    @Environment(\.modelContext) private var modelContext
+    @Query(sort: \TicketEntity.date, order: .reverse) private var tickets: [TicketEntity]
+
     @State private var description: String = ""
 
     var body: some View {
         NavigationStack {
-            if ticketStore.tickets.isEmpty {
-                VStack(spacing: 12) {
+            VStack(spacing: 12) {
+                TextField("Beskriv problemet ditt", text: $description)
+                    .textFieldStyle(.roundedBorder)
 
-                    Image(systemName: "tray")
-                        .font(.largeTitle)
-                        .foregroundStyle(.secondary)
-
-                    Text("Ingen saker ennå")
-                        .font(.headline)
-
-                    Text("Opprett en ny sak fra Hjem-siden.")
-                        .foregroundStyle(.secondary)
-
-                    TextField("Beskriv problemet ditt", text: $description)
-                        .textFieldStyle(.roundedBorder)
-
-                    Button("Lagre sak") {
-                        ticketStore.addTicket(description: description)
-                        description = ""
-                    }
-                    .buttonStyle(.borderedProminent)
-
+                Button("Lagre sak") {
+                    let ticket = TicketEntity(descriptionText: description)
+                    modelContext.insert(ticket)
+                    description = ""
                 }
-                .padding()
+                .buttonStyle(.borderedProminent)
+                .disabled(description.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
 
-            } else {
+                if tickets.isEmpty {
+                    VStack(spacing: 12) {
+                        Image(systemName: "tray")
+                            .font(.largeTitle)
+                            .foregroundStyle(.secondary)
 
-                List(Array(ticketStore.tickets.enumerated()), id: \.offset) { _, ticket in
-
-                    VStack(alignment: .leading, spacing: 4) {
-
-                        Text(ticket.description)
+                        Text("Ingen saker ennå")
                             .font(.headline)
 
-                        Text("")
+                        Text("Opprett en ny sak ved å skrive en beskrivelse og trykke 'Lagre sak'.")
+                            .foregroundStyle(.secondary)
+                            .multilineTextAlignment(.center)
                     }
-                    .padding(.vertical, 4)
+                    .padding(.top, 24)
 
+                    Spacer()
+                } else {
+                    List {
+                        ForEach(tickets) { ticket in
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(ticket.descriptionText)
+                                    .font(.headline)
+
+                                Text(ticket.date.formatted(date: .abbreviated, time: .shortened))
+                                    .foregroundStyle(.secondary)
+                                    .font(.caption)
+                            }
+                            .padding(.vertical, 4)
+                        }
+                        .onDelete(perform: deleteTickets)
+                    }
                 }
             }
+            .padding()
+            .navigationTitle("Saker")
         }
-        .navigationTitle("Saker")
     }
 }
 
 #Preview {
     NewTicketView()
-        .environmentObject(TicketStore())
+        .modelContainer(for: TicketEntity.self, inMemory: true)
 }
 

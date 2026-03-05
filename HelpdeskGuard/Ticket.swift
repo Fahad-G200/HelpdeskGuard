@@ -8,7 +8,7 @@
 import Foundation
 
 struct Ticket: Identifiable {
-    let id = UUID
+    let id = UUID()
     var description: String
     var date: Date
     var isResolved: Bool

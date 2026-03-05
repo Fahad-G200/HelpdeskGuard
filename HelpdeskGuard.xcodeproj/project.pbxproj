@@ -18,6 +18,7 @@
 				Change.logg,
 				PROJECT_STRUCTURE.md,
 				README.md,
+				RegisterView.swift,
 				TODO.md,
 			);
 			target = D69202D82F55A12200BAFE2E /* HelpdeskGuard */;
