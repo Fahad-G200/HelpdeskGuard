@@ -43,8 +43,23 @@ struct RegisterView: View {
                 Button("Opprett konto") {
                     errorMessage = ""
 
-                    if email.isEmpty || password.isEmpty || confirmPassword.isEmpty {
+                    // Rens e-post (tar bort mellomrom og gjør den lowercase)
+                    let cleanEmail = email.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+
+                    if cleanEmail.isEmpty || password.isEmpty || confirmPassword.isEmpty {
                         errorMessage = "Fyll ut alle feltene."
+                        return
+                    }
+
+                    // Enkel e-post-sjekk (ikke perfekt, men bra nok for prosjektet)
+                    if !cleanEmail.contains("@") || !cleanEmail.contains(".") {
+                        errorMessage = "Skriv en gyldig e-postadresse."
+                        return
+                    }
+
+                    // Minimum passordlengde
+                    if password.count < 6 {
+                        errorMessage = "Passordet må være minst 6 tegn."
                         return
                     }
 
@@ -53,10 +68,10 @@ struct RegisterView: View {
                         return
                     }
 
-                    let ok = authStore.register(email: email, password: password)
+                    let ok = authStore.register(email: cleanEmail, password: password)
                     if ok {
                         // Valgfritt: logg inn direkte etter registrering
-                        _ = authStore.login(email: email, password: password)
+                        _ = authStore.login(email: cleanEmail, password: password)
                     } else {
                         errorMessage = "E-posten er allerede registrert."
                     }

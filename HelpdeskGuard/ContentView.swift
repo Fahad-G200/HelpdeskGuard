@@ -19,6 +19,11 @@ struct ContentView: View {
                 .tabItem {
                     Label("Saker", systemImage: "tray.full")
                 }
+
+            RegisterView()
+                .tabItem {
+                    Label("Registrer", systemImage: "person.badge.plus")
+                }
         }
     }
 }
@@ -26,5 +31,6 @@ struct ContentView: View {
 #Preview {
     ContentView()
         .environmentObject(TicketStore())
+        .environmentObject(AuthStore())
 }
 

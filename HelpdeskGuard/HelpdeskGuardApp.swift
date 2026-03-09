@@ -10,10 +10,11 @@ import SwiftData
 
 @main
 struct HelpdeskGuardApp: App {
-
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(AuthStore())
+                .environmentObject(TicketStore())
         }
         .modelContainer(for: TicketEntity.self)
     }

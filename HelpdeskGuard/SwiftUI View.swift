@@ -13,28 +13,28 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct TicketsView: View {
-    @EnvironmentObject var ticketStore: TicketStore
+    @Query(sort: \TicketEntity.date, order: .reverse) private var tickets: [TicketEntity]
 
     var body: some View {
         NavigationStack {
             List {
-                
-                ForEach(Array(ticketStore.tickets.enumerated()), id: \.offset) { index, ticket in
-                    
+                ForEach(Array(tickets.enumerated()), id: \.offset) { index, ticket in
                     VStack(alignment: .leading, spacing: 4) {
                         Text("Sak \(index + 1)")
                             .font(.headline)
 
-                        Text(ticket.description)
+                        Text(ticket.descriptionText)
                             .font(.body)
 
                         Text(ticket.date.formatted(date: .abbreviated, time: .shortened))
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     }
-                    .padding(.vertical, 6)                }
+                    .padding(.vertical, 6)
+                }
             }
             .navigationTitle("Saker")
         }
@@ -43,6 +43,8 @@ struct TicketsView: View {
 
 #Preview {
     TicketsView()
-        .environmentObject(TicketStore())
+        .modelContainer(for: TicketEntity.self, inMemory: true)
 }
+
+
 

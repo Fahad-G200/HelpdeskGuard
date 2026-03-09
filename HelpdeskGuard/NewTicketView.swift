@@ -65,10 +65,23 @@ struct NewTicketView: View {
             .navigationTitle("Saker")
         }
     }
+
+    private func deleteTickets(at offsets: IndexSet) {
+        for index in offsets {
+            modelContext.delete(tickets[index])
+        }
+
+        do {
+            try modelContext.save()
+        } catch {
+            // ignorer feil (kan logges senere)
+        }
+    }
 }
 
 #Preview {
     NewTicketView()
         .modelContainer(for: TicketEntity.self, inMemory: true)
 }
+
 
