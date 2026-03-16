@@ -90,3 +90,32 @@ Signering og utviklingsoppsett
     •    Konfigurert Apple Development certificate.
     •    Aktivert Developer Mode på iPhone.
     •    Installert og kjørt appen direkte på fysisk enhet.
+
+2026-03-16
+
+Autentiseringssystem
+
+La til et grunnleggende autentiseringssystem i HelpdeskGuard-applikasjonen.
+
+Nye komponenter:
+- AuthStore.swift
+- LoginView.swift
+- RegisterView.swift
+
+Implementerte funksjoner:
+- Registrering av brukere med e-post og passord
+- Validering av brukerinnlogging
+- Utloggingsfunksjonalitet
+- Lokal lagring av brukere ved hjelp av UserDefaults
+- Automatisk oppdatering av brukergrensesnittet ved hjelp av ObservableObject og @Published
+
+Oppførsel i brukergrensesnittet:
+- Innloggingsskjermen vises når brukeren ikke er autentisert
+- Hovedgrensesnittet i appen vises etter vellykket innlogging
+- Navigasjon fra LoginView til RegisterView for opprettelse av ny konto
+
+Tekniske detaljer:
+- Autentiseringstilstand håndteres av AuthStore
+- SwiftUI EnvironmentObject brukes for å dele autentiseringstilstand i appen
+- E-postinput normaliseres ved hjelp av trimming og konvertering til små bokstaver
+- SecureField brukes for sikker inntasting av passord
