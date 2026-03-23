@@ -86,3 +86,42 @@ Neste steg i prosjektet er å implementere en Ticket-modell og TicketStore for �
 
 For å se hvordan applikasjonen fungerer, se demonstrasjonsvideoen:
 https://youtu.be/t9wQ-nkPV-c
+
+⸻
+
+## Personvern og sikkerhet
+
+Applikasjonen lagrer foreløpig data lokalt på enheten (UserDefaults). Det lagres kun nødvendig informasjon som brukerens e-post og registrerte saker.
+
+Det brukes ikke eksterne skytjenester i versjon 1.0, noe som reduserer risiko for datalekkasjer.
+
+For serverdelen er følgende sikkerhetstiltak implementert:
+- SSH-sikring (ingen root login)
+- Firewall (UFW)
+- Fail2Ban for beskyttelse mot brute-force
+- Overvåking via Uptime Kuma
+
+## Risikoanalyse (kort)
+
+Mulige risikoer i systemet:
+- Tap av data (lokal lagring uten backup)
+- Uautorisert tilgang hvis autentisering ikke er ferdig implementert
+- Manglende kryptering (HTTPS ikke implementert ennå)
+
+Tiltak:
+- Plan om backend med sikker autentisering (JWT)
+- Plan om HTTPS i produksjon
+- Fremtidig lagring i database med backup
+
+⸻
+
+## Nåværende funksjonalitet (versjon 1.0)
+
+Dette fungerer i applikasjonen:
+- Bruker kan registrere seg og logge inn
+- Bruker kan opprette en sak (ticket)
+- Saker lagres lokalt i appen
+- Bruker kan se liste over saker
+- Grunnleggende navigasjon mellom sider
+
+Dette viser et fungerende konsept som kan videreutvikles i senere versjoner.

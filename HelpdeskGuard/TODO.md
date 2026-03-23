@@ -54,3 +54,8 @@ Dokumentasjon
 ( ) Oppdatere README ved nye funksjoner
 ( ) Forberede versjon 1.0 presentasjon
 
+⸻
+
+## Versjon 1.0 status
+
+Prosjektet er en fungerende prototype og viser grunnleggende funksjonalitet innen utvikling, brukerstøtte og drift. Videre arbeid vil fokusere på backend, sikkerhet og full implementasjon av kunnskapsbase.

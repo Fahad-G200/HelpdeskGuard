@@ -119,3 +119,13 @@ Tekniske detaljer:
 - SwiftUI EnvironmentObject brukes for å dele autentiseringstilstand i appen
 - E-postinput normaliseres ved hjelp av trimming og konvertering til små bokstaver
 - SecureField brukes for sikker inntasting av passord
+
+2026-03-20
+
+Videre utvikling og forbedringer
+
+- Forbedret struktur i prosjektet
+- Oppdatert README med tydeligere beskrivelse av kompetansemål
+- Ryddet opp i TODO-listen og prioriterte videre arbeid
+- Dokumentert drift (server-oppsett, sikkerhet og overvåking)
+- Lagt til refleksjon rundt videre utvikling av systemet
