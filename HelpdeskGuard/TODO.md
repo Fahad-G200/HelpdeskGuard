@@ -1,61 +1,89 @@
-TODO – HelpdeskGuard
+# TODO – HelpdeskGuard
 
-Versjon: 1.0
+Versjon: 1.0  
 Prosjektperiode: Mars 2026
 
-⸻
+---
 
-Ferdig arbeid
+## Ferdig arbeid
 
-(x) Opprettet Git-repository og koblet til GitHub
-(x) Implementert TabView med fanene Hjem og Saker
-(x) Opprettet HomeView
-(x) Implementert NavigationLink fra Hjem til NewTicketView
-(x) Opprettet NewTicketView
-(x) Implementert TextField med @State-binding
-(x) Opprettet README.md
-(x) Opprettet CHANGELOG.md
-(x) Opprettet AI.md
+(x) Opprettet Git-repository og koblet til GitHub  
+(x) Implementert TabView med fanene Hjem, Saker og Konto  
+(x) Opprettet HomeView  
+(x) Opprettet InfoView (personvern og regler)  
+(x) Opprettet LoginView og RegisterView  
+(x) Implementert innlogging og registrering av bruker  
+(x) Implementert lokal lagring av bruker med UserDefaults  
+(x) Implementert mulighet for å logge ut  
+(x) Implementert mulighet for å slette bruker  
+(x) Opprettet NewTicketView (skjema for ny sak)  
+(x) Implementert TextField og SecureField med @State-binding  
+(x) Implementert NavigationStack og NavigationLink  
+(x) Implementert hamburger-meny  
+(x) Opprettet AppTheme, AppKort og AppFooter (UI-komponenter)  
+(x) Opprettet README.md  
+(x) Opprettet CHANGELOG.md  
+(x) Opprettet AI.md  
 
-⸻
+---
 
-Under utvikling
+## Under utvikling
 
-( ) Lage Ticket-modell (id, beskrivelse, dato, status)
-( ) Lage TicketStore for lagring av saker
-( ) Implementere funksjon som lagrer ny sak i listen
-( ) Lage TicketsView som viser registrerte saker
-( ) Lage detaljvisning for enkel sak
-( ) Kunne markere sak som løst
+( ) Koble TicketStore til brukergrensesnitt  
+( ) Vise liste over registrerte saker i appen  
+( ) Lage egen visning for saker (TicketsView)  
+( ) Lage detaljvisning for en sak  
+( ) Kunne markere sak som løst  
+( ) Forbedre struktur for lagring av saker  
 
-⸻
+---
 
-Brukerstøtte
+## Brukerstøtte
 
-( ) Lage enkel kunnskapsbase / FAQ
-( ) Lage brukerveiledning i README
-( ) Lage enkel feilsøkingsguide i appen
+( ) Lage enkel kunnskapsbase / FAQ  
+( ) Lage brukerveiledning i README  
+( ) Lage enkel feilsøkingsguide i appen  
+( ) Forbedre tekst og forklaringer i appen  
 
-⸻
+---
 
-Drift og sikkerhet
+## Drift og sikkerhet
 
-( ) Skrive kort om personvern og datalagring
-( ) Lage enkel risikoanalyse
-( ) Dokumentere hvordan data lagres
-( ) Lage plan for backup eller fremtidig lagringsløsning
+(x) Skrive om personvern og datalagring (InfoView)  
+(x) Lage enkel risikoanalyse (README)  
+(x) Dokumentere hvordan data lagres (UserDefaults)  
 
-⸻
+( ) Implementere sikker lagring (hashing av passord)  
+( ) Lage backend-løsning (API)  
+( ) Implementere HTTPS  
+( ) Lage plan for backup og database  
 
-Dokumentasjon
+---
 
-( ) Oppdatere CHANGELOG etter hver arbeidsøkt
-( ) Oppdatere AI.md ved bruk av KI
-( ) Oppdatere README ved nye funksjoner
-( ) Forberede versjon 1.0 presentasjon
+## Dokumentasjon
 
-⸻
+(x) Oppdatert README.md  
+(x) Oppdatert CHANGELOG.md  
+(x) Dokumentert bruk av KI (AI.md)  
+
+( ) Oppdatere CHANGELOG etter hver arbeidsøkt  
+( ) Oppdatere README ved nye funksjoner  
+( ) Forberede presentasjon av prosjektet  
+
+---
 
 ## Versjon 1.0 status
 
-Prosjektet er en fungerende prototype og viser grunnleggende funksjonalitet innen utvikling, brukerstøtte og drift. Videre arbeid vil fokusere på backend, sikkerhet og full implementasjon av kunnskapsbase.
+Prosjektet er en fungerende prototype og viser kompetanse innen utvikling, brukerstøtte og drift.
+
+Applikasjonen har:
+- fungerende innlogging og registrering
+- lokal lagring av brukerdata
+- opprettelse av saker (skjema)
+- navigasjon mellom flere sider
+- informasjon om personvern og regler
+
+Videre arbeid vil fokusere på:
+- lagring og visning av saker
+- backend og sikkerhet
+- utvidet funksjonalitet og forbedret brukeropplevelse

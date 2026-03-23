@@ -63,4 +63,14 @@ final class AuthStore: ObservableObject {
         isLoggedIn = false
         UserDefaults.standard.removeObject(forKey: currentEmailKey)
     }
+
+    func deleteCurrentUser() {
+        guard let email = currentEmail else { return }
+
+        var users = loadUsers()
+        users.removeValue(forKey: email)
+        saveUsers(users)
+
+        logout()
+    }
 }

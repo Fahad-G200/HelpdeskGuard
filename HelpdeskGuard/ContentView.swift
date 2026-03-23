@@ -8,73 +8,143 @@
 import SwiftUI
 
 struct ContentView: View {
-
     @EnvironmentObject var authStore: AuthStore
+    @State private var valgtFane = 0
+    @State private var viserMeny = false
+    @State private var visSlettBrukerAlert = false
 
     var body: some View {
-        if authStore.isLoggedIn {
-            appInnhold
-        } else {
-            LoginView()
-        }
-    }
+        NavigationStack {
+            if authStore.isLoggedIn {
+                TabView(selection: $valgtFane) {
+                    HomeView()
+                        .tabItem {
+                            Label("Hjem", systemImage: "house.fill")
+                        }
+                        .tag(0)
 
-    private var appInnhold: some View {
-        TabView {
+                    NewTicketView()
+                        .tabItem {
+                            Label("Saker", systemImage: "ticket.fill")
+                        }
+                        .tag(1)
 
-            HomeView()
-                .tabItem {
-                    Label("Hjem", systemImage: "house")
+                    kontoView
+                        .tabItem {
+                            Label("Konto", systemImage: "person.crop.circle")
+                        }
+                        .tag(2)
                 }
-
-            TicketsView()
-                .tabItem {
-                    Label("Saker", systemImage: "tray.full")
+                .tint(AppTheme.primary)
+                .toolbar {
+                    ToolbarItem(placement: .topBarLeading) {
+                        Button {
+                            viserMeny = true
+                        } label: {
+                            Image(systemName: "line.3.horizontal")
+                                .font(.title2)
+                                .foregroundColor(AppTheme.primary)
+                                .padding(8)
+                        }
+                        .accessibilityLabel("Åpne meny")
+                    }
                 }
-
-            innstillingerFane
-                .tabItem {
-                    Label("Konto", systemImage: "person.circle")
+                .sheet(isPresented: $viserMeny) {
+                    menyView
                 }
-        }
-    }
+                .alert("Slette bruker?", isPresented: $visSlettBrukerAlert) {
+                    Button("Slett bruker", role: .destructive) {
+                        authStore.deleteCurrentUser()
+                    }
 
-    private var innstillingerFane: some View {
-        VStack(spacing: 20) {
-
-            Spacer()
-
-            Image(systemName: "person.circle.fill")
-                .font(.system(size: 60))
-                .foregroundStyle(.blue)
-
-            if let email = authStore.currentEmail {
-                Text("Innlogget som:")
-                    .foregroundStyle(.secondary)
-
-                Text(email)
-                    .font(.headline)
+                    Button("Avbryt", role: .cancel) {
+                    }
+                } message: {
+                    Text("Er du sikker på at du vil slette brukeren? Denne handlingen kan ikke angres.")
+                }
+            } else {
+                LoginView()
             }
-
-            Spacer()
-
-            Button(role: .destructive) {
-                authStore.logout()
-            } label: {
-                Label("Logg ut", systemImage: "rectangle.portrait.and.arrow.right")
-                    .frame(maxWidth: .infinity)
-            }
-            .buttonStyle(.bordered)
-            .padding(.horizontal)
-
-            Spacer()
         }
-        .navigationTitle("Konto")
     }
-}
 
-#Preview {
-    ContentView()
-        .environmentObject(AuthStore())
-        .environmentObject(TicketStore())
+    var kontoView: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: AppTheme.largeSpacing) {
+                Text("Konto")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                    .foregroundColor(AppTheme.primary)
+                    .accessibilityAddTraits(.isHeader)
+
+                AppKort {
+                    Text("Innlogget bruker")
+                        .font(.title3)
+                        .fontWeight(.semibold)
+                        .foregroundColor(AppTheme.primary)
+
+                    Text(authStore.currentEmail ?? "Ingen bruker funnet")
+                        .font(.body)
+                        .foregroundColor(AppTheme.textPrimary)
+                }
+
+                AppKort {
+                    Text("Kontovalg")
+                        .font(.title3)
+                        .fontWeight(.semibold)
+                        .foregroundColor(AppTheme.secondary)
+
+                    Button("Logg ut") {
+                        authStore.logout()
+                    }
+                    .buttonStyle(StorKnapp(bakgrunnsfarge: AppTheme.primary))
+                    .accessibilityHint("Logger ut brukeren fra appen")
+
+                    Button("Slett bruker") {
+                        visSlettBrukerAlert = true
+                    }
+                    .buttonStyle(StorKnapp(bakgrunnsfarge: .red))
+                    .accessibilityHint("Sletter brukeren fra lokal lagring etter bekreftelse")
+                }
+
+                AppFooter()
+            }
+            .padding()
+        }
+        .background(AppTheme.background.ignoresSafeArea())
+    }
+
+    var menyView: some View {
+        NavigationStack {
+            List {
+                Button {
+                    valgtFane = 0
+                    viserMeny = false
+                } label: {
+                    Label("Hjem", systemImage: "house.fill")
+                }
+
+                Button {
+                    valgtFane = 1
+                    viserMeny = false
+                } label: {
+                    Label("Saker", systemImage: "ticket.fill")
+                }
+
+                NavigationLink(destination: InfoView()) {
+                    Label("Informasjon og personvern", systemImage: "info.circle.fill")
+                }
+
+                Button {
+                    authStore.logout()
+                    viserMeny = false
+                } label: {
+                    Label("Logg ut", systemImage: "arrow.backward.circle.fill")
+                        .foregroundColor(.red)
+                }
+            }
+            .navigationTitle("Meny")
+            .navigationBarTitleDisplayMode(.inline)
+        }
+    }
 }

@@ -8,88 +8,93 @@
 import SwiftUI
 
 struct LoginView: View {
-
     @EnvironmentObject var authStore: AuthStore
 
     @State private var email = ""
     @State private var password = ""
-    @State private var errorMessage = ""
+    @State private var feilmelding = ""
+    @State private var visRegistrering = false
 
     var body: some View {
-
         NavigationStack {
+            ScrollView {
+                VStack(alignment: .leading, spacing: AppTheme.largeSpacing) {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Logg inn")
+                            .font(.largeTitle)
+                            .fontWeight(.bold)
+                            .foregroundColor(AppTheme.primary)
+                            .accessibilityAddTraits(.isHeader)
 
-            VStack(spacing: 20) {
-
-                Spacer()
-
-                Image(systemName: "lock.shield")
-                    .font(.system(size: 60))
-                    .foregroundStyle(.blue)
-
-                Text("HelpdeskGuard")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-
-                VStack(spacing: 15) {
-
-                    TextField("E-post", text: $email)
-                        .textInputAutocapitalization(.never)
-                        .autocorrectionDisabled()
-                        .textFieldStyle(.roundedBorder)
-
-                    SecureField("Passord", text: $password)
-                        .textFieldStyle(.roundedBorder)
-
-                }
-                .padding(.horizontal)
-
-                if !errorMessage.isEmpty {
-                    Text(errorMessage)
-                        .foregroundColor(.red)
-                }
-
-                Button {
-
-                    let success = authStore.login(email: email, password: password)
-
-                    if !success {
-                        errorMessage = "Feil e-post eller passord"
+                        Text("Logg inn for å bruke HelpdeskGuard og registrere saker.")
+                            .font(.body)
+                            .foregroundColor(AppTheme.textPrimary)
                     }
 
-                } label: {
+                    AppKort {
+                        Text("E-post")
+                            .font(.headline)
+                            .foregroundColor(AppTheme.textPrimary)
 
-                    Label("Logg inn", systemImage: "arrow.right.circle.fill")
-                        .frame(maxWidth: .infinity)
+                        TextField("Skriv inn e-post", text: $email)
+                            .textInputAutocapitalization(.never)
+                            .autocorrectionDisabled(true)
+                            .padding()
+                            .background(Color.white)
+                            .cornerRadius(AppTheme.cornerRadius)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: AppTheme.cornerRadius)
+                                    .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                            )
 
+                        Text("Passord")
+                            .font(.headline)
+                            .foregroundColor(AppTheme.textPrimary)
+
+                        SecureField("Skriv inn passord", text: $password)
+                            .padding()
+                            .background(Color.white)
+                            .cornerRadius(AppTheme.cornerRadius)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: AppTheme.cornerRadius)
+                                    .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                            )
+
+                        if !feilmelding.isEmpty {
+                            Text(feilmelding)
+                                .font(.body)
+                                .foregroundColor(.red)
+                        }
+
+                        Button("Logg inn") {
+                            let ok = authStore.login(email: email, password: password)
+
+                            if ok {
+                                feilmelding = ""
+                            } else {
+                                feilmelding = "Feil e-post eller passord. Prøv igjen."
+                            }
+                        }
+                        .buttonStyle(StorKnapp(bakgrunnsfarge: AppTheme.primary))
+                        .accessibilityHint("Logger inn brukeren")
+
+                        Button("Har du ikke konto? Registrer deg") {
+                            visRegistrering = true
+                        }
+                        .buttonStyle(StorKnapp(bakgrunnsfarge: AppTheme.secondary))
+                        .accessibilityHint("Åpner registreringssiden")
+                    }
+
+                    AppFooter()
                 }
-                .buttonStyle(.borderedProminent)
-                .padding(.horizontal)
-
-                NavigationLink {
-
-                    RegisterView()
-
-                } label: {
-
-                    Text("Har du ikke konto? Opprett bruker")
-
-                }
-
-                Spacer()
-
+                .padding()
             }
-            .navigationTitle("Logg inn")
-
+            .background(AppTheme.background.ignoresSafeArea())
+            .navigationTitle("Innlogging")
+            .navigationBarTitleDisplayMode(.inline)
+            .sheet(isPresented: $visRegistrering) {
+                RegisterView()
+            }
         }
-
     }
-
-}
-
-#Preview {
-
-    LoginView()
-        .environmentObject(AuthStore())
-
 }
