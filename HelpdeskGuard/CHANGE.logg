@@ -247,3 +247,99 @@ Videre utvikling vil fokusere på:
 - lagring og visning av saker
 - backend og sikkerhet
 - utvidet funksjonalitet
+
+
+# Changelog – HelpdeskGuard
+
+## 25. mars 2026
+
+### Lagt til
+
+- Opprettet virtuell maskin i Proxmox VE
+- Installert Ubuntu Server 22.04 LTS
+- Konfigurert SSH-tilgang og bruker
+- Oppdatert system (apt update / upgrade)
+- Installert Docker og aktivert tjenesten
+- Opprettet backend-prosjekt (FastAPI)
+- Implementert API med følgende endepunkter:
+  - GET /
+  - POST /login
+  - GET /tickets
+  - POST /tickets
+- Implementert autentisering med OAuth2 Bearer token
+- Opprettet testbruker for innlogging
+- Implementert beskyttelse av API-endepunkter
+- Opprettet iOS-app i SwiftUI
+- Koblet iOS-app mot backend API
+- Konfigurert App Transport Security (ATS) i Xcode
+- Aktivert lokal nettverkstilgang (Allow Local Networking)
+- Strukturert prosjektmappe og filer
+- Opprettet README.md, TODO.md og dokumentasjon
+- Startet arbeid med sikkerhet og server hardening
+
+---
+
+### Endret
+
+- Forbedret struktur i backend-kode (main.py)
+- Organisert API-logikk og modeller (Ticket, Token)
+- Oppdatert dokumentasjon med tydeligere forklaringer
+- Justert prosjektstruktur for bedre oversikt
+- Forbedret kommunikasjon mellom app og API
+
+---
+
+### Fikset
+
+- dpkg-feil under oppdatering av server
+- Problem med manglende ufw (ikke installert)
+- SyntaxError i Python (feil sammenkobling av kode)
+- "No module named uvicorn" (manglende dependency)
+- "Connection refused" (server ikke startet)
+- Port-konflikt (address already in use)
+- Feil bruk av terminal (kjørte URL som kommando)
+- Curl-feil ved manglende backend
+- Autentiseringsfeil (manglende token)
+- Xcode warning relatert til Document Types
+- Problemer med tilkobling mellom app og API
+
+---
+
+### Sikkerhet
+
+- Implementert token-basert autentisering
+- Beskyttet API-endepunkter med dependency (Depends)
+- Planlagt implementering av:
+  - UFW firewall
+  - Fail2ban
+  - SSH-sikring
+  - Docker isolasjon
+- Konfigurert ATS i iOS for sikker nettverkstrafikk
+- Forberedt bruk av Keychain for lagring av token
+
+---
+
+### Testing
+
+- Testet API med curl:
+  - Login (POST /login)
+  - Hent tickets med token
+- Verifisert autentisering fungerer korrekt
+- Testet API-respons uten token (forventet feil)
+- Testet lokal server (127.0.0.1:8000)
+- Testet integrasjon mellom app og backend
+
+---
+
+### Refleksjon
+
+Under arbeidet møtte jeg flere tekniske utfordringer som bidro til økt forståelse:
+
+- Lærte viktigheten av å starte backend før testing
+- Forstod hvordan nettverk og porter fungerer
+- Erfarte hvordan små syntaksfeil kan stoppe hele systemet
+- Lærte å bruke curl til feilsøking av API
+- Forstod hvordan autentisering beskytter API-endepunkter
+- Oppdaget viktigheten av riktig konfigurasjon i Xcode (ATS)
+
+Arbeidet viser utvikling innen drift, utvikling og brukerstøtte, spesielt gjennom feilsøking, dokumentasjon og implementering av sikkerhet.
