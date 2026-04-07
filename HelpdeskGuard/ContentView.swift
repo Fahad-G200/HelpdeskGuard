@@ -45,7 +45,9 @@ struct ContentView: View {
                                 .font(.title2)
                                 .foregroundColor(AppTheme.primary)
                                 .padding(8)
+                                .accessibilityHidden(true)
                         }
+                        .accessibilityElement(children: .ignore)
                         .accessibilityLabel("Åpne meny")
                     }
                 }
@@ -66,6 +68,7 @@ struct ContentView: View {
                 LoginView()
             }
         }
+        .dynamicTypeSize(.xSmall ... .accessibility5)
     }
 
     var kontoView: some View {
@@ -103,7 +106,7 @@ struct ContentView: View {
                     Button("Slett bruker") {
                         visSlettBrukerAlert = true
                     }
-                    .buttonStyle(StorKnapp(bakgrunnsfarge: .red))
+                    .buttonStyle(StorKnapp(bakgrunnsfarge: AppTheme.danger))
                     .accessibilityHint("Sletter brukeren fra lokal lagring etter bekreftelse")
                 }
 
@@ -140,7 +143,7 @@ struct ContentView: View {
                     viserMeny = false
                 } label: {
                     Label("Logg ut", systemImage: "arrow.backward.circle.fill")
-                        .foregroundColor(.red)
+                        .foregroundColor(AppTheme.danger)
                 }
             }
             .navigationTitle("Meny")
@@ -148,3 +151,4 @@ struct ContentView: View {
         }
     }
 }
+

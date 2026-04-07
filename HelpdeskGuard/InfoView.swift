@@ -104,5 +104,6 @@ struct InfoView: View {
         .background(AppTheme.background.ignoresSafeArea())
         .navigationTitle("Informasjon")
         .navigationBarTitleDisplayMode(.inline)
+        .dynamicTypeSize(.xSmall ... .accessibility5)
     }
 }

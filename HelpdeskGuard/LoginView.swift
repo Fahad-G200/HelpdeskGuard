@@ -36,34 +36,37 @@ struct LoginView: View {
                             .font(.headline)
                             .foregroundColor(AppTheme.textPrimary)
 
-                        TextField("Skriv inn e-post", text: $email)
-                            .textInputAutocapitalization(.never)
-                            .autocorrectionDisabled(true)
-                            .padding()
-                            .background(Color.white)
-                            .cornerRadius(AppTheme.cornerRadius)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: AppTheme.cornerRadius)
-                                    .stroke(Color.gray.opacity(0.3), lineWidth: 1)
-                            )
+
+                        AppInputField(
+                            text: $email,
+                            isSecure: false,
+                            keyboardType: .emailAddress,
+                            autocapitalization: .none,
+                            autocorrection: .no
+                        )
+                        .accessibilityLabel("E-post")
+                        .accessibilityHint("Skriv inn e-postadressen din")
 
                         Text("Passord")
                             .font(.headline)
                             .foregroundColor(AppTheme.textPrimary)
 
-                        SecureField("Skriv inn passord", text: $password)
-                            .padding()
-                            .background(Color.white)
-                            .cornerRadius(AppTheme.cornerRadius)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: AppTheme.cornerRadius)
-                                    .stroke(Color.gray.opacity(0.3), lineWidth: 1)
-                            )
+
+                        AppInputField(
+                            text: $password,
+                            isSecure: true,
+                            keyboardType: .default,
+                            autocapitalization: .none,
+                            autocorrection: .no
+                        )
+                        .accessibilityLabel("Passord")
+                        .accessibilityHint("Skriv inn passordet ditt")
 
                         if !feilmelding.isEmpty {
                             Text(feilmelding)
                                 .font(.body)
-                                .foregroundColor(.red)
+                                .foregroundColor(AppTheme.danger)
+                                .accessibilityLabel("Feil. \(feilmelding)")
                         }
 
                         Button("Logg inn") {
@@ -96,5 +99,7 @@ struct LoginView: View {
                 RegisterView()
             }
         }
+        .dynamicTypeSize(.xSmall ... .accessibility5)
     }
 }
+

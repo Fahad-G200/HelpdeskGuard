@@ -94,5 +94,6 @@ struct HomeView: View {
             .navigationTitle("Hjem")
             .navigationBarTitleDisplayMode(.inline)
         }
+        .dynamicTypeSize(.xSmall ... .accessibility5)
     }
 }

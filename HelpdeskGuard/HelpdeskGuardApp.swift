@@ -13,6 +13,7 @@ struct HelpdeskGuardApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .dynamicTypeSize(.xSmall ... .accessibility5)
                 .environmentObject(AuthStore())
                 .environmentObject(TicketStore())
         }

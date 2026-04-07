@@ -37,9 +37,15 @@ struct RegisterView: View {
                             .font(.headline)
                             .foregroundColor(AppTheme.textPrimary)
 
-                        TextField("Skriv inn e-post", text: $email)
-                            .textInputAutocapitalization(.never)
-                            .autocorrectionDisabled(true)
+                        AppInputField(
+                            text: $email,
+                            isSecure: false,
+                            keyboardType: .emailAddress,
+                            autocapitalization: .none,
+                            autocorrection: .no
+                        )
+                            .accessibilityLabel("E-post")
+                            .accessibilityHint("Skriv inn e-postadressen din")
                             .padding()
                             .background(Color.white)
                             .cornerRadius(AppTheme.cornerRadius)
@@ -52,7 +58,15 @@ struct RegisterView: View {
                             .font(.headline)
                             .foregroundColor(AppTheme.textPrimary)
 
-                        SecureField("Skriv inn passord", text: $password)
+                        AppInputField(
+                            text: $password,
+                            isSecure: true,
+                            keyboardType: .default,
+                            autocapitalization: .none,
+                            autocorrection: .no
+                        )
+                            .accessibilityLabel("Passord")
+                            .accessibilityHint("Skriv inn passordet ditt")
                             .padding()
                             .background(Color.white)
                             .cornerRadius(AppTheme.cornerRadius)
@@ -65,7 +79,15 @@ struct RegisterView: View {
                             .font(.headline)
                             .foregroundColor(AppTheme.textPrimary)
 
-                        SecureField("Skriv inn passord på nytt", text: $bekreftPassord)
+                        AppInputField(
+                            text: $bekreftPassord,
+                            isSecure: true,
+                            keyboardType: .default,
+                            autocapitalization: .none,
+                            autocorrection: .no
+                        )
+                            .accessibilityLabel("Bekreft passord")
+                            .accessibilityHint("Skriv inn passordet på nytt")
                             .padding()
                             .background(Color.white)
                             .cornerRadius(AppTheme.cornerRadius)
@@ -77,7 +99,8 @@ struct RegisterView: View {
                         if !melding.isEmpty {
                             Text(melding)
                                 .font(.body)
-                                .foregroundColor(melding.contains("ferdig") ? .green : .red)
+                                .foregroundColor(melding.contains("ferdig") ? AppTheme.secondary : AppTheme.danger)
+                                .accessibilityLabel(melding)
                         }
 
                         Button("Opprett bruker") {
@@ -125,5 +148,6 @@ struct RegisterView: View {
             .navigationTitle("Registrering")
             .navigationBarTitleDisplayMode(.inline)
         }
+        .dynamicTypeSize(.xSmall ... .accessibility5)
     }
 }
