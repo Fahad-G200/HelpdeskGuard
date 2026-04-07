@@ -40,6 +40,8 @@ struct RegisterView: View {
                         TextField("Skriv inn e-post", text: $email)
                             .textInputAutocapitalization(.never)
                             .autocorrectionDisabled(true)
+                            .accessibilityLabel("E-post")
+                            .accessibilityHint("Skriv inn e-postadressen din")
                             .padding()
                             .background(Color.white)
                             .cornerRadius(AppTheme.cornerRadius)
@@ -53,6 +55,8 @@ struct RegisterView: View {
                             .foregroundColor(AppTheme.textPrimary)
 
                         SecureField("Skriv inn passord", text: $password)
+                            .accessibilityLabel("Passord")
+                            .accessibilityHint("Skriv inn passordet ditt")
                             .padding()
                             .background(Color.white)
                             .cornerRadius(AppTheme.cornerRadius)
@@ -66,6 +70,8 @@ struct RegisterView: View {
                             .foregroundColor(AppTheme.textPrimary)
 
                         SecureField("Skriv inn passord på nytt", text: $bekreftPassord)
+                            .accessibilityLabel("Bekreft passord")
+                            .accessibilityHint("Skriv inn passordet på nytt")
                             .padding()
                             .background(Color.white)
                             .cornerRadius(AppTheme.cornerRadius)
@@ -77,7 +83,8 @@ struct RegisterView: View {
                         if !melding.isEmpty {
                             Text(melding)
                                 .font(.body)
-                                .foregroundColor(melding.contains("ferdig") ? .green : .red)
+                                .foregroundColor(melding.contains("ferdig") ? AppTheme.secondary : AppTheme.danger)
+                                .accessibilityLabel(melding)
                         }
 
                         Button("Opprett bruker") {

@@ -39,6 +39,8 @@ struct LoginView: View {
                         TextField("Skriv inn e-post", text: $email)
                             .textInputAutocapitalization(.never)
                             .autocorrectionDisabled(true)
+                            .accessibilityLabel("E-post")
+                            .accessibilityHint("Skriv inn e-postadressen din")
                             .padding()
                             .background(Color.white)
                             .cornerRadius(AppTheme.cornerRadius)
@@ -52,6 +54,8 @@ struct LoginView: View {
                             .foregroundColor(AppTheme.textPrimary)
 
                         SecureField("Skriv inn passord", text: $password)
+                            .accessibilityLabel("Passord")
+                            .accessibilityHint("Skriv inn passordet ditt")
                             .padding()
                             .background(Color.white)
                             .cornerRadius(AppTheme.cornerRadius)
@@ -63,7 +67,8 @@ struct LoginView: View {
                         if !feilmelding.isEmpty {
                             Text(feilmelding)
                                 .font(.body)
-                                .foregroundColor(.red)
+                                .foregroundColor(AppTheme.danger)
+                                .accessibilityLabel("Feil. \(feilmelding)")
                         }
 
                         Button("Logg inn") {
@@ -98,3 +103,4 @@ struct LoginView: View {
         }
     }
 }
+

@@ -39,6 +39,8 @@ struct NewTicketView: View {
                             .foregroundColor(AppTheme.textPrimary)
 
                         TextField("Skriv inn en kort tittel", text: $tittel)
+                            .accessibilityLabel("Tittel")
+                            .accessibilityHint("Skriv inn en kort tittel på saken")
                             .padding()
                             .background(Color.white)
                             .cornerRadius(AppTheme.cornerRadius)
@@ -52,6 +54,8 @@ struct NewTicketView: View {
                             .foregroundColor(AppTheme.textPrimary)
 
                         TextField("Beskriv problemet ditt", text: $beskrivelse, axis: .vertical)
+                            .accessibilityLabel("Beskrivelse")
+                            .accessibilityHint("Beskriv problemet så tydelig som mulig")
                             .lineLimit(4, reservesSpace: true)
                             .padding()
                             .background(Color.white)
@@ -71,6 +75,7 @@ struct NewTicketView: View {
                             }
                         }
                         .pickerStyle(.menu)
+                        .accessibilityLabel("Kategori")
 
                         Text("Prioritet")
                             .font(.headline)
@@ -82,11 +87,13 @@ struct NewTicketView: View {
                             }
                         }
                         .pickerStyle(.segmented)
+                        .accessibilityLabel("Prioritet")
 
                         if !melding.isEmpty {
                             Text(melding)
                                 .font(.body)
-                                .foregroundColor(melding.contains("sendt") ? .green : .red)
+                                .foregroundColor(melding.contains("sendt") ? AppTheme.secondary : AppTheme.danger)
+                                .accessibilityLabel(melding)
                         }
 
                         Button("Send inn sak") {

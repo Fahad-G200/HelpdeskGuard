@@ -9,8 +9,9 @@ import SwiftUI
 
 struct AppTheme {
     static let primary = Color(red: 0.0, green: 0.24, blue: 0.55)
-    static let secondary = Color.green
+    static let secondary = Color(red: 0.0, green: 0.50, blue: 0.20)
     static let accent = Color.orange
+    static let danger = Color(red: 0.72, green: 0.0, blue: 0.0)
     static let background = Color(.systemGroupedBackground)
     static let cardBackground = Color.white
     static let textPrimary = Color.primary

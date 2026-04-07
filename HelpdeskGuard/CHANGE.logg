@@ -3,6 +3,15 @@ Endringslogg
 Alle endringer loggføres fortløpende for å dokumentere utviklingen av prosjektet. Datoer er i formatet ÅÅÅÅ-MM-DD.
 
 
+2026-04-07
+    •    Forbedret tilgjengelighet (WCAG) med målrettede endringer i kontrast og beskrivelser.
+    •    Endret primærfarge i AppTheme.swift til Color(red: 0.0, green: 0.24, blue: 0.55) for bedre kontrast.
+    •    Endret sekundærfarge i AppTheme.swift til mørkere grønn for bedre kontrast.
+    •    Lagt til ny danger-farge og brukt den for feilmeldinger og destruktive handlinger.
+    •    Lagt til accessibilityLabel/accessibilityHint på inputfelter (e-post, passord, tittel og beskrivelse).
+    •    Lagt til accessibilityLabel på kategori- og prioritet-velgere.
+    •    Ingen endringer i app-logikk, navigasjon eller layout.
+
 2026-03-02
     •    Opprettet Git-repository og satt opp grunnstrukturen til iOS-prosjektet.
     •    Implementerte ContentView med TabView og to faner: Hjem og Saker.
