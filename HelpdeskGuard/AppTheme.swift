@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AppTheme {
-    static let primary = Color.blue
+    static let primary = Color(red: 0.0, green: 0.24, blue: 0.55)
     static let secondary = Color.green
     static let accent = Color.orange
     static let background = Color(.systemGroupedBackground)
@@ -76,3 +76,4 @@ struct AppFooter: View {
         .padding(.bottom, 12)
     }
 }
+
