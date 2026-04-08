@@ -84,6 +84,7 @@ struct AppFooter: View {
 
 struct AppInputField: UIViewRepresentable {
     @Binding var text: String
+    var placeholder: String = ""
     var isSecure: Bool = false
     var keyboardType: UIKeyboardType = .default
     var autocapitalization: UITextAutocapitalizationType = .sentences
@@ -95,13 +96,18 @@ struct AppInputField: UIViewRepresentable {
         textField.borderStyle = .none
         textField.backgroundColor = .clear
         textField.textColor = .label
+        textField.placeholder = placeholder
         textField.font = UIFont.preferredFont(forTextStyle: .body)
         textField.adjustsFontForContentSizeCategory = true
         textField.isSecureTextEntry = isSecure
         textField.keyboardType = keyboardType
         textField.autocapitalizationType = autocapitalization
         textField.autocorrectionType = autocorrection
-        textField.addTarget(context.coordinator, action: #selector(Coordinator.textChanged(_:)), for: .editingChanged)
+        textField.addTarget(
+            context.coordinator,
+            action: #selector(Coordinator.textChanged(_:)),
+            for: .editingChanged
+        )
         return textField
     }
 
@@ -109,6 +115,7 @@ struct AppInputField: UIViewRepresentable {
         if uiView.text != text {
             uiView.text = text
         }
+        uiView.placeholder = placeholder
         uiView.isSecureTextEntry = isSecure
         uiView.keyboardType = keyboardType
         uiView.autocapitalizationType = autocapitalization

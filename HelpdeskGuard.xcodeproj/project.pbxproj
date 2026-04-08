@@ -15,7 +15,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				AI.md,
-				CHANGE.logg,
+				CHANGELOG.md,
 				DRIFT_SETUP.md,
 				Info.plist,
 				MONITORING_SETUP.md,

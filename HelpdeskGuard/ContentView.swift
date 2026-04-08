@@ -47,6 +47,7 @@ struct ContentView: View {
                                 .padding(8)
                                 .accessibilityHidden(true)
                         }
+                        .buttonStyle(.plain)
                         .accessibilityElement(children: .ignore)
                         .accessibilityLabel("Åpne meny")
                     }

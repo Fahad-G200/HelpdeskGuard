@@ -39,6 +39,7 @@ struct LoginView: View {
 
                         AppInputField(
                             text: $email,
+                            placeholder: "Skriv inn e-post",
                             isSecure: false,
                             keyboardType: .emailAddress,
                             autocapitalization: .none,
@@ -46,6 +47,13 @@ struct LoginView: View {
                         )
                         .accessibilityLabel("E-post")
                         .accessibilityHint("Skriv inn e-postadressen din")
+                        .padding()
+                        .background(Color.white)
+                        .cornerRadius(AppTheme.cornerRadius)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: AppTheme.cornerRadius)
+                                .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                        )
 
                         Text("Passord")
                             .font(.headline)
@@ -54,6 +62,7 @@ struct LoginView: View {
 
                         AppInputField(
                             text: $password,
+                            placeholder: "Skriv inn passord",
                             isSecure: true,
                             keyboardType: .default,
                             autocapitalization: .none,
@@ -61,6 +70,13 @@ struct LoginView: View {
                         )
                         .accessibilityLabel("Passord")
                         .accessibilityHint("Skriv inn passordet ditt")
+                        .padding()
+                        .background(Color.white)
+                        .cornerRadius(AppTheme.cornerRadius)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: AppTheme.cornerRadius)
+                                .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                        )
 
                         if !feilmelding.isEmpty {
                             Text(feilmelding)
