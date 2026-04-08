@@ -147,7 +147,59 @@ Dette fungerer i applikasjonen:
 
 Dette er bevisste valg for å fokusere på læring og grunnstruktur.
 
+---
 
+## Status på funksjoner
 
+| Funksjon | Status |
+|--------|--------|
+| Registrering | Ferdig |
+| Innlogging | Ferdig |
+| Opprette sak | Ferdig |
+| Liste over saker | Under utvikling |
+| Backend | Planlagt |
 
+---
+
+## Valg av teknologi
+
+SwiftUI ble valgt fordi det gjør det enkelt å utvikle UI raskt i iOS.
+
+UserDefaults ble brukt for enkel lagring i starten.
+
+Git ble brukt for versjonskontroll og oversikt over endringer.
+
+Begrensninger:
+- UserDefaults er ikke sikkert for passord
+- systemet er foreløpig bare en prototype
+
+---
+
+## Sikkerhet
+
+I versjon 1.0 lagres passord i klartekst i UserDefaults.
+
+Dette er ikke sikkert, men er gjort for å lage en prototype.
+
+Plan videre:
+- hashing av passord
+- lagring i Keychain
+- autentisering via backend
+
+---
+
+## Plan
+
+### Ferdig
+- Lage UI
+- Registrering og login
+- Opprette saker
+
+### Jobber med
+- bedre lagring av data
+
+### Planlagt
+- backend
+- sikker innlogging
+- visning av saker
 
