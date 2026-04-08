@@ -41,7 +41,7 @@ Prosjektperiode: Mars 2026
 ## Brukerstøtte
 
 ( ) Lage enkel kunnskapsbase / FAQ  
-( ) Lage brukerveiledning i README  
+(x) Opprettet USER_GUIDE.md i Docs/  
 ( ) Lage enkel feilsøkingsguide i appen  
 ( ) Forbedre tekst og forklaringer i appen  
 
@@ -65,6 +65,8 @@ Prosjektperiode: Mars 2026
 (x) Oppdatert README.md  
 (x) Oppdatert CHANGELOG.md  
 (x) Dokumentert bruk av KI (AI.md)  
+(x) Opprettet PLAN.md, USER_GUIDE.md og REFLEKSJON.md i Docs/  
+(x) Opprettet plassholdere for UML/infrastrukturdiagram i Docs/  
 
 ( ) Oppdatere CHANGELOG etter hver arbeidsøkt  
 ( ) Oppdatere README ved nye funksjoner  

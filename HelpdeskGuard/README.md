@@ -75,6 +75,11 @@ Prosjektet inneholder følgende dokumentasjon:
 - CHANGELOG.md – oversikt over endringer
 - TODO.md – planlagt videre arbeid
 - AI.md – dokumentasjon av bruk av kunstig intelligens
+- Docs/PLAN.md – milepæler, tidslinje og kobling til kompetansemål
+- Docs/USER_GUIDE.md – brukerveiledning (installasjon og bruk)
+- Docs/REFLEKSJON.md – egenvurdering og videreutviklingsplan
+- Docs/UML_DIAGRAM_PLACEHOLDER.md – plassholder for UML-diagram
+- Docs/INFRASTRUCTURE_DIAGRAM_PLACEHOLDER.md – plassholder for infrastrukturdiagram
 
 ---
 
