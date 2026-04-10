@@ -1,25 +1,25 @@
 # Brukerveiledning – HelpdeskGuard
 
 ## Hvordan bruke appen
+1. Aapne appen.
+2. Registrer bruker.
+3. Logg inn.
+4. Gaa til "Saker".
+5. Skriv tittel og beskrivelse.
+6. Trykk "Send inn sak".
 
-1. Start appen
-2. Registrer en bruker
-3. Logg inn
-4. Opprett en ny sak
-5. Skriv tittel og beskrivelse
-6. Trykk "Send inn"
+## Hva appen gjor i v1.0
+- Lar bruker registrere konto og logge inn.
+- Lar bruker opprette en ny sak.
+- Har navigasjon mellom Hjem, Saker, Konto og info.
 
-## Hva appen gjør
-Appen lar brukere sende inn IT-support saker.
-
-## Vanlige problemer
-
-Problem: Får ikke logget inn  
-Løsning: Sjekk at e-post og passord er riktig
-
-Problem: Saken lagres ikke  
-Løsning: Funksjonen er fortsatt under utvikling
+## Feilsoking
+| Problem | Losning |
+|--------|--------|
+| Faar ikke logget inn | Sjekk e-post/passord og prover igjen |
+| Registrering feiler | E-post kan allerede vaere registrert |
+| Saken lagres ikke som liste | Funksjonen er planlagt, ikke ferdig i v1.0 |
 
 ## Personvern
-Appen lagrer brukerdata lokalt på enheten.
-Dette er kun for test og prototype.
+Data lagres lokalt i appen i denne prototypen.
+Det brukes ikke ekstern skytjeneste i v1.0.

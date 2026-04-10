@@ -3,6 +3,15 @@ Endringslogg
 Alle endringer loggføres fortløpende for å dokumentere utviklingen av prosjektet. Datoer er i formatet ÅÅÅÅ-MM-DD.
 
 
+2026-04-10
+    •    Forbedret prosjektdokumentasjonen for bedre faglig sammenheng og vurderingsgrunnlag (VG2 IT).
+    •    Oppdatert README.md med profesjonell introduksjon, "Hvordan kjøre prosjektet", tydelig teknologivalg og prosjektstruktur.
+    •    Lagt til og oppdatert lenker til dokumentasjon i Docs-mappen i README.md.
+    •    Revidert Docs/REFLEKSJON.md med dypere begrunnelser for utfordringer, tekniske valg og læringsutbytte.
+    •    Oppdatert Docs/RISIKOANALYSE.md med prosjektnær vurdering og direkte kobling til risiko i appen (klartekstpassord og lokal lagring uten backup).
+    •    Justert Docs/KRAVSPESIFIKASJON.md og Docs/USER_GUIDE.md for samsvar med faktisk funksjonalitet i versjon 1.0.
+    •    Ingen endringer i Swift-kode, app-logikk eller backend i denne oppdateringen.
+
 2026-04-07
     •    Forbedret tilgjengelighet (WCAG) med målrettede endringer i kontrast og beskrivelser.
     •    Endret primærfarge i AppTheme.swift til Color(red: 0.0, green: 0.24, blue: 0.55) for bedre kontrast.
