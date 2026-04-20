@@ -4,6 +4,11 @@ const express = require("express");
 const mysql = require("mysql2");
 const bcrypt = require("bcrypt");
 
+if (!process.env.DB_PASSWORD) {
+  console.error("Feil: DB_PASSWORD er ikke satt. Opprett en .env-fil basert på .env.example");
+  process.exit(1);
+}
+
 const app = express();
 app.use(express.json());
 
