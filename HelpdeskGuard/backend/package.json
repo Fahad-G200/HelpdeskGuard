@@ -1,0 +1,14 @@
+{
+  "name": "helpdeskguard-backend",
+  "version": "1.0.0",
+  "description": "Enkel REST API-server for HelpdeskGuard",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "express": "^4.18.2",
+    "mysql2": "^3.6.5"
+  }
+}

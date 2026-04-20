@@ -1,0 +1,30 @@
+Dato: 20.04.2026
+
+Arbeid utført:
+
+I dag ble backend-delen av HelpdeskGuard ferdigstilt og testet lokalt på macOS.
+MySQL ble startet via Homebrew, og Node.js API-server ble satt opp med Express.
+
+Det oppstod først problemer med socket-tilkobling og localhost, men dette ble løst ved å bruke 127.0.0.1 som host. Dette tvang TCP/IP-tilkobling til databasen.
+
+Deretter ble backend koblet mot MySQL og testet med curl-kommandoer.
+
+Resultat:
+
+- Bruker kan registreres
+- Bruker kan logge inn
+- Nye saker kan opprettes
+- Saker kan hentes ut per bruker
+- Saker kan markeres som løst
+- Bruker kan slettes
+
+Sikkerhet:
+
+- Passord lagres ikke i klartekst
+- bcrypt brukes til hashing
+- Lokal database brukes kun internt
+- Innlogging krever autentisering
+
+Faglig relevans:
+
+Arbeidet dekker driftstøtte gjennom databaseadministrasjon, brukerrettigheter, tjenestedrift, API-testing, feilsøking og dokumentasjon.

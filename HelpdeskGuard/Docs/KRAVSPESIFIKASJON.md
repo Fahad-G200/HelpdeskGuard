@@ -7,22 +7,23 @@ Appen skal gjore det enkelt a registrere IT-support saker i en skoleprototype.
 ### Ma-krav (ferdig i v1.0)
 - Registrere bruker
 - Logge inn
-- Opprette sak
 - Logge ut
+- Opprette sak med tittel, beskrivelse, kategori og prioritet
 
 ### Bor-krav (planlagt)
-- Vise liste over saker
+- Vise liste over registrerte saker
 - Markere sak som lost
 
 ### Kan-krav (senere)
 - Utvidede admin-funksjoner
+- Bedre statistikk/oversikt
 
 ## Ikke-funksjonelle krav
-- Sikkerhet: bedre beskyttelse av passord (planlagt)
-- Ytelse: appen skal starte raskt og vaere enkel i bruk
-- Tilgjengelighet: tydelig tekst, labels/hints og lesbar kontrast
-- Kompatibilitet: iOS (testet i Xcode-miljo)
+- Sikkerhet: bedre beskyttelse av sensitiv data (planlagt)
+- Ytelse: appen skal starte raskt og vaere enkel a bruke
+- Tilgjengelighet: tydelige etiketter, god kontrast og lesbar tekst
+- Dokumentasjon: prosjektet skal ha oppdatert README, TODO og CHANGELOG
 
-## Begrensninger
-- Prototype uten ferdig backend i v1.0
+## Begrensninger i v1.0
+- Prototype uten full backend-integrasjon i appen
 - Lokal lagring brukt for enkelhet i utviklingsfasen

@@ -44,10 +44,10 @@ struct ContentView: View {
                             Image(systemName: "line.3.horizontal")
                                 .font(.title2)
                                 .foregroundColor(AppTheme.primary)
-                                .padding(8)
                                 .accessibilityHidden(true)
                         }
                         .buttonStyle(.plain)
+                        .focusEffectDisabled()
                         .accessibilityElement(children: .ignore)
                         .accessibilityLabel("Åpne meny")
                     }

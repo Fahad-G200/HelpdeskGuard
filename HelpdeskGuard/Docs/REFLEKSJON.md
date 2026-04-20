@@ -1,30 +1,30 @@
 # Refleksjon – HelpdeskGuard
 
 ## Hva fungerte bra
-Jeg fikk god struktur i prosjektet ved a dele opp ansvar i egne filer (for eksempel AuthStore, TicketStore og ulike Views). Det gjorde det enklere a forsta og videreutvikle appen.
+Prosjektet fungerte best nar jeg delte arbeidet i mindre deler: autentisering, UI, dokumentasjon og drift. Dette gjorde det lettere a holde oversikt og levere en fungerende v1.0.
 
-Git fungerte bra for a dokumentere utviklingen steg for steg. Jeg fikk ogsa bedre oversikt over hva som faktisk var ferdig, og hva som bare var planlagt.
+Jeg fikk god nytte av Git/GitHub for a dokumentere fremdrift og endringer over tid.
 
-## Hva var vanskelig, og hvorfor
-Innlogging og lagring var vanskelig fordi flere valg paavirket hverandre: hvor data lagres, hvordan data valideres, og hvordan UI skal oppdatere seg riktig.
+## Hva var vanskelig
+Det vanskeligste var a balansere rask fremdrift med god sikkerhet. Enkle valg ga fart i utviklingen, men gjorde at sikkerhetsnivaet ble svakere enn onsket.
 
-Merge-konflikter i Git var utfordrende fordi samme filer ble endret i flere commits. Det ga meg erfaring med a lese konflikter, velge riktig innhold og fullfore rebase/merge korrekt.
+Jeg opplevde ogsa utfordringer med merge/rebase-konflikter og med a holde dokumentasjon helt synkron med faktisk funksjonalitet.
 
-Det var ogsa krevende a holde balansen mellom enkel prototype og god sikkerhet. En enkel losning ga rask fremdrift, men gjorde at sikkerheten ble svakere enn den burde vaere.
+## Hvorfor det var vanskelig
+Flere deler paavirket hverandre samtidig: lagring, validering og brukerflyt. Nar en del ble endret, matte dokumentasjon og andre filer oppdateres med en gang for a unnga motsetninger.
 
-## Teknologivalg jeg kunne gjort annerledes
-Jeg brukte UserDefaults for a komme raskt i gang. I ettertid ser jeg at Keychain burde vaert brukt tidligere for sensitive data.
+## Hva jeg laerte
+- Strukturert arbeid i SwiftUI med tydelig ansvar per fil.
+- Praktisk bruk av Git, inkludert konflikthandtering.
+- At dokumentasjon er like viktig som kode i tverrfaglig vurdering.
+- At sikkerhet bor planlegges tidlig, ikke bare pa slutten.
 
-Jeg kunne ogsa planlagt backend tidligere i prosjektet. Det ville gjort overgangen fra lokal prototype til mer realistisk drift enklere.
-
-## Hva jeg har laert
-- Hvordan SwiftUI brukes til a bygge tydelig og funksjonelt UI.
-- Hvordan Git brukes i praksis, spesielt ved konflikter.
-- Hvorfor dokumentasjon er viktig for a vise sammenheng mellom plan, valg og resultat.
-- At sikkerhet maa planlegges tidlig, ikke legges pa til slutt.
+## Hva jeg ville gjort annerledes
+- Definert avgrensning og sikkerhetsniva enda tydeligere helt i starten.
+- Laget en enkel sporbar testlogg tidligere i perioden.
+- Oppdatert dokumentasjon fortlopende etter hver arbeidsokt.
 
 ## Videre utvikling
+- Koble TicketStore tydeligere til UI-flyten.
 - Lage visning av registrerte saker i appen.
-- Flytte sensitiv lagring til tryggere metode.
-- Koble appen til backend for mer realistisk dataflyt.
-- Fortsette med tydelig dokumentasjon etter hver arbeidsokt.
+- Videreutvikle sikkerhetsniva i losningen.
