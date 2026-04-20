@@ -21,22 +21,33 @@ struct TicketsView: View {
     var body: some View {
         NavigationStack {
             List {
-                ForEach(Array(tickets.enumerated()), id: \.offset) { index, ticket in
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text("Sak \(index + 1)")
-                            .font(.headline)
-
-                        Text(ticket.descriptionText)
-                            .font(.body)
-
-                        Text(ticket.date.formatted(date: .abbreviated, time: .shortened))
+                if tickets.isEmpty {
+                    Text("Ingen saker registrert ennå.")
+                        .foregroundStyle(.secondary)
+                } else {
+                    ForEach(tickets) { ticket in
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(ticket.tittel)
+                                .font(.headline)
+                            Text(ticket.descriptionText)
+                                .font(.body)
+                                .lineLimit(2)
+                            HStack {
+                                Text(ticket.kategori)
+                                Text("·")
+                                Text(ticket.prioritet)
+                            }
                             .font(.caption)
                             .foregroundStyle(.secondary)
+                            Text(ticket.date.formatted(date: .abbreviated, time: .shortened))
+                                .font(.caption2)
+                                .foregroundStyle(.secondary)
+                        }
+                        .padding(.vertical, 6)
                     }
-                    .padding(.vertical, 6)
                 }
             }
-            .navigationTitle("Saker")
+            .navigationTitle("Mine saker")
         }
     }
 }

@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct NewTicketView: View {
+    @Environment(\.modelContext) private var modelContext
     @State private var tittel = ""
     @State private var beskrivelse = ""
     @State private var kategori = "Programvare"
@@ -106,6 +107,14 @@ struct NewTicketView: View {
                                 melding = "Du må skrive inn en beskrivelse."
                                 return
                             }
+
+                            let nyTicket = TicketEntity(
+                                tittel: tittel,
+                                descriptionText: beskrivelse,
+                                kategori: kategori,
+                                prioritet: prioritet
+                            )
+                            modelContext.insert(nyTicket)
 
                             melding = "Saken er sendt inn."
                             tittel = ""

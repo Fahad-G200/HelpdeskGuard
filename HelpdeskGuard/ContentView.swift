@@ -25,15 +25,21 @@ struct ContentView: View {
 
                     NewTicketView()
                         .tabItem {
-                            Label("Saker", systemImage: "ticket.fill")
+                            Label("Ny sak", systemImage: "ticket.fill")
                         }
                         .tag(1)
+
+                    TicketsView()
+                        .tabItem {
+                            Label("Mine saker", systemImage: "list.bullet.clipboard.fill")
+                        }
+                        .tag(2)
 
                     kontoView
                         .tabItem {
                             Label("Konto", systemImage: "person.crop.circle")
                         }
-                        .tag(2)
+                        .tag(3)
                 }
                 .tint(AppTheme.primary)
                 .toolbar {
@@ -132,7 +138,14 @@ struct ContentView: View {
                     valgtFane = 1
                     viserMeny = false
                 } label: {
-                    Label("Saker", systemImage: "ticket.fill")
+                    Label("Ny sak", systemImage: "ticket.fill")
+                }
+
+                Button {
+                    valgtFane = 2
+                    viserMeny = false
+                } label: {
+                    Label("Mine saker", systemImage: "list.bullet.clipboard.fill")
                 }
 
                 NavigationLink(destination: InfoView()) {
