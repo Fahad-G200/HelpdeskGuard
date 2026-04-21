@@ -10,6 +10,8 @@ Alle endringer loggføres fortløpende for å dokumentere utviklingen av prosjek
     •    Revidert Docs/REFLEKSJON.md med dypere begrunnelser for utfordringer, tekniske valg og læringsutbytte.
     •    Oppdatert Docs/RISIKOANALYSE.md med prosjektnær vurdering og direkte kobling til risiko i appen (klartekstpassord og lokal lagring uten backup).
     •    Justert Docs/KRAVSPESIFIKASJON.md og Docs/USER_GUIDE.md for samsvar med faktisk funksjonalitet i versjon 1.0.
+    •    Ryddet og harmonisert sikkerhets-/driftsdokumentasjon (SECURITY.md, DRIFT_SETUP.md, server-hardening.md) for bedre etterprovbarhet.
+    •    Lagt til Docs/KOMPETANSEMAPPE.md for tydelig kobling mellom kompetansemal, arbeid og bevis.
     •    Ingen endringer i Swift-kode, app-logikk eller backend i denne oppdateringen.
 
 2026-04-07
@@ -361,3 +363,29 @@ Under arbeidet møtte jeg flere tekniske utfordringer som bidro til økt forstå
 - Oppdaget viktigheten av riktig konfigurasjon i Xcode (ATS)
 
 Arbeidet viser utvikling innen drift, utvikling og brukerstøtte, spesielt gjennom feilsøking, dokumentasjon og implementering av sikkerhet.
+
+2026-04-20
+
+• Fullført oppsett av lokal backend for HelpdeskGuard på macOS med Node.js, Express og MySQL.
+• Opprettet og konfigurert backend-mappe med package.json, server.js og schema.sql.
+• Installert nødvendige npm-avhengigheter: express, mysql2 og bcrypt.
+• Tilpasset backend-konfigurasjon til lokalt utviklingsmiljø (macOS/Homebrew MySQL).
+• Løst tilkoblingsfeil mot MySQL ved å bruke host 127.0.0.1 i stedet for localhost.
+• Verifisert innlogging mot MySQL med lokal bruker.
+• Startet API-server på port 3000.
+• Testet og verifisert følgende API-endepunkter med curl:
+
+  - POST /registrer
+  - POST /logginn
+  - POST /saker
+  - GET /saker/:bruker_id
+  - PATCH /saker/:sak_id/lost
+  - DELETE /brukere/:bruker_id
+
+• Bekreftet at brukerregistrering fungerer med bcrypt-hashing av passord.
+• Bekreftet at innlogging fungerer korrekt.
+• Bekreftet opprettelse og henting av saker fra database.
+• Bekreftet markering av sak som løst.
+• Bekreftet sletting av bruker og tilhørende saker via relasjon i databasen.
+• Dokumentert MySQL-bruk, nettverkstilkobling og driftstøtte-relevante sikkerhetstiltak.
+• KI brukt som støtte til feilsøking, forklaring og dokumentasjon. Alle steg er gjennomført og forstått av utvikler.

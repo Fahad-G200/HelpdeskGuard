@@ -5,9 +5,9 @@ Prosjektperiode: Mars-April 2026
 ---
 
 ## Introduksjon
-HelpdeskGuard er et tverrfaglig skoleprosjekt i VG2 IT (Drift, Brukerstotte og Utvikling). Prosjektet viser hvordan en enkel helpdesk-app kan bygges i SwiftUI, samtidig som arbeid med dokumentasjon, risiko og refleksjon blir en del av leveransen.
+HelpdeskGuard er et tverrfaglig skoleprosjekt i VG2 IT (Drift, Brukerstotte og Utvikling). Prosjektet viser en fungerende helpdesk-prototype i iOS, kombinert med dokumentasjon av plan, risiko, drift og refleksjon.
 
-I versjon 1.0 kan brukeren registrere konto, logge inn, opprette sak og navigere mellom hovedsidene i appen.
+I v1.0 kan bruker registrere konto, logge inn, opprette sak og navigere mellom hovedsider i appen.
 
 ---
 
@@ -17,56 +17,61 @@ I versjon 1.0 kan brukeren registrere konto, logge inn, opprette sak og navigere
 3. Trykk Run.
 4. Registrer bruker, logg inn og opprett en ny sak.
 
-Merk: Data lagres lokalt i appen (prototype), ikke i ekstern database.
+Merk: Data lagres lokalt i appen i denne versjonen.
+
+---
+
+## Hva appen gjor i dag (v1.0)
+- Registrering av bruker
+- Innlogging og utlogging
+- Opprettelse av sak (skjema med validering)
+- Konto-side med sletting av bruker
+- Informasjonsside om personvern/regler
+
+---
+
+## Status pa funksjoner
+| Funksjon | Status |
+|---|---|
+| Registrering | Ferdig |
+| Innlogging/utlogging | Ferdig |
+| Opprette sak | Ferdig |
+| Vise saksliste | Planlagt |
+| Markere sak som lost | Planlagt |
+| Backend-integrasjon i app | Planlagt |
 
 ---
 
 ## Valg av teknologi
-- SwiftUI: valgt for rask utvikling av iOS-grensesnitt og tydelig struktur med egne views.
-- UserDefaults: valgt for enkel lokal lagring i prototypefasen.
-- Docker: brukt i serverarbeid for isolert og repeterbart miljo.
-- Ubuntu Server: brukt i drift-del for oppsett, sikkerhetstiltak og overvaking.
+- SwiftUI: rask utvikling av iOS-grensesnitt med tydelig struktur i egne views.
+- UserDefaults: enkel lokal lagring i prototypefasen.
+- Git/GitHub: versjonskontroll, sporbarhet og samarbeid.
+- Ubuntu Server: driftstrening med serveroppsett og sikkerhetstiltak.
+- Docker: isolert kjoremiljo for tjenester i drift/test.
+- Uptime Kuma: overvaking av tjenester og tilgjengelighet.
 
-Begrunnelse: Valgene passer et skoleprosjekt der maalet er a vise helhetlig kompetanse, ikke ferdig produksjonssystem.
+Begrunnelse: Teknologiene er valgt for a dekke kompetanse i alle tre fag, med realistisk avgrensning for v1.0.
 
 ---
 
 ## Prosjektstruktur
-- `HelpdeskGuard/` - appkode og prosjektfiler
-- `HelpdeskGuard/Docs/` - plan, krav, refleksjon, risiko og veiledning
+- `HelpdeskGuard/` - appfiler og dokumentasjon
+- `HelpdeskGuard/Docs/` - plan, krav, risiko, refleksjon og veiledning
 - `Products/` - bygde artefakter
 
 Sentrale appfiler:
 - `ContentView.swift` - hovednavigasjon
-- `LoginView.swift` og `RegisterView.swift` - autentisering i UI
+- `LoginView.swift` / `RegisterView.swift` - brukerflyt
 - `NewTicketView.swift` - opprettelse av sak
 - `AuthStore.swift` - enkel autentiseringslogikk
-- `TicketStore.swift` - struktur for sakslagring
+- `TicketStore.swift` - datamodell for saker (ikke fullt koblet til UI)
 
 ---
 
-## Status pa funksjoner (v1.0)
-| Funksjon | Status |
-|--------|--------|
-| Registrering | Ferdig |
-| Innlogging | Ferdig |
-| Opprette sak | Ferdig |
-| Vise liste over saker | Planlagt |
-| Backend/API | Planlagt |
-
----
-
-## Sikkerhet og personvern
-I versjon 1.0 lagres passord i klartekst i UserDefaults. Dette er ikke sikkert, men er et bevisst prototypevalg.
-
-Plan videre:
-- hashing av passord
-- lagring av sensitiv informasjon i Keychain
-- backend-autentisering med bedre tilgangskontroll
-
-Personvern:
-- data lagres lokalt i appen
-- ingen deling med ekstern skytjeneste i v1.0
+## Sikkerhetsbegrensninger i v1.0
+- Lagring er lokal og enkel (prototype).
+- Sikkerhetsnivaaet er ikke produksjonsklart.
+- Videre arbeid: sterkere lagring av sensitiv data og bedre autentisering.
 
 ---
 
@@ -81,10 +86,11 @@ Personvern:
 - [RISIKOANALYSE.md](Docs/RISIKOANALYSE.md)
 - [UML_DIAGRAM.md](Docs/UML_DIAGRAM.md)
 - [INFRASTRUCTURE_DIAGRAM.md](Docs/INFRASTRUCTURE_DIAGRAM.md)
+- [KOMPETANSEMAPPE.md](Docs/KOMPETANSEMAPPE.md)
 
 ---
 
 ## Plan vs resultat (kort)
-Planen var a lage en enkel helpdesk-prototype med brukerflyt for registrering, innlogging og saksopprettelse. Dette er gjennomfort i v1.0.
+Planen var a levere en fungerende helpdesk-prototype med brukerflyt og saksopprettelse. Dette er levert i v1.0.
 
-Det som fortsatt er planlagt er saksliste, sterkere sikkerhet og backend-integrasjon.
+Det som gjenstar er hovedsakelig saksliste i appen, sterkere sikkerhetsimplementasjon og videre backend-arbeid.

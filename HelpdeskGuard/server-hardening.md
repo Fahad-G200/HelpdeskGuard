@@ -1,36 +1,34 @@
 # Server Hardening – HelpdeskGuard
 
-## Mål
-Sikre Ubuntu Server 22.04 etter installasjon slik at backend for HelpdeskGuard kan kjøres på en tryggere måte.
+## Mal
+Redusere angrepsflate i driftmiljoet som brukes i prosjektet.
 
-## Utført arbeid
+## Tiltak som er gjennomfort
+1. UFW firewall
+- Innkommende trafikk blokkeres som standard
+- Kun nodvendige porter tillates (OpenSSH)
 
-### 1. UFW Firewall
-Jeg konfigurerte UFW for å beskytte serveren mot uønsket innkommende trafikk.
+2. SSH-herding
+- Root-login via SSH deaktivert
+- Konfigurasjon validert etter endring
 
-Kommandoer:
+3. Fail2Ban
+- Beskytter SSH mot gjentatte feilede innloggingsforsok
+- Aktiv overvaking av sshd-jail
+
+## Kontrollpunkter
+Eksempler pa verifisering:
 ```bash
-sudo ufw allow OpenSSH
-sudo ufw default deny incoming
-sudo ufw default allow outgoing
-sudo ufw enable
 sudo ufw status verbose
+sudo systemctl status ssh
+sudo fail2ban-client status
+sudo fail2ban-client status sshd
+```
 
-## Sikkerhet i HelpdeskGuard
+## Avgrensning
+Dette dokumentet beskriver driftmiljo og sikkerhetstiltak rundt server.
+Det betyr ikke at alle sikkerhetstiltak er implementert i selve iOS-appen i v1.0.
 
-Jeg har foreløpig sikret infrastrukturen og backend-miljøet, men app-sikkerheten er ikke ferdig implementert ennå.
-
-### Utført
-- UFW firewall
-- Fail2Ban
-- SSH-sikring
-- lokal FastAPI-backend for utvikling
-
-### Mangler fortsatt
-- innlogging i API
-- autentisering med Bearer-token / JWT
-- sikker lagring av token i iOS-appen
-- HTTPS for produksjon
-
-### Vurdering
-Prosjektet har startet på driftssikkerhet, men neste fase er å koble sikkerheten til selve appen gjennom autentisering og sikker klientkommunikasjon.
+## Neste steg
+- Strammere tilgangsstyring i videre driftfase
+- Bedre dokumentasjon av rutiner for hendelseshaandtering

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct NewTicketView: View {
-    @Environment(\.modelContext) private var modelContext
+
     @State private var tittel = ""
     @State private var beskrivelse = ""
     @State private var kategori = "Programvare"
@@ -108,6 +108,7 @@ struct NewTicketView: View {
                                 return
                             }
 
+
                             let nyTicket = TicketEntity(
                                 tittel: tittel,
                                 descriptionText: beskrivelse,
@@ -115,6 +116,9 @@ struct NewTicketView: View {
                                 prioritet: prioritet
                             )
                             modelContext.insert(nyTicket)
+
+                            let samletBeskrivelse = "\(tittel) | \(kategori) | \(prioritet)\n\(beskrivelse)"
+                            ticketStore.addTicket(description: samletBeskrivelse
 
                             melding = "Saken er sendt inn."
                             tittel = ""
@@ -124,6 +128,31 @@ struct NewTicketView: View {
                         }
                         .buttonStyle(StorKnapp(bakgrunnsfarge: AppTheme.primary))
                         .accessibilityHint("Sender inn en ny sak")
+
+                        if !ticketStore.tickets.isEmpty {
+                            Text("Registrerte saker")
+                                .font(.headline)
+                                .foregroundColor(AppTheme.textPrimary)
+
+                            ForEach(ticketStore.tickets) { ticket in
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text(ticket.description)
+                                        .font(.body)
+                                        .foregroundColor(AppTheme.textPrimary)
+
+                                    Text(ticket.date.formatted(date: .abbreviated, time: .shortened))
+                                        .font(.caption)
+                                        .foregroundColor(AppTheme.textSecondary)
+                                }
+                                .padding()
+                                .background(Color.white)
+                                .cornerRadius(AppTheme.cornerRadius)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: AppTheme.cornerRadius)
+                                        .stroke(Color.gray.opacity(0.2), lineWidth: 1)
+                                )
+                            }
+                        }
                     }
 
                     AppFooter()
