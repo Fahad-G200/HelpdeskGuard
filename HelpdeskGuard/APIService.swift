@@ -2,15 +2,17 @@
 //  APIService.swift
 //  HelpdeskGuard
 //
-//  Håndterer alle HTTP-forespørsler mot backend-APIet (Node.js + MySQL).
-//  Saker og brukere lagres i MySQL-databasen via REST-endepunktene.
+//  Håndterer alle HTTP-forespørsler mot backend-APIet.
+//  Saker og brukere lagres på serveren via REST-endepunktene.
 //
-//  Dataflyt:  SwiftUI  →  APIService  →  Node.js (server.js)  →  MySQL
+//  Dataflyt:  SwiftUI  →  APIService  →  Node.js (server.js)  →  Database
+//
+//  Laget av Fahad – all kommunikasjon mellom appen og serveren går gjennom denne filen.
 //
 
 import Foundation
 
-// Representerer en sak hentet fra MySQL-databasen via API
+// Representerer en sak hentet fra serveren via API
 struct Sak: Identifiable, Decodable {
     let id: Int
     let bruker_id: Int

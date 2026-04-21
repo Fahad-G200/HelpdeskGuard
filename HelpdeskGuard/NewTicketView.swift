@@ -3,7 +3,9 @@
 //  HelpdeskGuard
 //
 //  Skjema for å opprette en ny sak.
-//  Saken sendes til backend (Node.js) og lagres i MySQL via APIService.
+//  Saken sendes til backend via APIService.
+//
+//  Laget av Fahad – dette er skjemaet brukeren fyller ut når noe ikke virker. Enkelt og oversiktlig.
 //
 
 import SwiftUI
@@ -31,7 +33,7 @@ struct NewTicketView: View {
                             .foregroundColor(AppTheme.primary)
                             .accessibilityAddTraits(.isHeader)
 
-                        Text("Fyll ut skjemaet under for å registrere en ny sak i MySQL-databasen.")
+                        Text("Fyll ut skjemaet under for å registrere en ny sak.")
                             .font(.body)
                             .foregroundColor(AppTheme.textPrimary)
                     }
@@ -110,7 +112,7 @@ struct NewTicketView: View {
                         }
                         .buttonStyle(StorKnapp(bakgrunnsfarge: AppTheme.primary))
                         .disabled(sender)
-                        .accessibilityHint("Sender saken til MySQL via backend")
+                        .accessibilityHint("Sender inn saken")
                     }
 
                     AppFooter()
@@ -124,7 +126,7 @@ struct NewTicketView: View {
         .dynamicTypeSize(.xSmall ... .accessibility5)
     }
 
-    // Validerer skjemaet og sender saken til backend/MySQL
+    // Validerer skjemaet og sender saken til backend
     private func sendInnSak() {
         let renTittel = tittel.trimmingCharacters(in: .whitespacesAndNewlines)
         let renBeskrivelse = beskrivelse.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -149,7 +151,7 @@ struct NewTicketView: View {
                     kategori: kategori,
                     prioritet: prioritet
                 )
-                melding = "Saken er sendt inn og lagret i MySQL ✓"
+                melding = "Saken er sendt inn ✓"
                 tittel = ""
                 beskrivelse = ""
                 kategori = "Programvare"
