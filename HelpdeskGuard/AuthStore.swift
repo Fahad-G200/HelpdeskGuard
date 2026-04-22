@@ -2,7 +2,8 @@
 //  AuthStore.swift
 //  HelpdeskGuard
 //
-//  Created by Fahad Adnan Ashraf on 05/03/2026.
+//  Håndterer innlogging, registrering og JWT-token.
+//  Prøver backend først – faller tilbake til lokal lagring hvis serveren er nede.
 //
 
 import Foundation
@@ -12,65 +13,96 @@ final class AuthStore: ObservableObject {
 
     @Published var isLoggedIn: Bool = false
     @Published var currentEmail: String? = nil
+    @Published var jwtToken: String? = nil   // JWT fra backend
 
-    private let usersKey = "helpdeskguard_users"
     private let currentEmailKey = "helpdeskguard_currentEmail"
+    private let jwtTokenKey     = "helpdeskguard_jwtToken"
+    private let usersKey        = "helpdeskguard_users"   // Lokal fallback
 
     init() {
-        if let savedEmail = UserDefaults.standard.string(forKey: currentEmailKey) {
-            self.currentEmail = savedEmail
+        // Gjenopprett innloggingstilstand fra forrige sesjon
+        if let epost = UserDefaults.standard.string(forKey: currentEmailKey) {
+            self.currentEmail = epost
             self.isLoggedIn = true
+            self.jwtToken = UserDefaults.standard.string(forKey: jwtTokenKey)
         }
     }
 
-    private func loadUsers() -> [String: String] {
+    // ─────────────────────────────────────────────
+    // REGISTRERING – prøver backend, faller tilbake til lokal
+    // Returnerer true hvis vellykket
+    // ─────────────────────────────────────────────
+    func register(epost: String, passord: String) async -> Bool {
+        let cleanEpost = epost.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+
+        // Prøv backend
+        let ok = await apiRegistrer(epost: cleanEpost, passord: passord)
+        if ok { return true }
+
+        // Fallback: lokal lagring (fungerer uten server)
+        var brukere = localLoadUsers()
+        if brukere[cleanEpost] != nil { return false }
+        brukere[cleanEpost] = passord
+        localSaveUsers(brukere)
+        return true
+    }
+
+    // ─────────────────────────────────────────────
+    // INNLOGGING – prøver backend, faller tilbake til lokal
+    // Returnerer true hvis vellykket
+    // ─────────────────────────────────────────────
+    func login(epost: String, passord: String) async -> Bool {
+        let cleanEpost = epost.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+
+        // Prøv backend – hent JWT-token
+        if let token = await apiLogginn(epost: cleanEpost, passord: passord) {
+            jwtToken = token
+            currentEmail = cleanEpost
+            isLoggedIn = true
+            UserDefaults.standard.set(cleanEpost, forKey: currentEmailKey)
+            UserDefaults.standard.set(token, forKey: jwtTokenKey)
+            return true
+        }
+
+        // Fallback: lokal innlogging (fungerer uten server)
+        let brukere = localLoadUsers()
+        guard let lagretPassord = brukere[cleanEpost], lagretPassord == passord else {
+            return false
+        }
+        currentEmail = cleanEpost
+        isLoggedIn = true
+        UserDefaults.standard.set(cleanEpost, forKey: currentEmailKey)
+        return true
+    }
+
+    // ─────────────────────────────────────────────
+    // UTLOGGING
+    // ─────────────────────────────────────────────
+    func logout() {
+        currentEmail = nil
+        jwtToken = nil
+        isLoggedIn = false
+        UserDefaults.standard.removeObject(forKey: currentEmailKey)
+        UserDefaults.standard.removeObject(forKey: jwtTokenKey)
+    }
+
+    // ─────────────────────────────────────────────
+    // SLETT BRUKER (lokal fallback)
+    // ─────────────────────────────────────────────
+    func deleteCurrentUser() {
+        guard let epost = currentEmail else { return }
+        var brukere = localLoadUsers()
+        brukere.removeValue(forKey: epost)
+        localSaveUsers(brukere)
+        logout()
+    }
+
+    // ─── Hjelpemetoder for lokal lagring ───────────
+    private func localLoadUsers() -> [String: String] {
         UserDefaults.standard.dictionary(forKey: usersKey) as? [String: String] ?? [:]
     }
 
-    private func saveUsers(_ users: [String: String]) {
-        UserDefaults.standard.set(users, forKey: usersKey)
-    }
-
-    func register(email: String, password: String) -> Bool {
-        let cleanEmail = email.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
-        var users = loadUsers()
-
-        if users[cleanEmail] != nil {
-            return false
-        }
-
-        users[cleanEmail] = password
-        saveUsers(users)
-        return true
-    }
-
-    func login(email: String, password: String) -> Bool {
-        let cleanEmail = email.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
-        let users = loadUsers()
-
-        guard let storedPassword = users[cleanEmail], storedPassword == password else {
-            return false
-        }
-
-        currentEmail = cleanEmail
-        isLoggedIn = true
-        UserDefaults.standard.set(cleanEmail, forKey: currentEmailKey)
-        return true
-    }
-
-    func logout() {
-        currentEmail = nil
-        isLoggedIn = false
-        UserDefaults.standard.removeObject(forKey: currentEmailKey)
-    }
-
-    func deleteCurrentUser() {
-        guard let email = currentEmail else { return }
-
-        var users = loadUsers()
-        users.removeValue(forKey: email)
-        saveUsers(users)
-
-        logout()
+    private func localSaveUsers(_ brukere: [String: String]) {
+        UserDefaults.standard.set(brukere, forKey: usersKey)
     }
 }

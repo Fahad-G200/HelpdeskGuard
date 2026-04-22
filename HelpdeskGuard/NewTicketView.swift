@@ -2,13 +2,14 @@
 //  NewTicketView.swift
 //  HelpdeskGuard
 //
-//  Created by Fahad Adnan Ashraf on 02/03/2026.
+//  Oppdatert for backend-integrasjon via API.swift og TicketStore.
 //
 
 import SwiftUI
 
 struct NewTicketView: View {
     @EnvironmentObject var ticketStore: TicketStore
+    @EnvironmentObject var authStore: AuthStore
 
     @State private var tittel = ""
     @State private var beskrivelse = ""
@@ -72,8 +73,8 @@ struct NewTicketView: View {
                             .foregroundColor(AppTheme.textPrimary)
 
                         Picker("Velg kategori", selection: $kategori) {
-                            ForEach(kategorier, id: \.self) { kategori in
-                                Text(kategori)
+                            ForEach(kategorier, id: \.self) { k in
+                                Text(k)
                             }
                         }
                         .pickerStyle(.menu)
@@ -84,8 +85,8 @@ struct NewTicketView: View {
                             .foregroundColor(AppTheme.textPrimary)
 
                         Picker("Velg prioritet", selection: $prioritet) {
-                            ForEach(prioriteter, id: \.self) { prioritet in
-                                Text(prioritet)
+                            ForEach(prioriteter, id: \.self) { p in
+                                Text(p)
                             }
                         }
                         .pickerStyle(.segmented)
@@ -109,31 +110,51 @@ struct NewTicketView: View {
                                 return
                             }
 
-                            let samletBeskrivelse = "\(tittel) | \(kategori) | \(prioritet)\n\(beskrivelse)"
-                            ticketStore.addTicket(description: samletBeskrivelse)
+                            // Task lar oss kalle async-funksjoner fra en knapp
+                            Task {
+                                // Hent token fra AuthStore (kan være nil hvis lokal modus)
+                                let token = authStore.jwtToken ?? ""
+                                let ok = await ticketStore.addTicket(
+                                    token: token,
+                                    tittel: tittel,
+                                    beskrivelse: beskrivelse,
+                                    kategori: kategori,
+                                    prioritet: prioritet
+                                )
 
-                            melding = "Saken er sendt inn."
-                            tittel = ""
-                            beskrivelse = ""
-                            kategori = "Programvare"
-                            prioritet = "Vanlig"
+                                if ok {
+                                    melding = "Saken er sendt inn."
+                                    tittel = ""
+                                    beskrivelse = ""
+                                    kategori = "Programvare"
+                                    prioritet = "Vanlig"
+                                } else {
+                                    melding = "Feil: kunne ikke sende sak. Sjekk at serveren kjører."
+                                }
+                            }
                         }
                         .buttonStyle(StorKnapp(bakgrunnsfarge: AppTheme.primary))
                         .accessibilityHint("Sender inn en ny sak")
 
+                        // Vis saker fra backend
                         if !ticketStore.tickets.isEmpty {
                             Text("Registrerte saker")
                                 .font(.headline)
                                 .foregroundColor(AppTheme.textPrimary)
 
-                            ForEach(ticketStore.tickets) { ticket in
+                            ForEach(ticketStore.tickets) { sak in
                                 VStack(alignment: .leading, spacing: 4) {
-                                    Text(ticket.description)
+                                    Text(sak.tittel)
                                         .font(.body)
+                                        .fontWeight(.semibold)
                                         .foregroundColor(AppTheme.textPrimary)
 
-                                    Text(ticket.date.formatted(date: .abbreviated, time: .shortened))
+                                    Text("\(sak.kategori) · \(sak.prioritet) · \(sak.status)")
                                         .font(.caption)
+                                        .foregroundColor(AppTheme.textSecondary)
+
+                                    Text(sak.opprettet)
+                                        .font(.caption2)
                                         .foregroundColor(AppTheme.textSecondary)
                                 }
                                 .padding()
@@ -154,6 +175,12 @@ struct NewTicketView: View {
             .background(AppTheme.background.ignoresSafeArea())
             .navigationTitle("Ny sak")
             .navigationBarTitleDisplayMode(.inline)
+            // Last inn saker fra backend når siden åpnes
+            .task {
+                if let token = authStore.jwtToken {
+                    await ticketStore.lastSaker(token: token)
+                }
+            }
         }
         .dynamicTypeSize(.xSmall ... .accessibility5)
     }

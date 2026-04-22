@@ -3,16 +3,30 @@ Endringslogg
 Alle endringer loggføres fortløpende for å dokumentere utviklingen av prosjektet. Datoer er i formatet ÅÅÅÅ-MM-DD.
 
 
-2026-04-22
-    •    Opprettet backend/-mappe i prosjektroten med fullstendig Node.js + Express + MySQL backend.
-    •    Lagt til backend/server.js med alle API-endepunkter (registrer, logginn, saker, løst, slett bruker).
-    •    Lagt til backend/schema.sql med CREATE DATABASE helpdeskguard og tabellene brukere og saker.
-    •    Lagt til backend/package.json med avhengigheter: express, mysql2, bcrypt, dotenv.
-    •    Lagt til backend/.env.example – databaseopplysninger lagres nå i .env og committes ikke til Git.
-    •    Lagt til backend/.gitignore som ekskluderer node_modules/ og .env.
-    •    Lagt til backend/README.md med oppsettsinstruksjoner og curl-eksempler for alle endepunkter.
-    •    Fjernet hardkodet databasepassord – all konfigurasjon leses fra miljøvariabler via dotenv.
-    •    KI brukt som støtte til strukturering og dokumentasjon. Alt er gjennomgått og forstått av utvikler.
+2026-04-22 (v1.1 – Backend-integrasjon og komplett dokumentasjon)
+
+Swift-kode:
+    •    Opprettet API.swift med enkle async/await URLSession-funksjoner for alle backend-endepunkter.
+    •    Oppdatert Ticket.swift: ny struktur med Codable som matcher MySQL-skjemaet (id, tittel, beskrivelse, kategori, prioritet, status, opprettet).
+    •    Oppdatert AuthStore.swift: lagt til JWT-token-lagring, async register() og login() som prøver backend først og faller tilbake til lokal lagring.
+    •    Oppdatert TicketStore.swift: async lastSaker(token:) og addTicket(token:tittel:...) kaller API.
+    •    Oppdatert LoginView.swift: knapp bruker Task {} for async innlogging.
+    •    Oppdatert RegisterView.swift: knapp bruker Task {} for async registrering.
+    •    Oppdatert NewTicketView.swift: async innsending via backend, viser saker med tittel/kategori/status fra MySQL. Henter saker automatisk ved åpning (.task-modifier).
+
+Dokumentasjon:
+    •    Oppdatert INFRASTRUCTURE_DIAGRAM.md: korrekt teknologistack (Node.js, MySQL), ASCII-art diagram, nettverkssegmentering (DMZ/intern sone/klient-sone).
+    •    Oppdatert INFRASTRUCTURE_DIAGRAM_PLACEHOLDER.md: erstattet plassholder med fullstendig ASCII-diagram.
+    •    Oppdatert UML_DIAGRAM.md: ASCII-klassediagram og sekvensdiagrammer (innlogging og opprett sak) som matcher koden.
+    •    Oppdatert AI.md: ny seksjon om AI sin påvirkning på helpdesk og samfunn (automatisering, personvern, arbeidsmarked, tilgjengelighet).
+    •    Oppdatert SECURITY.md: oppdatert for JWT-backend, bcrypt, rate limiting og GDPR-kobling.
+    •    Oppdatert USER_GUIDE.md: ny veiledning for backend-integrasjon og feilsøking.
+    •    Oppdatert DRIFT_SETUP.md: ny seksjon om nettverkssegmentering (soner, UFW-regler, VLAN-konsept).
+    •    Opprettet GDPR.md: lovgrunnlag, brukerrettigheter (art. 15–22), datasikkerhetstiltak.
+    •    Opprettet ITIL_QUALITY.md: ITIL 4-prinsipper, tjenestelivssyklus, incident management, KPI-er.
+    •    Opprettet TEST_RAPPORT.md: strukturert testdokumentasjon med enhetstester, integrasjonstester, E2E-tester og sikkerhetstester.
+    •    Opprettet LANGUAGE_COMPARISON.md: sammenligning av Swift vs. alternativer, Node.js vs. alternativer, MySQL vs. alternativer, samt async/await vs. callbacks.
+    •    KI brukt som støtte. Alt gjennomgått og forstått av utvikler.
 
 
 2026-04-10

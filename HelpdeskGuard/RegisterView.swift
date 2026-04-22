@@ -119,15 +119,17 @@ struct RegisterView: View {
                                 return
                             }
 
-                            let ok = authStore.register(email: email, password: password)
-
-                            if ok {
-                                melding = "Bruker opprettet ferdig. Du kan nå logge inn."
-                                email = ""
-                                password = ""
-                                bekreftPassord = ""
-                            } else {
-                                melding = "Denne e-posten finnes allerede."
+                            // Task lar oss kalle async-funksjoner fra en knapp
+                            Task {
+                                let ok = await authStore.register(epost: email, passord: password)
+                                if ok {
+                                    melding = "Bruker opprettet ferdig. Du kan nå logge inn."
+                                    email = ""
+                                    password = ""
+                                    bekreftPassord = ""
+                                } else {
+                                    melding = "Denne e-posten finnes allerede."
+                                }
                             }
                         }
                         .buttonStyle(StorKnapp(bakgrunnsfarge: AppTheme.primary))

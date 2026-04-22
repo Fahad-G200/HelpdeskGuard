@@ -2,16 +2,21 @@
 //  Ticket.swift
 //  HelpdeskGuard
 //
-//  Created by Fahad Adnan Ashraf on 03/03/2026.
+//  Oppdatert for å matche backend-responsen fra Node.js/MySQL.
 //
 
 import Foundation
 
-struct Ticket: Identifiable {
-    let id = UUID()
-    var description: String
-    var date: Date
-    var isResolved: Bool
+// Ticket-strukturen matcher feltene i 'saker'-tabellen i databasen.
+// Codable gjør at Swift automatisk kan lese JSON fra backend.
+struct Ticket: Identifiable, Codable {
+    let id: Int              // Auto-increment ID fra MySQL
+    var tittel: String       // Tittelen på saken
+    var beskrivelse: String  // Beskrivelse av problemet
+    var kategori: String     // F.eks. "Programvare", "Maskinvare"
+    var prioritet: String    // F.eks. "Lav", "Normal", "Høy"
+    var status: String       // "Åpen" eller "Løst"
+    var opprettet: String    // Tidsstempel fra MySQL (som tekst)
 }
 
 

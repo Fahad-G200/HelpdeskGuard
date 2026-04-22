@@ -86,12 +86,14 @@ struct LoginView: View {
                         }
 
                         Button("Logg inn") {
-                            let ok = authStore.login(email: email, password: password)
-
-                            if ok {
-                                feilmelding = ""
-                            } else {
-                                feilmelding = "Feil e-post eller passord. Prøv igjen."
+                            // Task lar oss kalle async-funksjoner fra en knapp
+                            Task {
+                                let ok = await authStore.login(epost: email, passord: password)
+                                if ok {
+                                    feilmelding = ""
+                                } else {
+                                    feilmelding = "Feil e-post eller passord. Prøv igjen."
+                                }
                             }
                         }
                         .buttonStyle(StorKnapp(bakgrunnsfarge: AppTheme.primary))
