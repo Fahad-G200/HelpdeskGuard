@@ -37,7 +37,6 @@ class TicketStore: ObservableObject {
         lastErrorMessage = nil
         tickets.append(newTicket)
         if saveTickets() {
-            lastErrorMessage = nil
             return true
         }
 
@@ -64,7 +63,6 @@ class TicketStore: ObservableObject {
         do {
             let encoded = try JSONEncoder().encode(tickets)
             UserDefaults.standard.set(encoded, forKey: ticketsKey)
-            lastErrorMessage = nil
             return true
         } catch {
             let message = "Kunne ikke lagre saker: \(error.localizedDescription)"
