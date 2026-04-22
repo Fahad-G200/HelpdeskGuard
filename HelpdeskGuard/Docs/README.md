@@ -36,8 +36,8 @@ Merk: Data lagres lokalt i appen i denne versjonen.
 | Registrering | Ferdig |
 | Innlogging/utlogging | Ferdig |
 | Opprette sak | Ferdig |
-| Vise saksliste | Planlagt |
-| Markere sak som lost | Planlagt |
+| Vise saksliste | Ferdig |
+| Markere sak som lost | Ferdig |
 | Backend-integrasjon i app | Planlagt |
 
 ---
@@ -93,4 +93,4 @@ Sentrale appfiler:
 ## Plan vs resultat (kort)
 Planen var a levere en fungerende helpdesk-prototype med brukerflyt og saksopprettelse. Dette er levert i v1.0.
 
-Det som gjenstar er hovedsakelig saksliste i appen, sterkere sikkerhetsimplementasjon og videre backend-arbeid.
+Det som gjenstar er hovedsakelig sterkere sikkerhetsimplementasjon og videre backend-arbeid.

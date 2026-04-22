@@ -23,7 +23,7 @@ struct ContentView: View {
                         }
                         .tag(0)
 
-                    NewTicketView()
+                    TicketsView()
                         .tabItem {
                             Label("Saker", systemImage: "ticket.fill")
                         }
@@ -152,4 +152,3 @@ struct ContentView: View {
         }
     }
 }
-

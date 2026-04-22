@@ -29,12 +29,12 @@ Prosjektperiode: Mars 2026
 
 ## Under utvikling
 
-( ) Koble TicketStore til brukergrensesnitt  
-( ) Vise liste over registrerte saker i appen  
-( ) Lage egen visning for saker (TicketsView)  
-( ) Lage detaljvisning for en sak  
-( ) Kunne markere sak som løst  
-( ) Forbedre struktur for lagring av saker  
+(x) Koble TicketStore til brukergrensesnitt  
+(x) Vise liste over registrerte saker i appen  
+(x) Lage egen visning for saker (TicketsView)  
+(x) Lage detaljvisning for en sak  
+(x) Kunne markere sak som løst  
+(x) Forbedre struktur for lagring av saker  
 
 ---
 
@@ -86,6 +86,5 @@ Applikasjonen har:
 - informasjon om personvern og regler
 
 Videre arbeid vil fokusere på:
-- lagring og visning av saker
 - backend og sikkerhet
 - utvidet funksjonalitet og forbedret brukeropplevelse

@@ -10,7 +10,7 @@ Appen skal gjore det enkelt a registrere IT-support saker i en skoleprototype.
 - Logge ut
 - Opprette sak med tittel, beskrivelse, kategori og prioritet
 
-### Bor-krav (planlagt)
+### Bor-krav (ferdig)
 - Vise liste over registrerte saker
 - Markere sak som lost
 
