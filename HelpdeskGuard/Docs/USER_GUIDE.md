@@ -19,7 +19,7 @@
 |---|---|---|
 | Faar ikke logget inn | Feil e-post/passord | Kontroller inndata og prov igjen |
 | Registrering feiler | E-post finnes allerede | Bruk annen e-post eller logg inn |
-| Saken vises ikke i liste | Saksliste er ikke ferdig i v1.0 | Funksjonen er planlagt |
+| Saken vises ikke i liste | Saken ble ikke lagret riktig | Opprett saken pa nytt og kontroller at tittel/beskrivelse er fylt ut |
 
 ## Personvern
 Data lagres lokalt i appen i denne prototypen.

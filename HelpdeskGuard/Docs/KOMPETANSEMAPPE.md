@@ -28,6 +28,6 @@ Dette dokumentet viser sammenheng mellom kompetansemal, faktisk arbeid og dokume
 
 ## Vurdering av v1.0
 
-Prosjektet viser fungerende konsept og dokumentert arbeid i alle tre fagomrader. Samtidig er enkelte deler fortsatt planlagt (saksliste, sterkere sikkerhet, backend-integrasjon i appen).
+Prosjektet viser fungerende konsept og dokumentert arbeid i alle tre fagomrader. Samtidig er enkelte deler fortsatt planlagt (sterkere sikkerhet og backend-integrasjon i appen).
 
 Dette er derfor en realistisk prototype med tydelig vekstgrunnlag mot neste periode.
