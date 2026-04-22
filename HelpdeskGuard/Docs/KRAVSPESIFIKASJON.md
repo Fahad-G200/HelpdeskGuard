@@ -12,7 +12,7 @@ Appen skal gjore det enkelt a registrere IT-support saker i en skoleprototype.
 
 ### Bor-krav (ferdig)
 - Vise liste over registrerte saker
-- Markere sak som lost
+- Markere sak som løst
 
 ### Kan-krav (senere)
 - Utvidede admin-funksjoner
