@@ -1,39 +1,86 @@
-# UML Klassediagram – HelpdeskGuard
+# UML-diagram – HelpdeskGuard
 
-```mermaid
-classDiagram
-    class AuthStore {
-        +String currentUserEmail
-        +Bool isLoggedIn
-        +register(email, password)
-        +login(email, password)
-        +logout()
-        +deleteUser()
-    }
+## Klassediagram (ASCII)
 
-    class TicketStore {
-        +[Ticket] tickets
-        +addTicket(ticket)
-        +resolveTicket(id)
-    }
+```
+┌──────────────────────────────────────┐
+│              AuthStore               │
+│──────────────────────────────────────│
+│ + isLoggedIn: Bool                   │
+│ + currentEmail: String?              │
+│ + jwtToken: String?                  │
+│──────────────────────────────────────│
+│ + register(epost, passord) async     │
+│ + login(epost, passord) async        │
+│ + logout()                           │
+│ + deleteCurrentUser()                │
+│ - localLoadUsers()                   │
+│ - localSaveUsers()                   │
+└──────────────┬───────────────────────┘
+               │ bruker token
+               ▼
+┌──────────────────────────────────────┐
+│              TicketStore             │
+│──────────────────────────────────────│
+│ + tickets: [Ticket]                  │
+│ + laster: Bool                       │
+│──────────────────────────────────────│
+│ + lastSaker(token) async             │
+│ + addTicket(token, tittel, ...) async│
+└──────────────┬───────────────────────┘
+               │ inneholder
+               ▼
+┌──────────────────────────────────────┐
+│               Ticket                 │
+│──────────────────────────────────────│
+│ + id: Int                            │
+│ + tittel: String                     │
+│ + beskrivelse: String                │
+│ + kategori: String                   │
+│ + prioritet: String                  │
+│ + status: String                     │
+│ + opprettet: String                  │
+└──────────────────────────────────────┘
 
-    class Ticket {
-        +UUID id
-        +String title
-        +String description
-        +String category
-        +String priority
-        +Date date
-        +Bool isResolved
-    }
+┌──────────────────────────────────────┐
+│           API.swift (funksjoner)     │
+│──────────────────────────────────────│
+│ + apiRegistrer(epost, passord) async │
+│ + apiLogginn(epost, passord) async   │
+│ + apiHentSaker(token) async          │
+│ + apiOpprettSak(token, ...) async    │
+└──────────────────────────────────────┘
+```
 
-    class KeychainManager {
-        +save(key, value)
-        +load(key)
-        +delete(key)
-    }
+## Sekvensdiagram – Innlogging
 
-    AuthStore --> KeychainManager : bruker
-    TicketStore --> Ticket : inneholder
-    AuthStore --> TicketStore : eier
+```
+iOS-app          AuthStore         API.swift         Backend
+   │                  │                │                 │
+   │── login() ──────►│                │                 │
+   │                  │── apiLogginn()─►│                 │
+   │                  │                │─── POST /logginn►│
+   │                  │                │                 │
+   │                  │                │◄── JWT-token ───│
+   │                  │◄── token ──────│                 │
+   │                  │ lagrer token   │                 │
+   │◄── isLoggedIn ───│                │                 │
+   │                  │                │                 │
+```
+
+## Sekvensdiagram – Opprett sak
+
+```
+iOS-app       NewTicketView      TicketStore        API.swift       Backend
+   │                │                 │                 │               │
+   │── Trykk ──────►│                 │                 │               │
+   │                │── addTicket()──►│                 │               │
+   │                │                 │── apiOpprettSak►│               │
+   │                │                 │                 │─ POST /saker ►│
+   │                │                 │                 │               │
+   │                │                 │                 │◄── 201 OK ───│
+   │                │                 │◄── true ────────│               │
+   │                │                 │── lastSaker() ──►│               │
+   │                │                 │◄── [Ticket] ────│               │
+   │◄── oppdatert liste ─────────────│                 │               │
 ```

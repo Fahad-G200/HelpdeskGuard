@@ -1,22 +1,35 @@
-# SECURITY – HelpdeskGuard (v1.0)
+# SECURITY – HelpdeskGuard (v1.1)
 
-## Formaal
-Dette dokumentet beskriver sikkerhetsnivaet i dagens prototype og hva som er avgrenset til senere faser.
+## Formål
+Dette dokumentet beskriver sikkerhetsnivået i systemet, inkludert backend med JWT-autentisering.
 
-## Hva som er sant i v1.0
-- Appen er en prototype med enkel lokal lagring.
-- Sikkerhetsnivaaet er ikke produksjonsklart.
-- Dokumenterte driftstiltak (UFW, SSH-herding, Fail2Ban, overvaking) er knyttet til driftmiljo.
+## Autentisering og autorisasjon
+- Brukere registrerer seg med e-post og passord.
+- Passord hashes med **bcrypt** (kostfaktor 10) – aldri lagret i klartekst.
+- Ved innlogging returnerer backend et **JWT-token** (utløper etter 7 dager).
+- Alle saker-endepunkter krever gyldig JWT i `Authorization: Bearer`-header.
+- Appen lagrer token i `UserDefaults` og sender det med hver forespørsel.
 
-## Risiko i dagens losning
-- Sensitiv informasjon trenger sterkere beskyttelse.
-- Lokal lagring uten robust backup gir risiko for datatap.
-- Appens funksjonsflyt er enklere enn et fullverdig produksjonssystem.
+## Rate limiting
+- Autentiseringsendepunkter: maks **20 forespørsler per 15 min** per IP.
+- API-endepunkter: maks **100 forespørsler per 15 min** per IP.
 
-## Tiltak videre
-- Heve sikkerhetsniva i appens datahaandtering.
-- Innfore tydeligere tilgangskontroll i neste fase.
-- Beholde prinsippet om minst mulig tilgang i driftmiljo.
+## Nettverkssikkerhet
+- MySQL lytter kun på `127.0.0.1` – ikke eksponert mot internett.
+- UFW brannmur blokkerer alle innkommende porter unntatt 22 (SSH) og 3000 (API).
+- Fail2Ban beskytter mot SSH brute-force-angrep.
 
-## Viktig avgrensning
-Dette prosjektet vurderes som skoleprototype (v1.0). Dokumentasjonen skal vaere etterprovbar mot faktisk funksjonalitet, og skal ikke beskrive ferdige sikkerhetsfunksjoner som ikke er implementert i appen.
+## Miljøvariabler
+- Database-passord og JWT-hemmelighet lagres i `.env`-fil.
+- `.env`-filen er i `.gitignore` og committes aldri til Git.
+
+## Personvern (GDPR)
+- Brukere kan slette kontoen sin via `DELETE /brukere/meg`.
+- Sletting er CASCADE – alle saker tilknyttet brukeren slettes også.
+- Se `GDPR.md` for fullstendig personvern-dokumentasjon.
+
+## Risiko og begrensninger
+- Løsningen er en skoleprototype – ikke produksjonsklar uten ytterligere sikkerhetstiltak.
+- HTTP i stedet for HTTPS i lokalt utviklingsmiljø – HTTPS bør brukes i produksjon.
+- Token lagres i `UserDefaults` – Keychain anbefales i en produksjonsapp.
+- Passordstyrke valideres ikke på server-siden i v1.1 – bør legges til i neste fase.
