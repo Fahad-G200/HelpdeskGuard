@@ -8,7 +8,8 @@
 import Foundation
 import Combine
 
-class TicketStore: ObservableObject {
+@MainActor
+final class TicketStore: ObservableObject {
     @Published var tickets: [Ticket] = []
     @Published var lastErrorMessage: String? = nil
 
