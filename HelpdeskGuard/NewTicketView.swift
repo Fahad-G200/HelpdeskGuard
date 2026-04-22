@@ -124,7 +124,7 @@ struct NewTicketView: View {
                             prioritet = "Vanlig"
                             dismiss()
                         } else {
-                            melding = "Kunne ikke lagre saken."
+                            melding = ticketStore.lastErrorMessage ?? "Kunne ikke lagre saken. Prøv igjen."
                         }
                     }
                     .buttonStyle(StorKnapp(bakgrunnsfarge: AppTheme.primary))

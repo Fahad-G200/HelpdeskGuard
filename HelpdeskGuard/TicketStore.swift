@@ -10,7 +10,9 @@ import Combine
 
 class TicketStore: ObservableObject {
     @Published var tickets: [Ticket] = []
-    private let ticketsKey = "helpdeskguard_tickets_v2"
+    @Published var lastErrorMessage: String? = nil
+
+    private let ticketsKey = "helpdeskguard_tickets"
 
     init() {
         loadTickets()
@@ -21,6 +23,7 @@ class TicketStore: ObservableObject {
         let cleanDescription = description.trimmingCharacters(in: .whitespacesAndNewlines)
 
         guard !cleanTitle.isEmpty, !cleanDescription.isEmpty else {
+            lastErrorMessage = "Tittel og beskrivelse må fylles ut."
             return false
         }
 
@@ -31,8 +34,13 @@ class TicketStore: ObservableObject {
             priority: priority
         )
         tickets.append(newTicket)
-        saveTickets()
-        return true
+        if saveTickets() {
+            lastErrorMessage = nil
+            return true
+        }
+
+        tickets.removeLast()
+        return false
     }
 
     func ticket(for id: UUID) -> Ticket? {
@@ -41,29 +49,42 @@ class TicketStore: ObservableObject {
 
     func markTicketAsResolved(id: UUID) {
         guard let index = tickets.firstIndex(where: { $0.id == id }) else { return }
+        let previousValue = tickets[index].isResolved
         tickets[index].isResolved = true
-        saveTickets()
+        if !saveTickets() {
+            tickets[index].isResolved = previousValue
+        }
     }
 
-    private func saveTickets() {
+    @discardableResult
+    private func saveTickets() -> Bool {
         do {
             let encoded = try JSONEncoder().encode(tickets)
             UserDefaults.standard.set(encoded, forKey: ticketsKey)
+            lastErrorMessage = nil
+            return true
         } catch {
-            print("Kunne ikke lagre saker: \(error.localizedDescription)")
+            let message = "Kunne ikke lagre saker: \(error.localizedDescription)"
+            lastErrorMessage = message
+            print(message)
+            return false
         }
     }
 
     private func loadTickets() {
         guard let data = UserDefaults.standard.data(forKey: ticketsKey) else {
             tickets = []
+            lastErrorMessage = nil
             return
         }
 
         do {
             tickets = try JSONDecoder().decode([Ticket].self, from: data)
+            lastErrorMessage = nil
         } catch {
-            print("Kunne ikke lese lagrede saker: \(error.localizedDescription)")
+            let message = "Kunne ikke lese lagrede saker: \(error.localizedDescription)"
+            lastErrorMessage = message
+            print(message)
             tickets = []
         }
     }

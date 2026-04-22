@@ -18,6 +18,17 @@ struct TicketsView: View {
                     .foregroundColor(AppTheme.primary)
                     .accessibilityAddTraits(.isHeader)
 
+                if let errorMessage = ticketStore.lastErrorMessage, !errorMessage.isEmpty {
+                    AppKort {
+                        Text("Lagringsfeil")
+                            .font(.headline)
+                            .foregroundColor(AppTheme.danger)
+                        Text(errorMessage)
+                            .font(.body)
+                            .foregroundColor(AppTheme.textPrimary)
+                    }
+                }
+
                 if ticketStore.tickets.isEmpty {
                     AppKort {
                         Text("Ingen saker ennå.")
@@ -89,4 +100,3 @@ struct TicketsView: View {
         .dynamicTypeSize(.xSmall ... .accessibility5)
     }
 }
-
