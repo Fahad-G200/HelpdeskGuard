@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import CryptoKit
 
 final class AuthStore: ObservableObject {
 
@@ -14,13 +15,21 @@ final class AuthStore: ObservableObject {
     @Published var currentEmail: String? = nil
 
     private let usersKey = "helpdeskguard_users"
-    private let currentEmailKey = "helpdeskguard_currentEmail"
+    private let keychainKey = "helpdeskguard_current_user"
 
     init() {
-        if let savedEmail = UserDefaults.standard.string(forKey: currentEmailKey) {
+        // Hent innlogget bruker fra Keychain når appen starter
+        if let savedEmail = KeychainManager.load(key: keychainKey) {
             self.currentEmail = savedEmail
             self.isLoggedIn = true
         }
+    }
+
+    // Hasher passord med SHA-256 slik at det aldri lagres i klartekst
+    private func hashPassword(_ password: String) -> String {
+        let data = Data(password.utf8)
+        let hash = SHA256.hash(data: data)
+        return hash.compactMap { String(format: "%02x", $0) }.joined()
     }
 
     private func loadUsers() -> [String: String] {
@@ -39,7 +48,7 @@ final class AuthStore: ObservableObject {
             return false
         }
 
-        users[cleanEmail] = password
+        users[cleanEmail] = hashPassword(password)
         saveUsers(users)
         return true
     }
@@ -48,20 +57,20 @@ final class AuthStore: ObservableObject {
         let cleanEmail = email.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
         let users = loadUsers()
 
-        guard let storedPassword = users[cleanEmail], storedPassword == password else {
+        guard let storedHash = users[cleanEmail], storedHash == hashPassword(password) else {
             return false
         }
 
         currentEmail = cleanEmail
         isLoggedIn = true
-        UserDefaults.standard.set(cleanEmail, forKey: currentEmailKey)
+        KeychainManager.save(key: keychainKey, value: cleanEmail) // Lagre innlogget bruker i Keychain
         return true
     }
 
     func logout() {
         currentEmail = nil
         isLoggedIn = false
-        UserDefaults.standard.removeObject(forKey: currentEmailKey)
+        KeychainManager.delete(key: keychainKey) // Fjern bruker fra Keychain ved utlogging
     }
 
     func deleteCurrentUser() {

@@ -24,39 +24,42 @@ Prosjektperiode: Mars 2026
 (x) Opprettet README.md  
 (x) Opprettet CHANGELOG.md  
 (x) Opprettet AI.md  
+(x) Implementert SHA-256 passord-hashing (CryptoKit)  
+(x) Implementert KeychainManager for sikker lagring  
+(x) Opprettet TicketEntity med SwiftData (lokal database)  
+(x) Lagring av saker til database fungerer i NewTicketView  
+(x) Implementert TicketsView med liste, status og slett  
+(x) Opprettet FAQView med brukerveiledning  
+(x) Opprettet Docs/SETUP_GUIDE.md  
 
 ---
 
 ## Under utvikling
 
-( ) Koble TicketStore til brukergrensesnitt  
-( ) Vise liste over registrerte saker i appen  
-( ) Lage egen visning for saker (TicketsView)  
-( ) Lage detaljvisning for en sak  
-( ) Kunne markere sak som løst  
-( ) Forbedre struktur for lagring av saker  
+( ) Forbedre struktur for lagring av saker
+( ) Lage detaljvisning for en sak
 
 ---
 
 ## Brukerstøtte
 
-( ) Lage enkel kunnskapsbase / FAQ  
-(x) Opprettet USER_GUIDE.md i Docs/  
-( ) Lage enkel feilsøkingsguide i appen  
-( ) Forbedre tekst og forklaringer i appen  
+(x) Opprettet FAQ-side (FAQView.swift) med 7 spørsmål og svar
+(x) Opprettet USER_GUIDE.md i Docs/
+( ) Lage enkel feilsøkingsguide i appen
+( ) Forbedre tekst og forklaringer i appen
 
 ---
 
 ## Drift og sikkerhet
 
-(x) Skrive om personvern og datalagring (InfoView)  
-(x) Lage enkel risikoanalyse (README)  
-(x) Dokumentere hvordan data lagres (UserDefaults)  
-
-( ) Implementere sikker lagring (hashing av passord)  
-( ) Lage backend-løsning (API)  
-( ) Implementere HTTPS  
-( ) Lage plan for backup og database  
+(x) Skrive om personvern og datalagring (InfoView)
+(x) Lage enkel risikoanalyse (RISIKOANALYSE.md)
+(x) Dokumentere hvordan data lagres
+(x) Implementere sikker lagring (SHA-256 hashing av passord)
+(x) Implementere Keychain for innlogget bruker (KeychainManager.swift)
+( ) Lage backend-løsning (API)
+( ) Implementere HTTPS
+( ) Lage plan for backup og database
 
 ---
 

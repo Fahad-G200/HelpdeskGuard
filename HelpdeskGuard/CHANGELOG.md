@@ -3,6 +3,29 @@ Endringslogg
 Alle endringer loggføres fortløpende for å dokumentere utviklingen av prosjektet. Datoer er i formatet ÅÅÅÅ-MM-DD.
 
 
+2026-04-22
+
+Sikkerhet og database – versjon 1.1
+
+Kode:
+    •    Implementert KeychainManager.swift – lagrer innlogget brukers e-post trygt i iOS Keychain i stedet for UserDefaults.
+    •    Oppdatert AuthStore.swift – passord hashes nå med SHA-256 (CryptoKit) før lagring. Passord kan ikke leses tilbake.
+    •    Oppdatert AuthStore.swift – innlogget bruker lagres og slettes via KeychainManager, ikke UserDefaults.
+    •    Oppdatert TicketEntity.swift – lagt til feltene title, category og priority i databasemodellen.
+    •    Oppdatert NewTicketView.swift – saker lagres nå faktisk i SwiftData-databasen via modelContext.insert().
+    •    Oppdatert TicketsView (SwiftUI View.swift) – viser liste over alle lagrede saker med tittel, status, kategori og prioritet. Knapp for å markere sak som løst/åpen. Sveip for å slette sak.
+    •    Lagt til FAQView.swift – ny side med 7 spørsmål og svar for brukerveiledning (brukerstøtte-kompetansemål).
+    •    Oppdatert ContentView.swift – "Saker"-fanen bruker nå TicketsView. FAQ lagt til i hamburger-meny.
+    •    Oppdatert HomeView.swift – knapp til FAQ-siden lagt til på forsiden.
+
+Dokumentasjon:
+    •    Lagt til Docs/SETUP_GUIDE.md – steg-for-steg guide for å kjøre prosjektet og oversikt over kompetansemål.
+    •    Oppdatert TODO.md – markert ferdigstilte punkter.
+
+Merk: Brukere som var registrert før denne oppdateringen må opprette ny konto, siden passord nå lagres som SHA-256-hash.
+KI-assistert: GitHub Copilot hjalp til med koden. Gjennomgått og forstått av Fahad.
+
+
 2026-04-10
     •    Forbedret prosjektdokumentasjonen for bedre faglig sammenheng og vurderingsgrunnlag (VG2 IT).
     •    Oppdatert README.md med profesjonell introduksjon, "Hvordan kjøre prosjektet", tydelig teknologivalg og prosjektstruktur.

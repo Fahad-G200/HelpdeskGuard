@@ -6,8 +6,12 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct NewTicketView: View {
+    @Environment(\.modelContext) private var context  // Brukes til å lagre i databasen
+    @Environment(\.dismiss) var dismiss
+
     @State private var tittel = ""
     @State private var beskrivelse = ""
     @State private var kategori = "Programvare"
@@ -92,7 +96,7 @@ struct NewTicketView: View {
                         if !melding.isEmpty {
                             Text(melding)
                                 .font(.body)
-                                .foregroundColor(melding.contains("sendt") ? AppTheme.secondary : AppTheme.danger)
+                                .foregroundColor(melding.contains("lagret") ? AppTheme.secondary : AppTheme.danger)
                                 .accessibilityLabel(melding)
                         }
 
@@ -107,14 +111,23 @@ struct NewTicketView: View {
                                 return
                             }
 
-                            melding = "Saken er sendt inn."
+                            // Opprett og lagre saken i databasen (SwiftData)
+                            let nyTicket = TicketEntity(
+                                title: tittel.trimmingCharacters(in: .whitespacesAndNewlines),
+                                descriptionText: beskrivelse.trimmingCharacters(in: .whitespacesAndNewlines),
+                                category: kategori,
+                                priority: prioritet
+                            )
+                            context.insert(nyTicket)
+
+                            melding = "Saken er lagret."
                             tittel = ""
                             beskrivelse = ""
                             kategori = "Programvare"
                             prioritet = "Vanlig"
                         }
                         .buttonStyle(StorKnapp(bakgrunnsfarge: AppTheme.primary))
-                        .accessibilityHint("Sender inn en ny sak")
+                        .accessibilityHint("Sender inn og lagrer en ny sak")
                     }
 
                     AppFooter()

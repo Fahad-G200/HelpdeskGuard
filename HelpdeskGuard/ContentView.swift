@@ -23,7 +23,7 @@ struct ContentView: View {
                         }
                         .tag(0)
 
-                    NewTicketView()
+                    TicketsView()
                         .tabItem {
                             Label("Saker", systemImage: "ticket.fill")
                         }
@@ -137,6 +137,10 @@ struct ContentView: View {
 
                 NavigationLink(destination: InfoView()) {
                     Label("Informasjon og personvern", systemImage: "info.circle.fill")
+                }
+
+                NavigationLink(destination: FAQView()) {
+                    Label("FAQ – Spørsmål og svar", systemImage: "questionmark.circle.fill")
                 }
 
                 Button {

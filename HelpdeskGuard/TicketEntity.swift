@@ -8,17 +8,24 @@
 import Foundation
 import SwiftData
 
+// TicketEntity er databasemodellen – SwiftData lagrer dette lokalt på enheten
 @Model
 final class TicketEntity {
     var id: UUID
+    var title: String
     var descriptionText: String
+    var category: String
+    var priority: String
     var date: Date
     var isResolved: Bool
 
-    init(descriptionText: String, date: Date = .now, isResolved: Bool = false) {
+    init(title: String, descriptionText: String, category: String = "Programvare", priority: String = "Vanlig") {
         self.id = UUID()
+        self.title = title
         self.descriptionText = descriptionText
-        self.date = date
-        self.isResolved = isResolved
+        self.category = category
+        self.priority = priority
+        self.date = Date()
+        self.isResolved = false
     }
 }

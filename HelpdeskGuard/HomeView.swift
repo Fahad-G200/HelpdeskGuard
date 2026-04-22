@@ -86,6 +86,15 @@ struct HomeView: View {
                     .buttonStyle(StorKnapp(bakgrunnsfarge: AppTheme.secondary))
                     .accessibilityHint("Åpner informasjonssiden")
 
+                    NavigationLink {
+                        FAQView()
+                    } label: {
+                        Text("Spørsmål og svar (FAQ)")
+                            .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(StorKnapp(bakgrunnsfarge: AppTheme.accent))
+                    .accessibilityHint("Åpner FAQ-siden")
+
                     AppFooter()
                 }
                 .padding()
