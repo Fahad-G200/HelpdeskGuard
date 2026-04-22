@@ -99,16 +99,6 @@ struct NewTicketView: View {
                     }
 
                     Button("Send inn sak") {
-                        if tittel.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                            melding = "Du må skrive inn en tittel."
-                            return
-                        }
-
-                        if beskrivelse.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                            melding = "Du må skrive inn en beskrivelse."
-                            return
-                        }
-
                         let wasSaved = ticketStore.addTicket(
                             title: tittel,
                             description: beskrivelse,

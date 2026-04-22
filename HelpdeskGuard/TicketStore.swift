@@ -48,14 +48,26 @@ class TicketStore: ObservableObject {
         tickets.first(where: { $0.id == id })
     }
 
-    func markTicketAsResolved(id: UUID) {
-        guard let index = tickets.firstIndex(where: { $0.id == id }) else { return }
-        let previousValue = tickets[index].isResolved
-        lastErrorMessage = nil
-        tickets[index].isResolved = true
-        if !saveTickets() {
-            tickets[index].isResolved = previousValue
+    func markTicketAsResolved(id: UUID) -> Bool {
+        guard let index = tickets.firstIndex(where: { $0.id == id }) else {
+            lastErrorMessage = "Fant ikke saken som skulle oppdateres."
+            return false
         }
+
+        if tickets[index].isResolved {
+            lastErrorMessage = nil
+            return true
+        }
+
+        let previousValue = tickets[index].isResolved
+        tickets[index].isResolved = true
+        if saveTickets() {
+            lastErrorMessage = nil
+            return true
+        }
+
+        tickets[index].isResolved = previousValue
+        return false
     }
 
     @discardableResult
