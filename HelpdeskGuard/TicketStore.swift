@@ -46,20 +46,26 @@ class TicketStore: ObservableObject {
     }
 
     private func saveTickets() {
-        guard let encoded = try? JSONEncoder().encode(tickets) else { return }
-        UserDefaults.standard.set(encoded, forKey: ticketsKey)
+        do {
+            let encoded = try JSONEncoder().encode(tickets)
+            UserDefaults.standard.set(encoded, forKey: ticketsKey)
+        } catch {
+            print("Kunne ikke lagre saker: \(error.localizedDescription)")
+        }
     }
 
     private func loadTickets() {
-        guard
-            let data = UserDefaults.standard.data(forKey: ticketsKey),
-            let decoded = try? JSONDecoder().decode([Ticket].self, from: data)
-        else {
+        guard let data = UserDefaults.standard.data(forKey: ticketsKey) else {
             tickets = []
             return
         }
 
-        tickets = decoded
+        do {
+            tickets = try JSONDecoder().decode([Ticket].self, from: data)
+        } catch {
+            print("Kunne ikke lese lagrede saker: \(error.localizedDescription)")
+            tickets = []
+        }
     }
 }
                                     

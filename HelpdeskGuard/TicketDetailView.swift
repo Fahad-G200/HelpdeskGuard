@@ -46,6 +46,7 @@ struct TicketDetailView: View {
                     }
                     .buttonStyle(StorKnapp(bakgrunnsfarge: ticket.isResolved ? AppTheme.secondary : AppTheme.primary))
                     .disabled(ticket.isResolved)
+                    .accessibilityHint(ticket.isResolved ? "Saken er allerede markert som løst" : "Markerer saken som løst")
                 } else {
                     AppKort {
                         Text("Fant ikke saken.")
@@ -62,4 +63,3 @@ struct TicketDetailView: View {
         .dynamicTypeSize(.xSmall ... .accessibility5)
     }
 }
-
