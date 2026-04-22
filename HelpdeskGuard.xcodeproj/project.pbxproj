@@ -6,23 +6,28 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		D69514472F98AA4900299439 /* schema.sql in Resources */ = {isa = PBXBuildFile; fileRef = D69514462F98AA4400299439 /* schema.sql */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		D69202D92F55A12200BAFE2E /* HelpdeskGuard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HelpdeskGuard.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D69514462F98AA4400299439 /* schema.sql */ = {isa = PBXFileReference; lastKnownFileType = text; path = schema.sql; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
 		D67DF4AB2F57049F00BAF619 /* Exceptions for "HelpdeskGuard" folder in "HelpdeskGuard" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				AI.md,
-				CHANGELOG.md,
-				DRIFT_SETUP.md,
-				Info.plist,
-				MONITORING_SETUP.md,
-				PROJECT_STRUCTURE.md,
-				README.md,
-				"server-hardening.md",
-				TODO.md,
+				Docs/AI.md,
+				Docs/CHANGELOG.md,
+				Docs/DRIFT_SETUP.md,
+				Docs/Info.plist,
+				Docs/MONITORING_SETUP.md,
+				Docs/PROJECT_STRUCTURE.md,
+				Docs/README.md,
+				"Docs/server-hardening.md",
+				Docs/TODO.md,
 			);
 			target = D69202D82F55A12200BAFE2E /* HelpdeskGuard */;
 		};
@@ -55,6 +60,7 @@
 			children = (
 				D69202DB2F55A12200BAFE2E /* HelpdeskGuard */,
 				D69202DA2F55A12200BAFE2E /* Products */,
+				D69514462F98AA4400299439 /* schema.sql */,
 			);
 			sourceTree = "<group>";
 		};
@@ -130,6 +136,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D69514472F98AA4900299439 /* schema.sql in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
