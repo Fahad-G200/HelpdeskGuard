@@ -54,7 +54,7 @@ Prosjektperiode: Mars 2026
 (x) Dokumentere hvordan data lagres (UserDefaults)  
 
 ( ) Implementere sikker lagring (hashing av passord)  
-( ) Lage backend-løsning (API)  
+(x) Lage backend-løsning (API) – Node.js/Express/MySQL i backend/-mappen  
 ( ) Implementere HTTPS  
 ( ) Lage plan for backup og database  
 
