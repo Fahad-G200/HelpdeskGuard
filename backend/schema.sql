@@ -24,8 +24,9 @@ CREATE TABLE IF NOT EXISTS saker (
   beskrivelse TEXT NOT NULL,
   kategori    VARCHAR(100) DEFAULT 'Annet',
   prioritet   VARCHAR(50)  DEFAULT 'Normal',
-  er_lost     BOOLEAN      DEFAULT FALSE,
+  status      VARCHAR(50)  DEFAULT 'Åpen',
   opprettet   TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_bruker_id (bruker_id),
   CONSTRAINT fk_saker_bruker
     FOREIGN KEY (bruker_id) REFERENCES brukere(id)
     ON DELETE CASCADE
