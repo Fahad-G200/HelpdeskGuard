@@ -117,7 +117,6 @@ struct NewTicketView: View {
                         )
 
                         if wasSaved {
-                            melding = "Saken er sendt inn."
                             tittel = ""
                             beskrivelse = ""
                             kategori = "Programvare"

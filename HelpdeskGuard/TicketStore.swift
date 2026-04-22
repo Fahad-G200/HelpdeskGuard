@@ -33,6 +33,8 @@ class TicketStore: ObservableObject {
             category: category,
             priority: priority
         )
+
+        lastErrorMessage = nil
         tickets.append(newTicket)
         if saveTickets() {
             lastErrorMessage = nil
@@ -50,6 +52,7 @@ class TicketStore: ObservableObject {
     func markTicketAsResolved(id: UUID) {
         guard let index = tickets.firstIndex(where: { $0.id == id }) else { return }
         let previousValue = tickets[index].isResolved
+        lastErrorMessage = nil
         tickets[index].isResolved = true
         if !saveTickets() {
             tickets[index].isResolved = previousValue
