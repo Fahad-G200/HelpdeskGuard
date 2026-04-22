@@ -3,6 +3,18 @@ Endringslogg
 Alle endringer loggføres fortløpende for å dokumentere utviklingen av prosjektet. Datoer er i formatet ÅÅÅÅ-MM-DD.
 
 
+2026-04-22
+    •    Opprettet backend/-mappe i prosjektroten med fullstendig Node.js + Express + MySQL backend.
+    •    Lagt til backend/server.js med alle API-endepunkter (registrer, logginn, saker, løst, slett bruker).
+    •    Lagt til backend/schema.sql med CREATE DATABASE helpdeskguard og tabellene brukere og saker.
+    •    Lagt til backend/package.json med avhengigheter: express, mysql2, bcrypt, dotenv.
+    •    Lagt til backend/.env.example – databaseopplysninger lagres nå i .env og committes ikke til Git.
+    •    Lagt til backend/.gitignore som ekskluderer node_modules/ og .env.
+    •    Lagt til backend/README.md med oppsettsinstruksjoner og curl-eksempler for alle endepunkter.
+    •    Fjernet hardkodet databasepassord – all konfigurasjon leses fra miljøvariabler via dotenv.
+    •    KI brukt som støtte til strukturering og dokumentasjon. Alt er gjennomgått og forstått av utvikler.
+
+
 2026-04-10
     •    Forbedret prosjektdokumentasjonen for bedre faglig sammenheng og vurderingsgrunnlag (VG2 IT).
     •    Oppdatert README.md med profesjonell introduksjon, "Hvordan kjøre prosjektet", tydelig teknologivalg og prosjektstruktur.
