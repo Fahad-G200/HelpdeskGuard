@@ -35,20 +35,24 @@ const apiLimiter = rateLimit({
 
 // -------------------------------------------------------------------
 // Databasetilkobling – verdiene leses fra .env-filen
+// createPool håndterer automatisk reconnect ved inaktivitet
 // -------------------------------------------------------------------
-const db = mysql.createConnection({
-  host:     process.env.DB_HOST     || "127.0.0.1",
-  user:     process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME     || "helpdeskguard",
+const db = mysql.createPool({
+  host:              process.env.DB_HOST     || "127.0.0.1",
+  user:              process.env.DB_USER,
+  password:          process.env.DB_PASSWORD,
+  database:          process.env.DB_NAME     || "helpdeskguard",
+  waitForConnections: true,
+  connectionLimit:   10,
 });
 
-db.connect((feil) => {
+db.getConnection((feil, tilkobling) => {
   if (feil) {
     console.error("Klarte ikke å koble til MySQL:", feil.message);
     process.exit(1);
   }
   console.log("Koblet til MySQL-databasen!");
+  tilkobling.release();
 });
 
 // -------------------------------------------------------------------
