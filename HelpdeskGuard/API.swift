@@ -3,7 +3,7 @@
 //  HelpdeskGuard
 //
 //  Enkle funksjoner for nettverkskall mot Node.js-backend.
-//  Bytт API_URL til maskinens LAN-IP ved bruk på fysisk iPhone.
+//  Bytt API_URL til maskinens LAN-IP ved bruk på fysisk iPhone.
 //
 
 import Foundation
@@ -60,6 +60,7 @@ func apiHentSaker(token: String) async -> [Ticket] {
     guard let url = URL(string: "\(API_URL)/saker") else { return [] }
 
     var req = URLRequest(url: url)
+    // Send JWT-tokenet slik at backend vet hvem som spør
     req.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
 
     guard
@@ -80,6 +81,7 @@ func apiOpprettSak(token: String, tittel: String, beskrivelse: String,
     var req = URLRequest(url: url)
     req.httpMethod = "POST"
     req.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    // Send JWT-tokenet slik at backend vet hvem som oppretter saken
     req.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
     req.httpBody = try? JSONSerialization.data(withJSONObject: [
         "tittel": tittel,
@@ -90,4 +92,19 @@ func apiOpprettSak(token: String, tittel: String, beskrivelse: String,
 
     guard let (_, resp) = try? await URLSession.shared.data(for: req) else { return false }
     return (resp as? HTTPURLResponse)?.statusCode == 201
+}
+
+// ─────────────────────────────────────────────
+// Merk sak som løst – returnerer true hvis OK
+// ─────────────────────────────────────────────
+func apiMarkerLost(token: String, sakId: Int) async -> Bool {
+    guard let url = URL(string: "\(API_URL)/saker/\(sakId)/lost") else { return false }
+
+    var req = URLRequest(url: url)
+    req.httpMethod = "PATCH"
+    // Send JWT-tokenet slik at backend vet hvem som løser saken
+    req.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+
+    guard let (_, resp) = try? await URLSession.shared.data(for: req) else { return false }
+    return (resp as? HTTPURLResponse)?.statusCode == 200
 }

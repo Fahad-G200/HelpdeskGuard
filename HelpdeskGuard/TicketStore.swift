@@ -2,7 +2,7 @@
 //  TicketStore.swift
 //  HelpdeskGuard
 //
-//  Håndterer saker – henter fra backend og oppretter nye via API.
+//  Håndterer saker – henter fra backend og oppretter/løser saker via API.
 //
 
 import Foundation
@@ -44,6 +44,21 @@ class TicketStore: ObservableObject {
         }
 
         await MainActor.run { self.laster = false }
+        return ok
+    }
+
+    // ─────────────────────────────────────────────
+    // Merk en sak som løst via backend
+    // Returnerer true hvis vellykket
+    // ─────────────────────────────────────────────
+    func markerSomLost(token: String, sakId: Int) async -> Bool {
+        let ok = await apiMarkerLost(token: token, sakId: sakId)
+
+        if ok {
+            // Oppdater listen så status vises riktig i UI
+            await lastSaker(token: token)
+        }
+
         return ok
     }
 }

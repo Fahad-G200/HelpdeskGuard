@@ -2,7 +2,8 @@
 //  NewTicketView.swift
 //  HelpdeskGuard
 //
-//  Oppdatert for backend-integrasjon via API.swift og TicketStore.
+//  Skjema for ny sak og liste over alle registrerte saker.
+//  Henter saker fra backend når siden åpnes, og lar bruker markere saker som løst.
 //
 
 import SwiftUI
@@ -24,6 +25,8 @@ struct NewTicketView: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: AppTheme.largeSpacing) {
+
+                    // ── Tittel og ingress ────────────────────────────
                     VStack(alignment: .leading, spacing: 8) {
                         Text("Ny sak")
                             .font(.largeTitle)
@@ -36,6 +39,7 @@ struct NewTicketView: View {
                             .foregroundColor(AppTheme.textPrimary)
                     }
 
+                    // ── Skjema ───────────────────────────────────────
                     AppKort {
                         Text("Tittel")
                             .font(.headline)
@@ -92,6 +96,7 @@ struct NewTicketView: View {
                         .pickerStyle(.segmented)
                         .accessibilityLabel("Prioritet")
 
+                        // Vis feil- eller suksessmelding
                         if !melding.isEmpty {
                             Text(melding)
                                 .font(.body)
@@ -112,7 +117,6 @@ struct NewTicketView: View {
 
                             // Task lar oss kalle async-funksjoner fra en knapp
                             Task {
-                                // Hent token fra AuthStore (kan være nil hvis lokal modus)
                                 let token = authStore.jwtToken ?? ""
                                 let ok = await ticketStore.addTicket(
                                     token: token,
@@ -135,36 +139,18 @@ struct NewTicketView: View {
                         }
                         .buttonStyle(StorKnapp(bakgrunnsfarge: AppTheme.primary))
                         .accessibilityHint("Sender inn en ny sak")
+                    }
 
-                        // Vis saker fra backend
-                        if !ticketStore.tickets.isEmpty {
-                            Text("Registrerte saker")
-                                .font(.headline)
-                                .foregroundColor(AppTheme.textPrimary)
+                    // ── Saksliste ────────────────────────────────────
+                    if !ticketStore.tickets.isEmpty {
+                        Text("Registrerte saker")
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .foregroundColor(AppTheme.primary)
+                            .accessibilityAddTraits(.isHeader)
 
-                            ForEach(ticketStore.tickets) { sak in
-                                VStack(alignment: .leading, spacing: 4) {
-                                    Text(sak.tittel)
-                                        .font(.body)
-                                        .fontWeight(.semibold)
-                                        .foregroundColor(AppTheme.textPrimary)
-
-                                    Text("\(sak.kategori) · \(sak.prioritet) · \(sak.status)")
-                                        .font(.caption)
-                                        .foregroundColor(AppTheme.textSecondary)
-
-                                    Text(sak.opprettet)
-                                        .font(.caption2)
-                                        .foregroundColor(AppTheme.textSecondary)
-                                }
-                                .padding()
-                                .background(Color.white)
-                                .cornerRadius(AppTheme.cornerRadius)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: AppTheme.cornerRadius)
-                                        .stroke(Color.gray.opacity(0.2), lineWidth: 1)
-                                )
-                            }
+                        ForEach(ticketStore.tickets) { sak in
+                            sakKort(sak: sak)
                         }
                     }
 
@@ -184,5 +170,56 @@ struct NewTicketView: View {
         }
         .dynamicTypeSize(.xSmall ... .accessibility5)
     }
-}
 
+    // ─────────────────────────────────────────────
+    // Kort som viser én sak med "Merk som løst"-knapp
+    // ─────────────────────────────────────────────
+    @ViewBuilder
+    func sakKort(sak: Ticket) -> some View {
+        AppKort {
+            // Tittel og status øverst
+            HStack {
+                Text(sak.tittel)
+                    .font(.body)
+                    .fontWeight(.semibold)
+                    .foregroundColor(AppTheme.textPrimary)
+
+                Spacer()
+
+                // Grønn badge hvis løst, gul hvis åpen
+                Text(sak.status)
+                    .font(.caption)
+                    .fontWeight(.medium)
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 4)
+                    .background(sak.status == "Løst" ? AppTheme.secondary : AppTheme.accent)
+                    .cornerRadius(8)
+            }
+
+            // Detaljer
+            Text("\(sak.kategori) · \(sak.prioritet)")
+                .font(.caption)
+                .foregroundColor(AppTheme.textSecondary)
+
+            Text(sak.opprettet)
+                .font(.caption2)
+                .foregroundColor(AppTheme.textSecondary)
+
+            // Vis knapp bare hvis saken fortsatt er åpen
+            if sak.status != "Løst" {
+                Button("Merk som løst") {
+                    Task {
+                        let token = authStore.jwtToken ?? ""
+                        let ok = await ticketStore.markerSomLost(token: token, sakId: sak.id)
+                        if !ok {
+                            melding = "Kunne ikke markere sak som løst. Sjekk at serveren kjører."
+                        }
+                    }
+                }
+                .buttonStyle(StorKnapp(bakgrunnsfarge: AppTheme.secondary))
+                .accessibilityHint("Markerer denne saken som løst")
+            }
+        }
+    }
+}
