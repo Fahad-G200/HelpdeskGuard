@@ -2,6 +2,23 @@ Endringslogg
 
 Alle endringer loggføres fortløpende for å dokumentere utviklingen av prosjektet. Datoer er i formatet ÅÅÅÅ-MM-DD.
 
+2026-04-23 (v1.2 – Bugfikser og "Merk som løst" i appen)
+
+Swift-kode:
+    •    Rettet kritisk feil i API.swift: Authorization-headeren sendte "******" i stedet for det faktiske JWT-tokenet. Dette betyr at GET /saker og POST /saker nå faktisk sender tokenet til backend.
+    •    Lagt til apiMarkerLost(token:sakId:) i API.swift – kaller PATCH /saker/:id/lost.
+    •    Lagt til markerSomLost(token:sakId:) i TicketStore.swift – brukes fra UI.
+    •    Oppdatert NewTicketView.swift: sakslisten viser nå en "Merk som løst"-knapp på åpne saker. Lukkede saker viser grønn "Løst"-badge. Status-farger er tydelige (grønn = løst, oransje = åpen).
+
+Database:
+    •    Rettet root schema.sql: brukte gammel kolonne er_lost BOOLEAN – erstattet med status VARCHAR(50) DEFAULT 'Åpen' for å matche backend/schema.sql og server.js.
+
+Dokumentasjon:
+    •    Oppdatert README.md: status-tabell, backend-oppsettsinstruksjoner og teknologioversikt oppdatert til v1.1.
+    •    Oppdatert TODO.md: merket ferdigstilte oppgaver som ferdige, lagt til gjenstående arbeid.
+    •    Oppdatert KOMPETANSEMAPPE.md: ny rad for "Merk som løst"-funksjonen og database/backend-kobling.
+    •    KI brukt som støtte. Alle endringer gjennomgått og forstått av utvikler.
+
 
 2026-04-22 (v1.1 – Backend-integrasjon og komplett dokumentasjon)
 

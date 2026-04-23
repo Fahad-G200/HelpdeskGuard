@@ -1,91 +1,77 @@
 # TODO – HelpdeskGuard
 
-Versjon: 1.0  
-Prosjektperiode: Mars 2026
+Versjon: 1.1  
+Oppdatert: 2026-04-23
 
 ---
 
-## Ferdig arbeid
+## ✅ Ferdig arbeid
 
-(x) Opprettet Git-repository og koblet til GitHub  
-(x) Implementert TabView med fanene Hjem, Saker og Konto  
-(x) Opprettet HomeView  
-(x) Opprettet InfoView (personvern og regler)  
-(x) Opprettet LoginView og RegisterView  
-(x) Implementert innlogging og registrering av bruker  
-(x) Implementert lokal lagring av bruker med UserDefaults  
-(x) Implementert mulighet for å logge ut  
-(x) Implementert mulighet for å slette bruker  
-(x) Opprettet NewTicketView (skjema for ny sak)  
-(x) Implementert TextField og SecureField med @State-binding  
-(x) Implementert NavigationStack og NavigationLink  
-(x) Implementert hamburger-meny  
-(x) Opprettet AppTheme, AppKort og AppFooter (UI-komponenter)  
-(x) Opprettet README.md  
-(x) Opprettet CHANGELOG.md  
-(x) Opprettet AI.md  
-
----
-
-## Under utvikling
-
-( ) Koble TicketStore til brukergrensesnitt  
-( ) Vise liste over registrerte saker i appen  
-( ) Lage egen visning for saker (TicketsView)  
-( ) Lage detaljvisning for en sak  
-( ) Kunne markere sak som løst  
-( ) Forbedre struktur for lagring av saker  
-
----
-
-## Brukerstøtte
-
-( ) Lage enkel kunnskapsbase / FAQ  
-(x) Opprettet USER_GUIDE.md i Docs/  
-( ) Lage enkel feilsøkingsguide i appen  
-( ) Forbedre tekst og forklaringer i appen  
+- [x] Opprettet Git-repository og koblet til GitHub
+- [x] Implementert TabView med fanene Hjem, Saker og Konto
+- [x] Opprettet HomeView
+- [x] Opprettet InfoView (personvern og regler)
+- [x] Opprettet LoginView og RegisterView
+- [x] Implementert innlogging og registrering av bruker
+- [x] Implementert lokal lagring av bruker med UserDefaults (fallback)
+- [x] Implementert mulighet for å logge ut
+- [x] Implementert mulighet for å slette bruker
+- [x] Opprettet NewTicketView (skjema for ny sak)
+- [x] Implementert TextField og SecureField med @State-binding
+- [x] Implementert NavigationStack og NavigationLink
+- [x] Implementert hamburger-meny
+- [x] Opprettet AppTheme, AppKort og AppFooter (UI-komponenter)
+- [x] Backend: Node.js + Express + MySQL (server.js, schema.sql)
+- [x] Backend: JWT-autentisering med bcrypt passord-hashing
+- [x] Backend: rate limiting mot brute-force
+- [x] Backend-integrasjon i iOS-app (API.swift)
+- [x] AuthStore: henter og lagrer JWT-token fra backend
+- [x] TicketStore: henter saker fra backend via JWT
+- [x] NewTicketView: viser liste over egne saker fra MySQL
+- [x] Markere sak som løst (knapp i saklisten, PATCH /saker/:id/lost)
+- [x] Opprettet README.md, CHANGELOG.md, AI.md, TODO.md
+- [x] Opprettet PLAN.md, USER_GUIDE.md, REFLEKSJON.md i Docs/
+- [x] Opprettet RISIKOANALYSE.md, KRAVSPESIFIKASJON.md
+- [x] Opprettet UML_DIAGRAM.md og INFRASTRUCTURE_DIAGRAM.md
+- [x] Opprettet KOMPETANSEMAPPE.md
+- [x] Opprettet GDPR.md
+- [x] Opprettet ITIL_QUALITY.md
+- [x] Opprettet TEST_RAPPORT.md
+- [x] Opprettet LANGUAGE_COMPARISON.md
+- [x] Dokumentert bruk av KI (AI.md)
 
 ---
 
-## Drift og sikkerhet
+## 🔄 Gjenstående arbeid
 
-(x) Skrive om personvern og datalagring (InfoView)  
-(x) Lage enkel risikoanalyse (README)  
-(x) Dokumentere hvordan data lagres (UserDefaults)  
+### Funksjonalitet
+- [ ] Implementere HTTPS (SSL/TLS) i backend
+- [ ] Legge til søk/filter i saklisten
+- [ ] Legge til kommentarer på saker
+- [ ] Admin-visning (se alle brukeres saker)
 
-( ) Implementere sikker lagring (hashing av passord)  
-(x) Lage backend-løsning (API) – Node.js/Express/MySQL i backend/-mappen  
-( ) Implementere HTTPS  
-( ) Lage plan for backup og database  
+### Sikkerhet
+- [ ] Bruke iOS Keychain for lagring av JWT i stedet for UserDefaults
+- [ ] Lage plan for backup og database
 
----
+### Drift
+- [ ] Sette opp backend på Ubuntu Server (ikke bare lokalt)
+- [ ] Konfigurere UFW-brannmur på server
+- [ ] Sette opp Uptime Kuma overvåking
+- [ ] Installere Fail2ban
 
-## Dokumentasjon
-
-(x) Oppdatert README.md  
-(x) Oppdatert CHANGELOG.md  
-(x) Dokumentert bruk av KI (AI.md)  
-(x) Opprettet PLAN.md, USER_GUIDE.md og REFLEKSJON.md i Docs/  
-(x) Opprettet plassholdere for UML/infrastrukturdiagram i Docs/  
-
-( ) Oppdatere CHANGELOG etter hver arbeidsøkt  
-( ) Oppdatere README ved nye funksjoner  
-( ) Forberede presentasjon av prosjektet  
+### Dokumentasjon
+- [ ] Oppdatere CHANGELOG etter hver arbeidsøkt
+- [ ] Oppdatere README ved nye funksjoner
+- [ ] Forberede presentasjon av prosjektet
 
 ---
 
-## Versjon 1.0 status
+## Versjon 1.1 status
 
-Prosjektet er en fungerende prototype og viser kompetanse innen utvikling, brukerstøtte og drift.
-
-Applikasjonen har:
-- fungerende innlogging og registrering
-- lokal lagring av brukerdata
-- opprettelse av saker (skjema)
-- navigasjon mellom flere sider
-- informasjon om personvern og regler
-
-Videre arbeid vil fokusere på:
-- lagring og visning av saker
-- backend og sikkerhet
-- utvidet funksjonalitet og forbedret brukeropplevelse
+Prosjektet har:
+- Fungerende innlogging med JWT mot MySQL-backend
+- Opprettelse og visning av saker fra MySQL
+- Mulighet for å markere sak som løst
+- Lokal fallback-modus uten server
+- Fullstendig dokumentasjon av drift, brukerstøtte og utvikling
