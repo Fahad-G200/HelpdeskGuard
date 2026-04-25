@@ -119,15 +119,21 @@ struct RegisterView: View {
                                 return
                             }
 
-                            let ok = authStore.register(email: email, password: password)
-
-                            if ok {
-                                melding = "Bruker opprettet ferdig. Du kan nå logge inn."
-                                email = ""
-                                password = ""
-                                bekreftPassord = ""
-                            } else {
-                                melding = "Denne e-posten finnes allerede."
+                            Task {
+                                do {
+                                    try await APIService.shared.registrer(
+                                        epost: email,
+                                        passord: password
+                                    )
+                                    melding = "Bruker opprettet ferdig. Du kan nå logge inn."
+                                    email = ""
+                                    password = ""
+                                    bekreftPassord = ""
+                                } catch let feil as APIFeil {
+                                    melding = feil.errorDescription ?? "Noe gikk galt."
+                                } catch {
+                                    melding = "Kunne ikke koble til serveren. Sjekk at backend kjører."
+                                }
                             }
                         }
                         .buttonStyle(StorKnapp(bakgrunnsfarge: AppTheme.primary))

@@ -2,19 +2,22 @@
 //  NewTicketView.swift
 //  HelpdeskGuard
 //
-//  Created by Fahad Adnan Ashraf on 02/03/2026.
+//  Skjema for å opprette en ny sak.
+//  Saken sendes til backend via APIService.
+//
+//  Laget av Fahad – dette er skjemaet brukeren fyller ut når noe ikke virker. Enkelt og oversiktlig.
 //
 
 import SwiftUI
 
 struct NewTicketView: View {
-    @EnvironmentObject var ticketStore: TicketStore
 
     @State private var tittel = ""
     @State private var beskrivelse = ""
     @State private var kategori = "Programvare"
     @State private var prioritet = "Vanlig"
     @State private var melding = ""
+    @State private var sender = false
 
     let kategorier = ["Programvare", "Maskinvare", "Nettverk", "Annet"]
     let prioriteter = ["Lav", "Vanlig", "Høy"]
@@ -72,8 +75,8 @@ struct NewTicketView: View {
                             .foregroundColor(AppTheme.textPrimary)
 
                         Picker("Velg kategori", selection: $kategori) {
-                            ForEach(kategorier, id: \.self) { kategori in
-                                Text(kategori)
+                            ForEach(kategorier, id: \.self) { k in
+                                Text(k)
                             }
                         }
                         .pickerStyle(.menu)
@@ -84,8 +87,8 @@ struct NewTicketView: View {
                             .foregroundColor(AppTheme.textPrimary)
 
                         Picker("Velg prioritet", selection: $prioritet) {
-                            ForEach(prioriteter, id: \.self) { prioritet in
-                                Text(prioritet)
+                            ForEach(prioriteter, id: \.self) { p in
+                                Text(p)
                             }
                         }
                         .pickerStyle(.segmented)
@@ -98,53 +101,18 @@ struct NewTicketView: View {
                                 .accessibilityLabel(melding)
                         }
 
-                        Button("Send inn sak") {
-                            if tittel.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                                melding = "Du må skrive inn en tittel."
-                                return
+                        Button(action: sendInnSak) {
+                            if sender {
+                                ProgressView()
+                                    .progressViewStyle(.circular)
+                                    .tint(.white)
+                            } else {
+                                Text("Send inn sak")
                             }
-
-                            if beskrivelse.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                                melding = "Du må skrive inn en beskrivelse."
-                                return
-                            }
-
-                            let samletBeskrivelse = "\(tittel) | \(kategori) | \(prioritet)\n\(beskrivelse)"
-                            ticketStore.addTicket(description: samletBeskrivelse)
-
-                            melding = "Saken er sendt inn."
-                            tittel = ""
-                            beskrivelse = ""
-                            kategori = "Programvare"
-                            prioritet = "Vanlig"
                         }
                         .buttonStyle(StorKnapp(bakgrunnsfarge: AppTheme.primary))
-                        .accessibilityHint("Sender inn en ny sak")
-
-                        if !ticketStore.tickets.isEmpty {
-                            Text("Registrerte saker")
-                                .font(.headline)
-                                .foregroundColor(AppTheme.textPrimary)
-
-                            ForEach(ticketStore.tickets) { ticket in
-                                VStack(alignment: .leading, spacing: 4) {
-                                    Text(ticket.description)
-                                        .font(.body)
-                                        .foregroundColor(AppTheme.textPrimary)
-
-                                    Text(ticket.date.formatted(date: .abbreviated, time: .shortened))
-                                        .font(.caption)
-                                        .foregroundColor(AppTheme.textSecondary)
-                                }
-                                .padding()
-                                .background(Color.white)
-                                .cornerRadius(AppTheme.cornerRadius)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: AppTheme.cornerRadius)
-                                        .stroke(Color.gray.opacity(0.2), lineWidth: 1)
-                                )
-                            }
-                        }
+                        .disabled(sender)
+                        .accessibilityHint("Sender inn saken")
                     }
 
                     AppFooter()
@@ -156,6 +124,45 @@ struct NewTicketView: View {
             .navigationBarTitleDisplayMode(.inline)
         }
         .dynamicTypeSize(.xSmall ... .accessibility5)
+    }
+
+    // Validerer skjemaet og sender saken til backend
+    private func sendInnSak() {
+        let renTittel = tittel.trimmingCharacters(in: .whitespacesAndNewlines)
+        let renBeskrivelse = beskrivelse.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        if renTittel.isEmpty {
+            melding = "Du må skrive inn en tittel."
+            return
+        }
+        if renBeskrivelse.isEmpty {
+            melding = "Du må skrive inn en beskrivelse."
+            return
+        }
+
+        sender = true
+        melding = ""
+
+        Task {
+            do {
+                try await APIService.shared.sendSak(
+                    tittel: renTittel,
+                    beskrivelse: renBeskrivelse,
+                    kategori: kategori,
+                    prioritet: prioritet
+                )
+                melding = "Saken er sendt inn ✓"
+                tittel = ""
+                beskrivelse = ""
+                kategori = "Programvare"
+                prioritet = "Vanlig"
+            } catch let feil as APIFeil {
+                melding = feil.errorDescription ?? "Noe gikk galt."
+            } catch {
+                melding = "Kunne ikke koble til serveren. Sjekk at backend kjører."
+            }
+            sender = false
+        }
     }
 }
 

@@ -86,12 +86,19 @@ struct LoginView: View {
                         }
 
                         Button("Logg inn") {
-                            let ok = authStore.login(email: email, password: password)
-
-                            if ok {
-                                feilmelding = ""
-                            } else {
-                                feilmelding = "Feil e-post eller passord. Prøv igjen."
+                            Task {
+                                do {
+                                    let epost = try await APIService.shared.logginn(
+                                        epost: email,
+                                        passord: password
+                                    )
+                                    authStore.loggInn(epost: epost)
+                                    feilmelding = ""
+                                } catch let feil as APIFeil {
+                                    feilmelding = feil.errorDescription ?? "Noe gikk galt."
+                                } catch {
+                                    feilmelding = "Kunne ikke koble til serveren. Sjekk at backend kjører."
+                                }
                             }
                         }
                         .buttonStyle(StorKnapp(bakgrunnsfarge: AppTheme.primary))
