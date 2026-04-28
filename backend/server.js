@@ -69,10 +69,15 @@ function kreverInnlogging(req, res, next) {
 }
 
 // -------------------------------------------------------------------
-// GET /health  – sjekker at serveren kjører
+// GET /health  – sjekker at serveren kjører og at databasen svarer
 // -------------------------------------------------------------------
 app.get("/health", (_req, res) => {
-  res.json({ status: "ok" });
+  db.ping((feil) => {
+    if (feil) {
+      return res.status(503).json({ status: "ok", database: "ikke tilkoblet" });
+    }
+    res.json({ status: "ok", database: "tilkoblet" });
+  });
 });
 
 // -------------------------------------------------------------------
@@ -86,18 +91,23 @@ app.post("/registrer", authLimiter, async (req, res) => {
     return res.status(400).json({ melding: "Epost og passord er påkrevd" });
   }
 
-  const passordHash = await bcrypt.hash(passord, 10);
+  try {
+    const passordHash = await bcrypt.hash(passord, 10);
 
-  const sql = "INSERT INTO brukere (epost, passord_hash) VALUES (?, ?)";
-  db.query(sql, [epost.toLowerCase(), passordHash], (feil, resultat) => {
-    if (feil) {
-      if (feil.errno === 1062) {
-        return res.status(409).json({ melding: "E-postadressen er allerede registrert" });
+    const sql = "INSERT INTO brukere (epost, passord_hash) VALUES (?, ?)";
+    db.query(sql, [epost.toLowerCase(), passordHash], (feil, resultat) => {
+      if (feil) {
+        if (feil.errno === 1062) {
+          return res.status(409).json({ melding: "E-postadressen er allerede registrert" });
+        }
+        return res.status(500).json({ melding: "Noe gikk galt på serveren" });
       }
-      return res.status(500).json({ melding: "Noe gikk galt på serveren" });
-    }
-    res.status(201).json({ melding: "Bruker opprettet", bruker_id: resultat.insertId });
-  });
+      res.status(201).json({ melding: "Bruker opprettet", bruker_id: resultat.insertId });
+    });
+  } catch (feil) {
+    console.error("Feil ved hashing av passord:", feil.message);
+    res.status(500).json({ melding: "Noe gikk galt på serveren" });
+  }
 });
 
 // -------------------------------------------------------------------
