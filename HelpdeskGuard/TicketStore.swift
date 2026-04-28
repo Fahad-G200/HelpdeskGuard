@@ -81,8 +81,10 @@ class TicketStore: ObservableObject {
         do {
             try await apiMarkerLost(token: token, sakId: sakId)
             await lastSaker(token: token)
+        } catch let feil as APIFeil {
+            feilmelding = feil.melding
         } catch {
-            // Feil her er ikke kritisk; bruker kan prøve igjen
+            feilmelding = "Kunne ikke markere saken som løst. Prøv igjen."
         }
     }
 }

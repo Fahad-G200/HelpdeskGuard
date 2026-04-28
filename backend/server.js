@@ -74,7 +74,7 @@ function kreverInnlogging(req, res, next) {
 app.get("/health", (_req, res) => {
   db.ping((feil) => {
     if (feil) {
-      return res.status(503).json({ status: "ok", database: "ikke tilkoblet" });
+      return res.status(503).json({ status: "error", database: "ikke tilkoblet" });
     }
     res.json({ status: "ok", database: "tilkoblet" });
   });

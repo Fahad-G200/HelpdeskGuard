@@ -13,7 +13,12 @@ import Foundation
 // ---------------------------------------------------------------------------
 
 /// IP-adressen og porten til Node.js-serveren.
-/// Bytt dette til din egen maskins IP på nettverket.
+///
+/// Bytt dette til din servers adresse:
+///   - Simulator lokalt:   "http://localhost:3000"
+///   - Fysisk iPhone:      "http://172.20.128.20:3000"  (serverens IP på nettverket)
+///
+/// Tips: Kjør `ipconfig getifaddr en0` (macOS) for å finne maskinens IP-adresse.
 let baseURL = "http://172.20.128.20:3000"
 
 // ---------------------------------------------------------------------------
