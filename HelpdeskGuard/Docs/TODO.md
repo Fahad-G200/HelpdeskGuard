@@ -29,34 +29,20 @@ Prosjektperiode: Mars 2026
 
 ## Under utvikling
 
-( ) Koble TicketStore til brukergrensesnitt  
-( ) Vise liste over registrerte saker i appen  
-( ) Lage egen visning for saker (TicketsView)  
-( ) Lage detaljvisning for en sak  
-( ) Kunne markere sak som løst  
-( ) Forbedre struktur for lagring av saker  
+(x) Koble TicketStore til brukergrensesnitt – ferdig i v2.0
+(x) Vise liste over registrerte saker i appen – ferdig i v2.0
+(x) Markere sak som løst – ferdig i v2.0
+(x) Backend-integrasjon i app – ferdig i v2.0
 
 ---
 
-## Brukerstøtte
+## Gjenstående arbeid
 
-( ) Lage enkel kunnskapsbase / FAQ  
-(x) Opprettet USER_GUIDE.md i Docs/  
-( ) Lage enkel feilsøkingsguide i appen  
+( ) Legge til HTTPS (bytte fra HTTP til TLS)
+( ) Lage detaljvisning for enkelt sak (tap for å åpne)
+( ) Enkel kunnskapsbase / FAQ i appen
+( ) Lage enkel feilsøkingsguide i appen
 ( ) Forbedre tekst og forklaringer i appen  
-
----
-
-## Drift og sikkerhet
-
-(x) Skrive om personvern og datalagring (InfoView)  
-(x) Lage enkel risikoanalyse (README)  
-(x) Dokumentere hvordan data lagres (UserDefaults)  
-
-( ) Implementere sikker lagring (hashing av passord)  
-(x) Lage backend-løsning (API) – Node.js/Express/MySQL i backend/-mappen  
-( ) Implementere HTTPS  
-( ) Lage plan for backup og database  
 
 ---
 

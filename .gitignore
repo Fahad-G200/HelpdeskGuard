@@ -1,0 +1,25 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Xcode – brukerdata (ikke del av prosjektet)
+xcuserdata/
+*.xcuserstate
+
+# Xcode – bygde artefakter
+DerivedData/
+build/
+*.ipa
+*.xcarchive
+
+# Swift Package Manager
+.build/
+.swiftpm/
+
+# Node.js
+backend/node_modules/
+backend/.env
+
+# Xcode – BackendHidden er feil plassert; ignorer innholdet
+HelpdeskGuard.xcodeproj/BackendHidden/

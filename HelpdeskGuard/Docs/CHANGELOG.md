@@ -3,7 +3,25 @@ Endringslogg
 Alle endringer loggføres fortløpende for å dokumentere utviklingen av prosjektet. Datoer er i formatet ÅÅÅÅ-MM-DD.
 
 
-2026-04-22
+2026-04-28
+    •    Koblet iOS-appen til Node.js/Express-backend via URLSession (HTTP + JWT).
+    •    Opprettet HelpdeskGuard/APIService.swift med alle nettverksfunksjoner:
+         apiRegistrer, apiLoggInn, apiHentSaker, apiOpprettSak, apiMarkerLost, apiSlettBruker.
+    •    Skrevet om AuthStore.swift: bruker nå bcrypt-sikret backend i stedet for klartekst i UserDefaults.
+    •    Skrevet om TicketStore.swift: holder [Sak]-liste fra backend i stedet for lokal in-memory-liste.
+    •    Oppdatert NewTicketView.swift: henter og viser ekte saker fra databasen, inkludert «Marker som løst».
+    •    Oppdatert LoginView.swift og RegisterView.swift med async/await og loading-spinner.
+    •    Oppdatert ContentView.swift: sletting av bruker er nå async og går via API.
+    •    Fikset /health-endepunkt i server.js: pinger nå databasen og svarer {"status":"ok","database":"tilkoblet"}.
+    •    Lagt til try-catch rundt bcrypt.hash i /registrer-endepunktet i server.js.
+    •    Oppdatert backend/README.md med korrekte JWT-baserte curl-eksempler.
+    •    Lagt til Info.plist med NSAppTransportSecurity for å tillate HTTP-tilkoblinger til lokal server.
+    •    Opprettet README.md i prosjektroten (GitHub-forsiden) med arkitekturbeskrivelse og kompetansemål.
+    •    Opprettet .gitignore i prosjektroten.
+    •    KI brukt som støtte til strukturering og koding. All kode er gjennomgått og forstått av utvikler.
+
+
+
     •    Opprettet backend/-mappe i prosjektroten med fullstendig Node.js + Express + MySQL backend.
     •    Lagt til backend/server.js med alle API-endepunkter (registrer, logginn, saker, løst, slett bruker).
     •    Lagt til backend/schema.sql med CREATE DATABASE helpdeskguard og tabellene brukere og saker.

@@ -30,15 +30,16 @@ Merk: Data lagres lokalt i appen i denne versjonen.
 
 ---
 
-## Status pa funksjoner
+## Status på funksjoner
 | Funksjon | Status |
 |---|---|
-| Registrering | Ferdig |
-| Innlogging/utlogging | Ferdig |
-| Opprette sak | Ferdig |
-| Vise saksliste | Planlagt |
-| Markere sak som lost | Planlagt |
-| Backend-integrasjon i app | Planlagt |
+| Registrering | ✅ Ferdig |
+| Innlogging/utlogging | ✅ Ferdig |
+| Opprette sak (API) | ✅ Ferdig |
+| Vise saksliste (fra server) | ✅ Ferdig |
+| Markere sak som løst | ✅ Ferdig |
+| Slette bruker | ✅ Ferdig |
+| Backend-integrasjon i app | ✅ Ferdig |
 
 ---
 

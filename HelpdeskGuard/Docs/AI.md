@@ -6,7 +6,7 @@ AI-logg – HelpdeskGuard
 
 Bruk av kunstig intelligens i prosjektet
 
-Kunstig intelligens (ChatGPT) har blitt brukt som støtteverktøy under utviklingen av prosjektet. Bruken av AI har vært bevisst og dokumentert.
+Kunstig intelligens (ChatGPT / GitHub Copilot) har blitt brukt som støtteverktøy under utviklingen av prosjektet. Bruken av AI har vært bevisst og dokumentert.
 
 ⸻
 
@@ -18,10 +18,12 @@ AI har blitt brukt til:
     •    Veiledning i bruk av Git og commit-struktur
     •    Hjelp til formulering av README, CHANGELOG og TODO
     •    Forklaring av kode linje for linje for å sikre forståelse
+    •    Hjelp til å koble SwiftUI-appen mot Node.js-backend via URLSession og async/await
+    •    Prosjektgjennomgang og identifisering av forbedringspunkter
 
 ⸻
 
-Egen forståelse
+Eigen forståelse
 
 All kode som er implementert i prosjektet er gjennomgått og forstått før den ble lagt inn. AI har ikke blitt brukt til å kopiere ferdige løsninger uten forståelse.
 
