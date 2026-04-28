@@ -99,44 +99,29 @@ struct RegisterView: View {
                         if !melding.isEmpty {
                             Text(melding)
                                 .font(.body)
-                                .foregroundColor(melding.contains("ferdig") ? AppTheme.secondary : AppTheme.danger)
+                                .foregroundColor(melding.contains("innlogget") ? AppTheme.secondary : AppTheme.danger)
                                 .accessibilityLabel(melding)
                         }
 
-                        Button("Opprett bruker") {
-                            if email.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                                melding = "Du må skrive inn e-post."
-                                return
-                            }
-
-                            if password.isEmpty {
-                                melding = "Du må skrive inn passord."
-                                return
-                            }
-
-                            if password != bekreftPassord {
-                                melding = "Passordene er ikke like."
-                                return
-                            }
-
-                            let ok = authStore.register(email: email, password: password)
-
-                            if ok {
-                                melding = "Bruker opprettet ferdig. Du kan nå logge inn."
-                                email = ""
-                                password = ""
-                                bekreftPassord = ""
+                        // Registreringsknapp – viser spinner mens vi venter på svar fra server
+                        Button(action: registrer) {
+                            if authStore.isLoading {
+                                ProgressView()
+                                    .frame(maxWidth: .infinity)
                             } else {
-                                melding = "Denne e-posten finnes allerede."
+                                Text("Opprett bruker")
+                                    .frame(maxWidth: .infinity)
                             }
                         }
                         .buttonStyle(StorKnapp(bakgrunnsfarge: AppTheme.primary))
+                        .disabled(authStore.isLoading)
                         .accessibilityHint("Oppretter en ny bruker")
 
                         Button("Lukk") {
                             dismiss()
                         }
                         .buttonStyle(StorKnapp(bakgrunnsfarge: AppTheme.secondary))
+                        .disabled(authStore.isLoading)
                         .accessibilityHint("Lukker registreringssiden")
                     }
 
@@ -150,4 +135,34 @@ struct RegisterView: View {
         }
         .dynamicTypeSize(.xSmall ... .accessibility5)
     }
+
+    // -----------------------------------------------------------------------
+    // MARK: – Handlinger
+    // -----------------------------------------------------------------------
+
+    private func registrer() {
+        // Lokal validering før vi sender noe til serveren
+        guard !email.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            melding = "Du må skrive inn e-post."
+            return
+        }
+        guard !password.isEmpty else {
+            melding = "Du må skrive inn passord."
+            return
+        }
+        guard password == bekreftPassord else {
+            melding = "Passordene er ikke like."
+            return
+        }
+
+        melding = ""
+        Task {
+            if let feil = await authStore.registrer(epost: email, passord: password) {
+                melding = feil
+            }
+            // Ved suksess setter AuthStore isLoggedIn = true,
+            // og appen bytter automatisk til hoved-visningen.
+        }
+    }
 }
+

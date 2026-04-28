@@ -57,7 +57,11 @@ struct ContentView: View {
                 }
                 .alert("Slette bruker?", isPresented: $visSlettBrukerAlert) {
                     Button("Slett bruker", role: .destructive) {
-                        authStore.deleteCurrentUser()
+                        Task {
+                            await authStore.slettKonto()
+                            // Ved suksess setter AuthStore isLoggedIn = false,
+                            // og ContentView bytter automatisk til LoginView.
+                        }
                     }
 
                     Button("Avbryt", role: .cancel) {
@@ -99,7 +103,7 @@ struct ContentView: View {
                         .foregroundColor(AppTheme.secondary)
 
                     Button("Logg ut") {
-                        authStore.logout()
+                        authStore.loggUt()
                     }
                     .buttonStyle(StorKnapp(bakgrunnsfarge: AppTheme.primary))
                     .accessibilityHint("Logger ut brukeren fra appen")
@@ -140,7 +144,7 @@ struct ContentView: View {
                 }
 
                 Button {
-                    authStore.logout()
+                    authStore.loggUt()
                     viserMeny = false
                 } label: {
                     Label("Logg ut", systemImage: "arrow.backward.circle.fill")

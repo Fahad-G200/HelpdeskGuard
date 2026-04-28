@@ -36,7 +36,6 @@ struct LoginView: View {
                             .font(.headline)
                             .foregroundColor(AppTheme.textPrimary)
 
-
                         AppInputField(
                             text: $email,
                             placeholder: "Skriv inn e-post",
@@ -58,7 +57,6 @@ struct LoginView: View {
                         Text("Passord")
                             .font(.headline)
                             .foregroundColor(AppTheme.textPrimary)
-
 
                         AppInputField(
                             text: $password,
@@ -82,25 +80,28 @@ struct LoginView: View {
                             Text(feilmelding)
                                 .font(.body)
                                 .foregroundColor(AppTheme.danger)
-                                .accessibilityLabel("Feil. \(feilmelding)")
+                                .accessibilityLabel("Feil: \(feilmelding)")
                         }
 
-                        Button("Logg inn") {
-                            let ok = authStore.login(email: email, password: password)
-
-                            if ok {
-                                feilmelding = ""
+                        // Innloggingsknapp – viser spinner mens vi venter på svar fra server
+                        Button(action: loggInn) {
+                            if authStore.isLoading {
+                                ProgressView()
+                                    .frame(maxWidth: .infinity)
                             } else {
-                                feilmelding = "Feil e-post eller passord. Prøv igjen."
+                                Text("Logg inn")
+                                    .frame(maxWidth: .infinity)
                             }
                         }
                         .buttonStyle(StorKnapp(bakgrunnsfarge: AppTheme.primary))
+                        .disabled(authStore.isLoading)
                         .accessibilityHint("Logger inn brukeren")
 
                         Button("Har du ikke konto? Registrer deg") {
                             visRegistrering = true
                         }
                         .buttonStyle(StorKnapp(bakgrunnsfarge: AppTheme.secondary))
+                        .disabled(authStore.isLoading)
                         .accessibilityHint("Åpner registreringssiden")
                     }
 
@@ -117,5 +118,21 @@ struct LoginView: View {
         }
         .dynamicTypeSize(.xSmall ... .accessibility5)
     }
+
+    // -----------------------------------------------------------------------
+    // MARK: – Handlinger
+    // -----------------------------------------------------------------------
+
+    private func loggInn() {
+        feilmelding = ""
+        Task {
+            if let feil = await authStore.loggInn(epost: email, passord: password) {
+                feilmelding = feil
+            }
+            // Ved suksess setter AuthStore isLoggedIn = true,
+            // og ContentView bytter automatisk til hoved-appen.
+        }
+    }
 }
+
 
