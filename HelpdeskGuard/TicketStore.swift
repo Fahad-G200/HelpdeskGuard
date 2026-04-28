@@ -19,6 +19,28 @@ class TicketStore: ObservableObject {
         )
         tickets.append(newTicket)
     }
+
+    func hentSaker() {
+        guard let url = URL(string: "http://172.20.128.20:3000/saker") else {
+            return
+        }
+
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            if let error = error {
+                print("Feil:", error.localizedDescription)
+                return
+            }
+
+            guard let data = data else {
+                print("Ingen data fra server")
+                return
+            }
+
+            if let json = String(data: data, encoding: .utf8) {
+                print("Saker fra server:")
+                print(json)
+            }
+        }.resume()
+    }
 }
-                                    
 

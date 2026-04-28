@@ -13,7 +13,7 @@ Jeg opplevde ogsa utfordringer med merge/rebase-konflikter og med a holde dokume
 ## Hvorfor det var vanskelig
 Flere deler paavirket hverandre samtidig: lagring, validering og brukerflyt. Nar en del ble endret, matte dokumentasjon og andre filer oppdateres med en gang for a unnga motsetninger.
 
-## Hva jeg laerte
+## Hva jeg lærte
 - Strukturert arbeid i SwiftUI med tydelig ansvar per fil.
 - Praktisk bruk av Git, inkludert konflikthandtering.
 - At dokumentasjon er like viktig som kode i tverrfaglig vurdering.

@@ -28,6 +28,7 @@
 				Docs/README.md,
 				"Docs/server-hardening.md",
 				Docs/TODO.md,
+				Info.plist,
 			);
 			target = D69202D82F55A12200BAFE2E /* HelpdeskGuard */;
 		};

@@ -3,7 +3,7 @@ Endringslogg
 Alle endringer loggføres fortløpende for å dokumentere utviklingen av prosjektet. Datoer er i formatet ÅÅÅÅ-MM-DD.
 
 
-2026-04-22
+#  2026-04-22
     •    Opprettet backend/-mappe i prosjektroten med fullstendig Node.js + Express + MySQL backend.
     •    Lagt til backend/server.js med alle API-endepunkter (registrer, logginn, saker, løst, slett bruker).
     •    Lagt til backend/schema.sql med CREATE DATABASE helpdeskguard og tabellene brukere og saker.
@@ -15,7 +15,7 @@ Alle endringer loggføres fortløpende for å dokumentere utviklingen av prosjek
     •    KI brukt som støtte til strukturering og dokumentasjon. Alt er gjennomgått og forstått av utvikler.
 
 
-2026-04-10
+# 2026-04-10
     •    Forbedret prosjektdokumentasjonen for bedre faglig sammenheng og vurderingsgrunnlag (VG2 IT).
     •    Oppdatert README.md med profesjonell introduksjon, "Hvordan kjøre prosjektet", tydelig teknologivalg og prosjektstruktur.
     •    Lagt til og oppdatert lenker til dokumentasjon i Docs-mappen i README.md.
@@ -26,7 +26,7 @@ Alle endringer loggføres fortløpende for å dokumentere utviklingen av prosjek
     •    Lagt til Docs/KOMPETANSEMAPPE.md for tydelig kobling mellom kompetansemal, arbeid og bevis.
     •    Ingen endringer i Swift-kode, app-logikk eller backend i denne oppdateringen.
 
-2026-04-07
+# 2026-04-07
     •    Forbedret tilgjengelighet (WCAG) med målrettede endringer i kontrast og beskrivelser.
     •    Endret primærfarge i AppTheme.swift til Color(red: 0.0, green: 0.24, blue: 0.55) for bedre kontrast.
     •    Endret sekundærfarge i AppTheme.swift til mørkere grønn for bedre kontrast.
@@ -35,7 +35,7 @@ Alle endringer loggføres fortløpende for å dokumentere utviklingen av prosjek
     •    Lagt til accessibilityLabel på kategori- og prioritet-velgere.
     •    Ingen endringer i app-logikk, navigasjon eller layout.
 
-2026-03-02
+# 2026-03-02
     •    Opprettet Git-repository og satt opp grunnstrukturen til iOS-prosjektet.
     •    Implementerte ContentView med TabView og to faner: Hjem og Saker.
     •    Opprettet HomeView med velkomsttekst og enkel struktur.
@@ -43,7 +43,7 @@ Alle endringer loggføres fortløpende for å dokumentere utviklingen av prosjek
     •    Opprettet NewTicketView og la til TextField med binding til @State description slik at teksten brukeren skriver lagres i appen.
 
 
-2026-03-03
+# 2026-03-03
 
 Prosjektopprettelse
     •    Opprettet nytt SwiftUI-prosjekt i Xcode med navnet HelpdeskGuard.
@@ -376,7 +376,7 @@ Under arbeidet møtte jeg flere tekniske utfordringer som bidro til økt forstå
 
 Arbeidet viser utvikling innen drift, utvikling og brukerstøtte, spesielt gjennom feilsøking, dokumentasjon og implementering av sikkerhet.
 
-2026-04-20
+# 2026-04-20
 
 • Fullført oppsett av lokal backend for HelpdeskGuard på macOS med Node.js, Express og MySQL.
 • Opprettet og konfigurert backend-mappe med package.json, server.js og schema.sql.
@@ -401,3 +401,54 @@ Arbeidet viser utvikling innen drift, utvikling og brukerstøtte, spesielt gjenn
 • Bekreftet sletting av bruker og tilhørende saker via relasjon i databasen.
 • Dokumentert MySQL-bruk, nettverkstilkobling og driftstøtte-relevante sikkerhetstiltak.
 • KI brukt som støtte til feilsøking, forklaring og dokumentasjon. Alle steg er gjennomført og forstått av utvikler.
+
+# 27. april 2026
+
+Endret
+
+* Koblet backend på Ubuntu-serveren til MySQL-databasen helpdeskguard.
+* Endret backend slik at den bruker riktig database på serveren.
+* La til API-endepunktet /saker i server.js.
+* Ryddet opp i server.js ved å fjerne dobbelt app.listen().
+* Restartet Node.js-serveren etter endringer.
+* Testet backend fra serveren med curl.
+* Testet backend fra Mac med server-IP.
+* Bekreftet at /health returnerer database-status.
+* Bekreftet at /saker henter supportsaker fra MySQL og returnerer JSON.
+* Dokumenterte hvordan Xcode-appen kobles til serveren via API.
+
+MySQL
+
+* Bekreftet at databasen helpdeskguard finnes på serveren.
+* Bekreftet at tabellene brukere, kunder og saker finnes.
+* Bekreftet at passord lagres som bcrypt-hash.
+* Bekreftet at saker.bruker_id er koblet til brukere.id med foreign key.
+* Bekreftet at ON DELETE CASCADE er satt opp.
+* Testet SELECT * FROM saker; og bekreftet at supportsak er lagret.
+* Testet SHOW CREATE TABLE saker;, DESCRIBE og STATUS.
+
+Xcode / SwiftUI
+
+* Undersøkte hvordan appen skal kobles til backend.
+* Bekreftet at appen ikke skal kobles direkte til MySQL.
+* Brukte riktig systemflyt: SwiftUI → Node.js backend → MySQL.
+* Fant riktig API-adresse for appen: http://172.20.128.20:3000/saker.
+* Feilsøkte Xcode-problemer med layout, Info.plist og duplikate filer.
+* Gikk tilbake til tidligere commit da Xcode-endringer skapte problemer.
+
+Feilsøking
+
+* Løste problemet Cannot GET /saker.
+* Løste problem med gammel Node-prosess som kjørte feil versjon av backend.
+* Brukte pkill node og startet serveren på nytt.
+* Skilte mellom testing på server med localhost og testing fra Mac med server-IP.
+* Bekreftet at backend faktisk henter data fra MySQL.
+
+Resultat
+
+* Backend kjører på serveren.
+* MySQL er koblet til backend.
+* /health fungerer.
+* /saker fungerer.
+* Mac kan hente data fra serveren.
+* Xcode kan kobles til backend via server-IP.
