@@ -28,26 +28,38 @@ final class AuthStore: ObservableObject {
         }
     }
 
-    func register(email: String, password: String) async -> Bool {
-        guard let url = URL(string: "\(baseURL)/registrer") else { return false }
+    func register(email: String, password: String) async -> (success: Bool, errorMessage: String?) {
+        guard let url = URL(string: "\(baseURL)/registrer") else {
+            return (false, "Ugyldig server-URL.")
+        }
 
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
-        let body: [String: String] = ["email": email, "password": password]
-        guard let httpBody = try? JSONSerialization.data(withJSONObject: body) else { return false }
+        let body: [String: String] = ["epost": email, "passord": password]
+        guard let httpBody = try? JSONSerialization.data(withJSONObject: body) else {
+            return (false, "Kunne ikke lage forespørsel.")
+        }
         request.httpBody = httpBody
 
         do {
-            let (_, response) = try await URLSession.shared.data(for: request)
+            let (data, response) = try await URLSession.shared.data(for: request)
             if let httpResponse = response as? HTTPURLResponse {
-                return httpResponse.statusCode == 200 || httpResponse.statusCode == 201
+                if httpResponse.statusCode == 200 || httpResponse.statusCode == 201 {
+                    return (true, nil)
+                } else {
+                    var serverMessage: String? = nil
+                    if let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
+                        serverMessage = json["message"] as? String ?? json["melding"] as? String
+                    }
+                    return (false, serverMessage ?? "Registrering mislyktes. Prøv igjen.")
+                }
             }
         } catch {
             print("Registreringsfeil:", error.localizedDescription)
         }
-        return false
+        return (false, "Kunne ikke nå serveren. Sjekk nettverkstilkoblingen.")
     }
 
     func login(email: String, password: String) async -> Bool {

@@ -120,14 +120,11 @@ struct RegisterView: View {
                             }
 
                             Task {
-                                let ok = await authStore.register(email: email, password: password)
-                                if ok {
-                                    melding = "Bruker opprettet ferdig. Du kan nå logge inn."
-                                    email = ""
-                                    password = ""
-                                    bekreftPassord = ""
+                                let result = await authStore.register(email: email, password: password)
+                                if result.success {
+                                    dismiss()
                                 } else {
-                                    melding = "Registrering mislyktes. Prøv igjen."
+                                    melding = result.errorMessage ?? "Registrering mislyktes. Prøv igjen."
                                 }
                             }
                         }
