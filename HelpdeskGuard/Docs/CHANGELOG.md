@@ -3,6 +3,15 @@ Endringslogg
 Alle endringer loggføres fortløpende for å dokumentere utviklingen av prosjektet. Datoer er i formatet ÅÅÅÅ-MM-DD.
 
 
+# 2026-04-28 – Dokumentasjonsoppdatering og API-klarhet
+    •    Ryddet og oppdatert dokumentasjon for å speile dagens løsning: SwiftUI → Node.js/Express → MySQL (helpdeskguard).
+    •    Tydeliggjort at appen kommuniserer via REST API og ikke kobler direkte til MySQL.
+    •    Lagt inn korrekt API-baseadresse: http://172.20.128.20:3000
+    •    Oppdatert README.md, TODO.md, KOMPETANSEMAPPE.md, SECURITY.md, RISIKOANALYSE.md, PROJECT_STRUCTURE.md og Mysql.md.
+    •    Presisert serverkommandoer: cd ~/backend og node server.js.
+    •    Dokumentert helsesjekk (/health) og uthenting av saker (/saker).
+
+
 #  2026-04-22
     •    Opprettet backend/-mappe i prosjektroten med fullstendig Node.js + Express + MySQL backend.
     •    Lagt til backend/server.js med alle API-endepunkter (registrer, logginn, saker, løst, slett bruker).
@@ -123,7 +132,7 @@ Signering og utviklingsoppsett
     •    Aktivert Developer Mode på iPhone.
     •    Installert og kjørt appen direkte på fysisk enhet.
 
-2026-03-16
+# 2026-03-16
 
 Autentiseringssystem
 
@@ -152,7 +161,7 @@ Tekniske detaljer:
 - E-postinput normaliseres ved hjelp av trimming og konvertering til små bokstaver
 - SecureField brukes for sikker inntasting av passord
 
-2026-03-20
+# 2026-03-20
 
 Videre utvikling og forbedringer
 
@@ -374,7 +383,7 @@ Under arbeidet møtte jeg flere tekniske utfordringer som bidro til økt forstå
 - Forstod hvordan autentisering beskytter API-endepunkter
 - Oppdaget viktigheten av riktig konfigurasjon i Xcode (ATS)
 
-Arbeidet viser utvikling innen drift, utvikling og brukerstøtte, spesielt gjennom feilsøking, dokumentasjon og implementering av sikkerhet.
+Merk: Løsningen beskrevet her (FastAPI) ble senere erstattet av Node.js/Express. Se oppføringene 2026-04-20 og 2026-04-27 for gjeldende backend.
 
 # 2026-04-20
 
@@ -406,6 +415,7 @@ Arbeidet viser utvikling innen drift, utvikling og brukerstøtte, spesielt gjenn
 
 Endret
 
+* API-baseadresse for app og testing: http://172.20.128.20:3000
 * Koblet backend på Ubuntu-serveren til MySQL-databasen helpdeskguard.
 * Endret backend slik at den bruker riktig database på serveren.
 * La til API-endepunktet /saker i server.js.
@@ -452,3 +462,4 @@ Resultat
 * /saker fungerer.
 * Mac kan hente data fra serveren.
 * Xcode kan kobles til backend via server-IP.
+

@@ -1,22 +1,25 @@
-# SECURITY – HelpdeskGuard (v1.0)
+# SECURITY – HelpdeskGuard (v1.1)
 
-## Formaal
-Dette dokumentet beskriver sikkerhetsnivaet i dagens prototype og hva som er avgrenset til senere faser.
+## Formål
+Dette dokumentet beskriver sikkerhetsnivået i dagens prototype og avgrensninger.
 
-## Hva som er sant i v1.0
-- Appen er en prototype med enkel lokal lagring.
-- Sikkerhetsnivaaet er ikke produksjonsklart.
-- Dokumenterte driftstiltak (UFW, SSH-herding, Fail2Ban, overvaking) er knyttet til driftmiljo.
+## Dagens løsning
+- Frontend/klient: iOS-app i SwiftUI
+- Mellomledd: Node.js/Express backend på Ubuntu-server
+- Database: MySQL `helpdeskguard` bak backend
+- Kommunikasjon: REST API (`http://172.20.128.20:3000`)
+- Appen kobler ikke direkte til MySQL
 
-## Risiko i dagens losning
-- Sensitiv informasjon trenger sterkere beskyttelse.
-- Lokal lagring uten robust backup gir risiko for datatap.
-- Appens funksjonsflyt er enklere enn et fullverdig produksjonssystem.
+## Risikoer i prototypen
+- Enkel autentisering og autorisasjon (videre arbeid nødvendig)
+- Manglende HTTPS i testmiljø
+- Begrenset feilhåndtering og logging
 
-## Tiltak videre
-- Heve sikkerhetsniva i appens datahaandtering.
-- Innfore tydeligere tilgangskontroll i neste fase.
-- Beholde prinsippet om minst mulig tilgang i driftmiljo.
+## Tiltak (videre arbeid)
+- Innføre robust autentisering/autorisasjon for API
+- Aktivere HTTPS og sikre transport
+- Backup- og gjenopprettingsrutiner for MySQL
+- Hardening av server (UFW, SSH, Fail2Ban) og overvåking
 
 ## Viktig avgrensning
-Dette prosjektet vurderes som skoleprototype (v1.0). Dokumentasjonen skal vaere etterprovbar mot faktisk funksjonalitet, og skal ikke beskrive ferdige sikkerhetsfunksjoner som ikke er implementert i appen.
+Dette er en skoleprototype. Dokumentasjonen beskriver faktiske funksjoner og peker på konkrete forbedringer uten å overselge sikkerhetsnivå.

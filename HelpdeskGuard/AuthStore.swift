@@ -18,6 +18,11 @@ final class AuthStore: ObservableObject {
     private let tokenKey = "helpdeskguard_token"
 
     private let baseURL = "http://172.20.128.20:3000"
+    
+    private struct LoginResponse: Decodable {
+        let token: String
+        let epost: String?
+    }
 
     init() {
         if let savedEmail = UserDefaults.standard.string(forKey: currentEmailKey),
@@ -42,18 +47,20 @@ final class AuthStore: ObservableObject {
             return (false, "Kunne ikke lage forespørsel.")
         }
         request.httpBody = httpBody
+        
+        print("URL:", url.absoluteString)
+        print("Metode:", request.httpMethod ?? "")
 
         do {
             let (data, response) = try await URLSession.shared.data(for: request)
             if let httpResponse = response as? HTTPURLResponse {
+                print("statusCode:", httpResponse.statusCode)
+                print("response body:", String(data: data, encoding: .utf8) ?? "<ingen body>")
+                
                 if httpResponse.statusCode == 200 || httpResponse.statusCode == 201 {
                     return (true, nil)
                 } else {
-                    var serverMessage: String? = nil
-                    if let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
-                        serverMessage = json["message"] as? String ?? json["melding"] as? String
-                    }
-                    return (false, serverMessage ?? "Registrering mislyktes. Prøv igjen.")
+                    return (false, extractMessage(from: data) ?? "Registrering mislyktes. Prøv igjen.")
                 }
             }
         } catch {
@@ -62,37 +69,49 @@ final class AuthStore: ObservableObject {
         return (false, "Kunne ikke nå serveren. Sjekk nettverkstilkoblingen.")
     }
 
-    func login(email: String, password: String) async -> Bool {
-        guard let url = URL(string: "\(baseURL)/logginn") else { return false }
+    func login(email: String, password: String) async -> (success: Bool, errorMessage: String?) {
+        guard let url = URL(string: "\(baseURL)/logginn") else {
+            return (false, "Ugyldig server-URL.")
+        }
 
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
         let body: [String: String] = ["epost": email, "passord": password]
-        guard let httpBody = try? JSONSerialization.data(withJSONObject: body) else { return false }
+        guard let httpBody = try? JSONSerialization.data(withJSONObject: body) else {
+            return (false, "Kunne ikke lage forespørsel.")
+        }
         request.httpBody = httpBody
+        
+        print("URL:", url.absoluteString)
+        print("Metode:", request.httpMethod ?? "")
 
         do {
             let (data, response) = try await URLSession.shared.data(for: request)
-            if let httpResponse = response as? HTTPURLResponse,
-               httpResponse.statusCode == 200,
-               let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
-               let receivedToken = json["token"] as? String {
-                let cleanEmail = email.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
-                await MainActor.run {
-                    self.currentEmail = cleanEmail
-                    self.token = receivedToken
-                    self.isLoggedIn = true
+            if let httpResponse = response as? HTTPURLResponse {
+                print("statusCode:", httpResponse.statusCode)
+                print("response body:", String(data: data, encoding: .utf8) ?? "<ingen body>")
+                
+                if httpResponse.statusCode == 200,
+                   let loginResponse = try? JSONDecoder().decode(LoginResponse.self, from: data) {
+                    let cleanEmail = (loginResponse.epost ?? email).trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+                    await MainActor.run {
+                        self.currentEmail = cleanEmail
+                        self.token = loginResponse.token
+                        self.isLoggedIn = true
+                    }
+                    UserDefaults.standard.set(cleanEmail, forKey: currentEmailKey)
+                    UserDefaults.standard.set(loginResponse.token, forKey: tokenKey)
+                    return (true, nil)
                 }
-                UserDefaults.standard.set(cleanEmail, forKey: currentEmailKey)
-                UserDefaults.standard.set(receivedToken, forKey: tokenKey)
-                return true
+                
+                return (false, extractMessage(from: data) ?? "Feil e-post eller passord. Prøv igjen.")
             }
         } catch {
             print("Innloggingsfeil:", error.localizedDescription)
         }
-        return false
+        return (false, "Kunne ikke nå serveren. Sjekk nettverkstilkoblingen.")
     }
 
     func logout() {
@@ -103,16 +122,43 @@ final class AuthStore: ObservableObject {
         UserDefaults.standard.removeObject(forKey: tokenKey)
     }
 
-    func deleteCurrentUser() {
-        Task {
-            if let token = self.token,
-               let url = URL(string: "\(baseURL)/brukere/meg") {
-                var request = URLRequest(url: url)
-                request.httpMethod = "DELETE"
-                request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-                _ = try? await URLSession.shared.data(for: request)
-            }
-            await MainActor.run { logout() }
+    func deleteCurrentUser() async -> (success: Bool, errorMessage: String?) {
+        guard let token = self.token,
+              let url = URL(string: "\(baseURL)/brukere/meg") else {
+            return (false, "Du er ikke innlogget.")
         }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "DELETE"
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        print("URL:", url.absoluteString)
+        print("Metode:", request.httpMethod ?? "")
+        
+        do {
+            let (data, response) = try await URLSession.shared.data(for: request)
+            if let httpResponse = response as? HTTPURLResponse {
+                print("statusCode:", httpResponse.statusCode)
+                print("response body:", String(data: data, encoding: .utf8) ?? "<ingen body>")
+                
+                if httpResponse.statusCode == 200 || httpResponse.statusCode == 204 {
+                    await MainActor.run { logout() }
+                    return (true, nil)
+                }
+                
+                return (false, extractMessage(from: data) ?? "Kunne ikke slette brukeren.")
+            }
+        } catch {
+            print("Slettebruker-feil:", error.localizedDescription)
+        }
+        
+        return (false, "Kunne ikke nå serveren. Sjekk nettverkstilkoblingen.")
+    }
+    
+    private func extractMessage(from data: Data) -> String? {
+        guard let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any] else {
+            return nil
+        }
+        return json["message"] as? String ?? json["melding"] as? String
     }
 }

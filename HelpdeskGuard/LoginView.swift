@@ -87,11 +87,11 @@ struct LoginView: View {
 
                         Button("Logg inn") {
                             Task {
-                                let ok = await authStore.login(email: email, password: password)
-                                if ok {
+                                let result = await authStore.login(email: email, password: password)
+                                if result.success {
                                     feilmelding = ""
                                 } else {
-                                    feilmelding = "Feil e-post eller passord. Prøv igjen."
+                                    feilmelding = result.errorMessage ?? "Feil e-post eller passord. Prøv igjen."
                                 }
                             }
                         }

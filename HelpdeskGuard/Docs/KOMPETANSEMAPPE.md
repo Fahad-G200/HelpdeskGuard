@@ -1,33 +1,38 @@
-# Kompetansemapping – HelpdeskGuard (v1.0)
+# Kompetansemapping – HelpdeskGuard (v1.1)
 
-Dette dokumentet viser sammenheng mellom kompetansemal, faktisk arbeid og dokumentasjon i prosjektet.
+Dette dokumentet kobler kompetansemål til konkret arbeid og bevis i prosjektet.
 
-## Drift
+## Driftsstøtte
+- Planlegge og dokumentere IT-løsninger
+  - Oppdatert arkitektur og drift i README.md (SwiftUI → Node.js/Express → MySQL)
+  - Serveroppstart og helsesjekk dokumentert
+  - Bevis: README.md, CHANGELOG.md
+- Sette opp og drifte tjenester på server
+  - Node.js-backend kjører på Ubuntu, MySQL-database `helpdeskguard`
+  - Start/stopp og helsesjekk med `node server.js` og `GET /health`
+  - Bevis: README.md, Mysql.md
+- Informasjonssikkerhet i drift
+  - Avgrensninger og videre tiltak (HTTPS, backup, hardening)
+  - Bevis: SECURITY.md, RISIKOANALYSE.md
 
-| Kompetansemal (utvalg) | Hva er gjort i prosjektet | Bevis |
-|---|---|---|
-| Planlegge og dokumentere arbeidsprosesser og IT-losninger | Strukturert dokumentasjon av app, drift og risiko | README.md, Docs/PLAN.md, Docs/RISIKOANALYSE.md |
-| Gjennomfore risikoanalyse og foresla tiltak | Risikoer vurdert med tiltak og prioritet | Docs/RISIKOANALYSE.md |
-| Planlegge/drifte losning med informasjonssikkerhet | Beskrevet oppsett med Ubuntu, UFW, Fail2Ban, overvaking | DRIFT_SETUP.md, MONITORING_SETUP.md, server-hardening.md |
-
-## Brukerstotte
-
-| Kompetansemal (utvalg) | Hva er gjort i prosjektet | Bevis |
-|---|---|---|
-| Kartlegge behov for og utvikle veiledninger | Brukerveiledning med steg, feilsoking og personvern | Docs/USER_GUIDE.md |
-| Utove brukerstotte og veilede i relevant programvare | Appen har tydelige brukerflyter (registrer, logg inn, opprett sak) og veiledning | Docs/USER_GUIDE.md, README.md |
-| Bruke fagterminologi og kommunikasjon tilpasset bruker | Enkelt og konsistent sprak i dokumentasjon | README.md, Docs/USER_GUIDE.md, Docs/REFLEKSJON.md |
+## Brukerstøtte
+- Utarbeide brukerveiledning og feilsøking
+  - Beskriver brukerflyt og hvordan data hentes via API
+  - Bevis: Docs/USER_GUIDE.md (oppdatert), README.md
+- Kommunisere tydelig med riktig terminologi
+  - Frontend/klient vs. backend/mellomledd vs. database
+  - Bevis: README.md, Docs/REFLEKSJON.md
 
 ## Utvikling
+- Krav, design og implementasjon
+  - SwiftUI-app som klient, REST-API i backend, MySQL-database
+  - Bevis: README.md, Docs/PLAN.md, Docs/KRAVSPESIFIKASJON.md
+- Versjonskontroll og endringslogg
+  - Kontinuerlig dokumentert i CHANGELOG.md
+  - Bevis: CHANGELOG.md, git-logg
+- Teknisk dokumentasjon
+  - Oppdatert og ryddet dokumentasjon, kodeblokker og kommandoer
+  - Bevis: README.md, PROJECT_STRUCTURE.md, Mysql.md
 
-| Kompetansemal (utvalg) | Hva er gjort i prosjektet | Bevis |
-|---|---|---|
-| Lage og begrunne funksjonelle krav | Ma-/bor-/kan-krav med status | Docs/KRAVSPESIFIKASJON.md |
-| Beskrive og anvende versjonskontroll | Endringshistorikk og arbeid over tid i Git | CHANGELOG.md, git-logg |
-| Utarbeide teknisk dokumentasjon | Strukturert dokumentasjon av losning, risiko og refleksjon | README.md, Docs/* |
-
-## Vurdering av v1.0
-
-Prosjektet viser fungerende konsept og dokumentert arbeid i alle tre fagomrader. Samtidig er enkelte deler fortsatt planlagt (saksliste, sterkere sikkerhet, backend-integrasjon i appen).
-
-Dette er derfor en realistisk prototype med tydelig vekstgrunnlag mot neste periode.
+## Oppsummering
+Prosjektet demonstrerer helhetlig kompetanse i driftsstøtte, brukerstøtte og utvikling gjennom en fungerende klient/server-prototype med dokumentert oppsett, testing og feilsøking.

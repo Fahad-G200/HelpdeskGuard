@@ -116,15 +116,15 @@ struct NewTicketView: View {
                             }
 
                             Task {
-                                let ok = await ticketStore.opprettSak(tittel: tittel, beskrivelse: beskrivelse, kategori: kategori, prioritet: prioritet, token: currentToken)
-                                if ok {
+                                let result = await ticketStore.opprettSak(tittel: tittel, beskrivelse: beskrivelse, kategori: kategori, prioritet: prioritet, token: currentToken)
+                                if result.success {
                                     melding = "Saken er sendt inn."
                                     tittel = ""
                                     beskrivelse = ""
                                     kategori = "Programvare"
                                     prioritet = "Vanlig"
                                 } else {
-                                    melding = "Kunne ikke sende inn saken. Prøv igjen."
+                                    melding = result.errorMessage ?? "Kunne ikke sende inn saken. Prøv igjen."
                                 }
                             }
                         }
@@ -173,7 +173,9 @@ struct NewTicketView: View {
             .navigationBarTitleDisplayMode(.inline)
             .onAppear {
                 if let token = authStore.token {
-                    ticketStore.hentSaker(token: token)
+                    Task {
+                        _ = await ticketStore.hentSaker(token: token)
+                    }
                 }
             }
         }

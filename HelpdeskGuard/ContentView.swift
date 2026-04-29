@@ -9,9 +9,11 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var authStore: AuthStore
+    @EnvironmentObject var ticketStore: TicketStore
     @State private var valgtFane = 0
     @State private var viserMeny = false
     @State private var visSlettBrukerAlert = false
+    @State private var kontoFeilmelding = ""
 
     var body: some View {
         NavigationStack {
@@ -57,7 +59,19 @@ struct ContentView: View {
                 }
                 .alert("Slette bruker?", isPresented: $visSlettBrukerAlert) {
                     Button("Slett bruker", role: .destructive) {
-                        authStore.deleteCurrentUser()
+                        Task {
+                            let result = await authStore.deleteCurrentUser()
+                            if result.success {
+                                await MainActor.run {
+                                    ticketStore.clearTickets()
+                                    kontoFeilmelding = ""
+                                }
+                            } else {
+                                await MainActor.run {
+                                    kontoFeilmelding = result.errorMessage ?? "Kunne ikke slette brukeren."
+                                }
+                            }
+                        }
                     }
 
                     Button("Avbryt", role: .cancel) {
@@ -108,7 +122,13 @@ struct ContentView: View {
                         visSlettBrukerAlert = true
                     }
                     .buttonStyle(StorKnapp(bakgrunnsfarge: AppTheme.danger))
-                    .accessibilityHint("Sletter brukeren fra lokal lagring etter bekreftelse")
+                    .accessibilityHint("Sletter brukeren fra backend etter bekreftelse")
+
+                    if !kontoFeilmelding.isEmpty {
+                        Text(kontoFeilmelding)
+                            .font(.body)
+                            .foregroundColor(AppTheme.danger)
+                    }
                 }
 
                 AppFooter()
