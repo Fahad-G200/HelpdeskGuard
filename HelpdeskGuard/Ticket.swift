@@ -8,17 +8,14 @@
 import Foundation
 
 struct Ticket: Identifiable, Codable {
-    var id: UUID
-    var description: String
-    var date: Date
-    var isResolved: Bool
-
-    init(id: UUID = UUID(), description: String, date: Date = Date(), isResolved: Bool = false) {
-        self.id = id
-        self.description = description
-        self.date = date
-        self.isResolved = isResolved
-    }
+    var id: Int
+    var bruker_id: Int
+    var tittel: String
+    var beskrivelse: String
+    var kategori: String?
+    var prioritet: String?
+    var er_lost: Int
+    var opprettet: Date
 }
 
 

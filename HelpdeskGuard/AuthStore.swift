@@ -69,7 +69,7 @@ final class AuthStore: ObservableObject {
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
-        let body: [String: String] = ["email": email, "password": password]
+        let body: [String: String] = ["epost": email, "passord": password]
         guard let httpBody = try? JSONSerialization.data(withJSONObject: body) else { return false }
         request.httpBody = httpBody
 
@@ -104,6 +104,15 @@ final class AuthStore: ObservableObject {
     }
 
     func deleteCurrentUser() {
-        logout()
+        Task {
+            if let token = self.token,
+               let url = URL(string: "\(baseURL)/brukere/meg") {
+                var request = URLRequest(url: url)
+                request.httpMethod = "DELETE"
+                request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+                _ = try? await URLSession.shared.data(for: request)
+            }
+            await MainActor.run { logout() }
+        }
     }
 }

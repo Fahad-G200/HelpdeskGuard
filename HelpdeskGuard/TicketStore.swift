@@ -61,14 +61,10 @@ class TicketStore: ObservableObject {
         request.httpBody = httpBody
 
         do {
-            let (data, response) = try await URLSession.shared.data(for: request)
+            let (_, response) = try await URLSession.shared.data(for: request)
             if let httpResponse = response as? HTTPURLResponse,
                httpResponse.statusCode == 200 || httpResponse.statusCode == 201 {
-                let localTicket = Ticket(description: "\(tittel) | \(kategori) | \(prioritet)\n\(beskrivelse)")
-                await MainActor.run {
-                    self.tickets.append(localTicket)
-                }
-                _ = data
+                hentSaker(token: token)
                 return true
             }
         } catch {

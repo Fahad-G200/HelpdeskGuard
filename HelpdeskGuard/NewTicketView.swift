@@ -138,11 +138,18 @@ struct NewTicketView: View {
 
                             ForEach(ticketStore.tickets) { ticket in
                                 VStack(alignment: .leading, spacing: 4) {
-                                    Text(ticket.description)
+                                    Text(ticket.tittel)
                                         .font(.body)
+                                        .fontWeight(.semibold)
                                         .foregroundColor(AppTheme.textPrimary)
 
-                                    Text(ticket.date.formatted(date: .abbreviated, time: .shortened))
+                                    if let kategori = ticket.kategori, let prioritet = ticket.prioritet {
+                                        Text("\(kategori) · \(prioritet)")
+                                            .font(.caption)
+                                            .foregroundColor(AppTheme.textSecondary)
+                                    }
+
+                                    Text(ticket.opprettet.formatted(date: .abbreviated, time: .shortened))
                                         .font(.caption)
                                         .foregroundColor(AppTheme.textSecondary)
                                 }
@@ -164,6 +171,11 @@ struct NewTicketView: View {
             .background(AppTheme.background.ignoresSafeArea())
             .navigationTitle("Ny sak")
             .navigationBarTitleDisplayMode(.inline)
+            .onAppear {
+                if let token = authStore.token {
+                    ticketStore.hentSaker(token: token)
+                }
+            }
         }
         .dynamicTypeSize(.xSmall ... .accessibility5)
     }
