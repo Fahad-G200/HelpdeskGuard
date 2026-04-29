@@ -115,10 +115,8 @@ struct NewTicketView: View {
                                 return
                             }
 
-                            let samletBeskrivelse = "\(tittel) | \(kategori) | \(prioritet)\n\(beskrivelse)"
-
                             Task {
-                                let ok = await ticketStore.opprettSak(description: samletBeskrivelse, token: currentToken)
+                                let ok = await ticketStore.opprettSak(tittel: tittel, beskrivelse: beskrivelse, kategori: kategori, prioritet: prioritet, token: currentToken)
                                 if ok {
                                     melding = "Saken er sendt inn."
                                     tittel = ""

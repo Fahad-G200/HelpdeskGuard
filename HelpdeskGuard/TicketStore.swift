@@ -43,7 +43,7 @@ class TicketStore: ObservableObject {
         }.resume()
     }
 
-    func opprettSak(description: String, token: String) async -> Bool {
+    func opprettSak(tittel: String, beskrivelse: String, kategori: String, prioritet: String, token: String) async -> Bool {
         guard let url = URL(string: "\(baseURL)/saker") else { return false }
 
         var request = URLRequest(url: url)
@@ -51,7 +51,12 @@ class TicketStore: ObservableObject {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
 
-        let body: [String: String] = ["description": description]
+        let body: [String: String] = [
+            "tittel": tittel,
+            "beskrivelse": beskrivelse,
+            "kategori": kategori,
+            "prioritet": prioritet
+        ]
         guard let httpBody = try? JSONSerialization.data(withJSONObject: body) else { return false }
         request.httpBody = httpBody
 
@@ -59,18 +64,11 @@ class TicketStore: ObservableObject {
             let (data, response) = try await URLSession.shared.data(for: request)
             if let httpResponse = response as? HTTPURLResponse,
                httpResponse.statusCode == 200 || httpResponse.statusCode == 201 {
-                let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .iso8601
-                if let nyTicket = try? decoder.decode(Ticket.self, from: data) {
-                    await MainActor.run {
-                        self.tickets.append(nyTicket)
-                    }
-                } else {
-                    let localTicket = Ticket(description: description)
-                    await MainActor.run {
-                        self.tickets.append(localTicket)
-                    }
+                let localTicket = Ticket(description: "\(tittel) | \(kategori) | \(prioritet)\n\(beskrivelse)")
+                await MainActor.run {
+                    self.tickets.append(localTicket)
                 }
+                _ = data
                 return true
             }
         } catch {
