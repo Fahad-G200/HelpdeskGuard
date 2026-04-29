@@ -9,6 +9,7 @@ import SwiftUI
 
 struct NewTicketView: View {
     @EnvironmentObject var ticketStore: TicketStore
+    @EnvironmentObject var authStore: AuthStore
 
     @State private var tittel = ""
     @State private var beskrivelse = ""
@@ -109,14 +110,25 @@ struct NewTicketView: View {
                                 return
                             }
 
-                            let samletBeskrivelse = "\(tittel) | \(kategori) | \(prioritet)\n\(beskrivelse)"
-                            ticketStore.addTicket(description: samletBeskrivelse)
+                            guard let currentToken = authStore.token else {
+                                melding = "Du er ikke innlogget. Logg inn på nytt."
+                                return
+                            }
 
-                            melding = "Saken er sendt inn."
-                            tittel = ""
-                            beskrivelse = ""
-                            kategori = "Programvare"
-                            prioritet = "Vanlig"
+                            let samletBeskrivelse = "\(tittel) | \(kategori) | \(prioritet)\n\(beskrivelse)"
+
+                            Task {
+                                let ok = await ticketStore.opprettSak(description: samletBeskrivelse, token: currentToken)
+                                if ok {
+                                    melding = "Saken er sendt inn."
+                                    tittel = ""
+                                    beskrivelse = ""
+                                    kategori = "Programvare"
+                                    prioritet = "Vanlig"
+                                } else {
+                                    melding = "Kunne ikke sende inn saken. Prøv igjen."
+                                }
+                            }
                         }
                         .buttonStyle(StorKnapp(bakgrunnsfarge: AppTheme.primary))
                         .accessibilityHint("Sender inn en ny sak")

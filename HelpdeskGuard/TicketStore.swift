@@ -11,21 +11,15 @@ import Combine
 class TicketStore: ObservableObject {
     @Published var tickets: [Ticket] = []
 
-    func addTicket(description: String) {
-        let newTicket = Ticket(
-            description: description,
-            date: Date(),
-            isResolved: false
-        )
-        tickets.append(newTicket)
-    }
+    private let baseURL = "http://172.20.128.20:3000"
 
-    func hentSaker() {
-        guard let url = URL(string: "http://172.20.128.20:3000/saker") else {
-            return
-        }
+    func hentSaker(token: String) {
+        guard let url = URL(string: "\(baseURL)/saker") else { return }
 
-        URLSession.shared.dataTask(with: url) { data, response, error in
+        var request = URLRequest(url: url)
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+
+        URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
                 print("Feil:", error.localizedDescription)
                 return
@@ -36,11 +30,53 @@ class TicketStore: ObservableObject {
                 return
             }
 
-            if let json = String(data: data, encoding: .utf8) {
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .iso8601
+            if let hentetSaker = try? decoder.decode([Ticket].self, from: data) {
+                DispatchQueue.main.async {
+                    self.tickets = hentetSaker
+                }
+            } else if let json = String(data: data, encoding: .utf8) {
                 print("Saker fra server:")
                 print(json)
             }
         }.resume()
+    }
+
+    func opprettSak(description: String, token: String) async -> Bool {
+        guard let url = URL(string: "\(baseURL)/saker") else { return false }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+
+        let body: [String: String] = ["description": description]
+        guard let httpBody = try? JSONSerialization.data(withJSONObject: body) else { return false }
+        request.httpBody = httpBody
+
+        do {
+            let (data, response) = try await URLSession.shared.data(for: request)
+            if let httpResponse = response as? HTTPURLResponse,
+               httpResponse.statusCode == 200 || httpResponse.statusCode == 201 {
+                let decoder = JSONDecoder()
+                decoder.dateDecodingStrategy = .iso8601
+                if let nyTicket = try? decoder.decode(Ticket.self, from: data) {
+                    await MainActor.run {
+                        self.tickets.append(nyTicket)
+                    }
+                } else {
+                    let localTicket = Ticket(description: description)
+                    await MainActor.run {
+                        self.tickets.append(localTicket)
+                    }
+                }
+                return true
+            }
+        } catch {
+            print("Feil ved opprettelse av sak:", error.localizedDescription)
+        }
+        return false
     }
 }
 

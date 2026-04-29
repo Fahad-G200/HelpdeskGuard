@@ -119,15 +119,16 @@ struct RegisterView: View {
                                 return
                             }
 
-                            let ok = authStore.register(email: email, password: password)
-
-                            if ok {
-                                melding = "Bruker opprettet ferdig. Du kan nå logge inn."
-                                email = ""
-                                password = ""
-                                bekreftPassord = ""
-                            } else {
-                                melding = "Denne e-posten finnes allerede."
+                            Task {
+                                let ok = await authStore.register(email: email, password: password)
+                                if ok {
+                                    melding = "Bruker opprettet ferdig. Du kan nå logge inn."
+                                    email = ""
+                                    password = ""
+                                    bekreftPassord = ""
+                                } else {
+                                    melding = "Registrering mislyktes. Prøv igjen."
+                                }
                             }
                         }
                         .buttonStyle(StorKnapp(bakgrunnsfarge: AppTheme.primary))

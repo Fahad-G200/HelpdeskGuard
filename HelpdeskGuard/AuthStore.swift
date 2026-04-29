@@ -12,65 +12,86 @@ final class AuthStore: ObservableObject {
 
     @Published var isLoggedIn: Bool = false
     @Published var currentEmail: String? = nil
+    @Published var token: String? = nil
 
-    private let usersKey = "helpdeskguard_users"
     private let currentEmailKey = "helpdeskguard_currentEmail"
+    private let tokenKey = "helpdeskguard_token"
+
+    private let baseURL = "http://172.20.128.20:3000"
 
     init() {
-        if let savedEmail = UserDefaults.standard.string(forKey: currentEmailKey) {
+        if let savedEmail = UserDefaults.standard.string(forKey: currentEmailKey),
+           let savedToken = UserDefaults.standard.string(forKey: tokenKey) {
             self.currentEmail = savedEmail
+            self.token = savedToken
             self.isLoggedIn = true
         }
     }
 
-    private func loadUsers() -> [String: String] {
-        UserDefaults.standard.dictionary(forKey: usersKey) as? [String: String] ?? [:]
-    }
+    func register(email: String, password: String) async -> Bool {
+        guard let url = URL(string: "\(baseURL)/registrer") else { return false }
 
-    private func saveUsers(_ users: [String: String]) {
-        UserDefaults.standard.set(users, forKey: usersKey)
-    }
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
-    func register(email: String, password: String) -> Bool {
-        let cleanEmail = email.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
-        var users = loadUsers()
+        let body: [String: String] = ["email": email, "password": password]
+        guard let httpBody = try? JSONSerialization.data(withJSONObject: body) else { return false }
+        request.httpBody = httpBody
 
-        if users[cleanEmail] != nil {
-            return false
+        do {
+            let (_, response) = try await URLSession.shared.data(for: request)
+            if let httpResponse = response as? HTTPURLResponse {
+                return httpResponse.statusCode == 200 || httpResponse.statusCode == 201
+            }
+        } catch {
+            print("Registreringsfeil:", error.localizedDescription)
         }
-
-        users[cleanEmail] = password
-        saveUsers(users)
-        return true
+        return false
     }
 
-    func login(email: String, password: String) -> Bool {
-        let cleanEmail = email.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
-        let users = loadUsers()
+    func login(email: String, password: String) async -> Bool {
+        guard let url = URL(string: "\(baseURL)/logginn") else { return false }
 
-        guard let storedPassword = users[cleanEmail], storedPassword == password else {
-            return false
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        let body: [String: String] = ["email": email, "password": password]
+        guard let httpBody = try? JSONSerialization.data(withJSONObject: body) else { return false }
+        request.httpBody = httpBody
+
+        do {
+            let (data, response) = try await URLSession.shared.data(for: request)
+            if let httpResponse = response as? HTTPURLResponse,
+               httpResponse.statusCode == 200,
+               let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+               let receivedToken = json["token"] as? String {
+                let cleanEmail = email.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+                await MainActor.run {
+                    self.currentEmail = cleanEmail
+                    self.token = receivedToken
+                    self.isLoggedIn = true
+                }
+                UserDefaults.standard.set(cleanEmail, forKey: currentEmailKey)
+                UserDefaults.standard.set(receivedToken, forKey: tokenKey)
+                return true
+            }
+        } catch {
+            print("Innloggingsfeil:", error.localizedDescription)
         }
-
-        currentEmail = cleanEmail
-        isLoggedIn = true
-        UserDefaults.standard.set(cleanEmail, forKey: currentEmailKey)
-        return true
+        return false
     }
 
     func logout() {
         currentEmail = nil
+        token = nil
         isLoggedIn = false
         UserDefaults.standard.removeObject(forKey: currentEmailKey)
+        UserDefaults.standard.removeObject(forKey: tokenKey)
     }
 
     func deleteCurrentUser() {
-        guard let email = currentEmail else { return }
-
-        var users = loadUsers()
-        users.removeValue(forKey: email)
-        saveUsers(users)
-
         logout()
     }
 }

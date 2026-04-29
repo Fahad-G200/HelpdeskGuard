@@ -86,12 +86,13 @@ struct LoginView: View {
                         }
 
                         Button("Logg inn") {
-                            let ok = authStore.login(email: email, password: password)
-
-                            if ok {
-                                feilmelding = ""
-                            } else {
-                                feilmelding = "Feil e-post eller passord. Prøv igjen."
+                            Task {
+                                let ok = await authStore.login(email: email, password: password)
+                                if ok {
+                                    feilmelding = ""
+                                } else {
+                                    feilmelding = "Feil e-post eller passord. Prøv igjen."
+                                }
                             }
                         }
                         .buttonStyle(StorKnapp(bakgrunnsfarge: AppTheme.primary))
