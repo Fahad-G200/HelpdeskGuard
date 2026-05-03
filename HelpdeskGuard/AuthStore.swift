@@ -23,6 +23,22 @@ final class AuthStore: ObservableObject {
         let token: String
         let epost: String?
     }
+    
+    private func validateEmailAndPassword(email: String, password: String) -> String? {
+        let cleanEmail = email.trimmingCharacters(in: .whitespacesAndNewlines)
+        let emailPattern = "^[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$"
+        let emailIsValid = NSPredicate(format: "SELF MATCHES %@", emailPattern).evaluate(with: cleanEmail)
+        
+        if !emailIsValid {
+            return "Ugyldig e-postadresse."
+        }
+        
+        if password.count < 6 {
+            return "Passord må være minst 6 tegn."
+        }
+        
+        return nil
+    }
 
     init() {
         if let savedEmail = UserDefaults.standard.string(forKey: currentEmailKey),
@@ -34,6 +50,10 @@ final class AuthStore: ObservableObject {
     }
 
     func register(email: String, password: String) async -> (success: Bool, errorMessage: String?) {
+        if let validationError = validateEmailAndPassword(email: email, password: password) {
+            return (false, validationError)
+        }
+        
         guard let url = URL(string: "\(baseURL)/registrer") else {
             return (false, "Ugyldig server-URL.")
         }
@@ -70,6 +90,10 @@ final class AuthStore: ObservableObject {
     }
 
     func login(email: String, password: String) async -> (success: Bool, errorMessage: String?) {
+        if let validationError = validateEmailAndPassword(email: email, password: password) {
+            return (false, validationError)
+        }
+        
         guard let url = URL(string: "\(baseURL)/logginn") else {
             return (false, "Ugyldig server-URL.")
         }
