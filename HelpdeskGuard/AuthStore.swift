@@ -17,7 +17,7 @@ final class AuthStore: ObservableObject {
     private let currentEmailKey = "helpdeskguard_currentEmail"
     private let tokenKey = "helpdeskguard_token"
 
-    private let baseURL = "http://172.20.128.20:3000"
+    private let baseURL = "http://localhost:3000"
 
     init() {
         if let savedEmail = UserDefaults.standard.string(forKey: currentEmailKey),

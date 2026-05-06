@@ -11,7 +11,7 @@ import Combine
 class TicketStore: ObservableObject {
     @Published var tickets: [Ticket] = []
 
-    private let baseURL = "http://172.20.128.20:3000"
+    private let baseURL = "http://localhost:3000"
 
     func hentSaker(token: String) {
         guard let url = URL(string: "\(baseURL)/saker") else { return }
